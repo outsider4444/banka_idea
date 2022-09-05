@@ -1,10 +1,6 @@
 from django.db import models
 
-# Create your models here.
 # Модели для базы данных
-# Для обновления:
-# python manage.py makemigrations
-# python manage.py migrate
 
 
 class Idea(models.Model):
