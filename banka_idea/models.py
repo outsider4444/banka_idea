@@ -8,3 +8,5 @@ class Idea(models.Model):
     description = models.TextField()
     date = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.name

@@ -12,7 +12,15 @@
 </head>
 <body>
     <a class="btn btn-primary" href="/admin">В админку!</a>
-Привет
-Букет
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <input type="text" name="name">
+        <input type="text" name="description">
+
+        <button type="submit">Готово</button>
+    </form>
+
+    {{ list_idea }}
 </body>
 </html>
