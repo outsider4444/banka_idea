@@ -2,7 +2,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-
+# Create your models here.
 # Модели для базы данных
 class User(AbstractUser):
     avatar = models.ImageField(upload_to='media/user/avatar/', blank=True, null=True)
