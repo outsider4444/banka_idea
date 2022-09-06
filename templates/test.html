@@ -13,5 +13,24 @@
 </head>
 <body>
 <a class="btn btn-primary" href="/admin">В админку!</a>
+
+{{idea.name}}
+
+<form method="POST">
+    {% csrf_token %}
+
+    <iput type = "text" name="name">
+    <iput type = "text" name="description">
+
+   <p>
+
+            <label>Введите имя</label><br>
+            <input type="text" name="name" />
+
+            <input type="submit" value="Сохранить" >
+   </p>
+</form>
+
+
 </body>
 </html>
