@@ -1,14 +1,26 @@
 from django.shortcuts import render
 
-# Create your views here.
-
-# Настройки представлений для проекта
 from banka_idea.forms import IdeaForm
 from banka_idea.models import Idea
 
+# Главное меню
+def main(request):
+    context = {}
+    return render(request, "main.html", context)
 
-def list_idea(request):
-    list_idea = Idea.objects.order_by('?').first()
+
+# Получение идеи
+def get_idea(request):
+    context = {}
+    if request.method == "POST":
+        list_idea = Idea.objects.order_by('?').first()
+        context = {"list_idea": list_idea}
+        return render(request, "get_idea.html", context)
+    return render(request, "get_idea.html", context)
+
+
+# Создание новой идеи
+def create_idea(request):
     form = IdeaForm()
     if request.method == 'POST':
         form = IdeaForm(request.POST)
@@ -17,5 +29,5 @@ def list_idea(request):
     else:
         form = IdeaForm()
 
-    context = {"list_idea": list_idea}
-    return render(request,"test.html", context)
+    context = {"form":form}
+    return render(request,"create_new_idea.html", context)

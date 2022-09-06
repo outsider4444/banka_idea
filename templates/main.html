@@ -1,0 +1,20 @@
+{% extends 'layouts/base.html' %}
+{% block main %}
+    <style>
+
+    </style>
+    <div class="d-flex justify-content-center h-100">
+        <div class="user_card" style="z-index: 11;">
+            <div class="d-flex justify-content-center">
+                <h1 id="form-title">Выберите следующее действие:</h1>
+            </div>
+            <div class="d-flex justify-content-center form_container">
+                <form action="">
+                        <a href="{% url 'create-idea' %}" class="btn btn-primary">Поделиться идеей</a>
+                        <a href="{% url 'get-idea' %}" class="btn btn-success">Найти свою идею</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
