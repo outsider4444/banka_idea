@@ -3,8 +3,8 @@ from django.contrib.auth import logout, login, authenticate
 from django.shortcuts import render, redirect
 from django.views import View
 
-from banka_idea.forms import CustomUserCreationForm
-from banka_idea.models import Idea
+from banka_idea.forms import CustomUserCreationForm, IdeaForm
+from banka_idea.models import Idea, IdeaTags
 
 
 # Регистрация
@@ -48,25 +48,46 @@ def get_idea(request):
     return render(request, "ideas/get_idea.html", context)
 
 
+# Идеи пользователя
 def list_user_ideas(request):
     user = request.user
     list = Idea.objects.filter(user=user)
-    context = {"list":list}
-
+    context = {
+        "list": list,
+    }
     return render(request, "user_ideas.html", context)
 
 
 # Создание новой идеи
 def create_idea(request):
-    form = Idea()
+    tags_idea = IdeaTags.objects.all()
+    form = IdeaForm()
     user = request.user
     if request.method == 'POST':
-        form.name = request.POST.get("name")
-        form.description = request.POST.get("description")
-        if user.is_authenticated:
-            form.user = user
-        form.save()
+        form = IdeaForm(request.POST)
+
+        ### ПАРАША ВЗЯТАЯ У ИНДУСА
+        tags_names = [x.name for x in tags_idea]
+        tags_ids = []
+        for x in tags_names:
+            tags_ids.append(int(request.POST.get(x))) if request.POST.get(x) else print()
+            print(tags_ids)
+        ###
+        if form.is_valid():
+            obj = form.save(commit=False)
+            # Добавление пользователя к записи если авторизован
+            if user.is_authenticated:
+                obj.user = user
+            obj.save()
+            print(obj.user)
+            for x in tags_ids:
+                obj.tags.add(IdeaTags.objects.get(id=x))
+            obj.save()
+            # return redirect("create_idea")
+        else:
+            print(form.errors)
     context = {
         "form": form,
+        "tags_idea": tags_idea,
     }
     return render(request, "ideas/create_new_idea.html", context)

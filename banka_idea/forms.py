@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from banka_idea.models import Idea, User
+from banka_idea.models import Idea, User, IdeaTags
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -16,7 +16,7 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ("username", "email")
 
 
-# class IdeaForm(forms.ModelForm):
-#     class Meta:
-#         model = Idea
-#         fields = "__all__"
+class IdeaForm(forms.ModelForm):
+    class Meta:
+        model = Idea
+        fields = "__all__"

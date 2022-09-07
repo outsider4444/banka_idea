@@ -1,5 +1,7 @@
 {% extends 'layouts/base.html' %}
 {% block main %}
+
+
     <div class="d-flex justify-content-center h-100">
         <div class="user_card" style="z-index: 11;">
             <div class="d-flex justify-content-center">
@@ -8,6 +10,9 @@
             <div class="d-flex justify-content-center form_container">
                 <form method="POST" action="">
                     {% csrf_token %}
+                        {% for tags in tags_idea %}
+                            <input type="checkbox" name="{{ tags.name }}" value="{{ tags.id }}"> {{ tags.name }} <br>
+                        {% endfor %}
                     <div class="mb-3">
                         <label for="formGroupExampleInput" class="form-label">Название</label>
                         <input type="text" name="name" class="form-control" id="formGroupExampleInput"

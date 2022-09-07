@@ -1,7 +1,15 @@
 {% extends 'layouts/base.html' %}
 
 {% block main %}
+    <hr>
     {% for idea in list %}
-        {{ idea.name }} | {{ idea.description }}<br>
+        {{ idea }} | {{ idea.description }}
+        <br>
+
+        Теги:
+        {% for tag in idea.tags.all  %}
+            {{ tag.name }}
+        {% endfor %}
+        <hr>
     {% endfor %}
 {% endblock %}
