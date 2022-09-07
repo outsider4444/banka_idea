@@ -1,0 +1,7 @@
+{% extends 'layouts/base.html' %}
+
+{% block main %}
+    {% for idea in list %}
+        {{ idea.name }} | {{ idea.description }}<br>
+    {% endfor %}
+{% endblock %}

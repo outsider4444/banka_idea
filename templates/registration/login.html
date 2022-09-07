@@ -1,0 +1,17 @@
+{% extends 'layouts/base.html' %}
+{% block main %}
+    <h1>Вход</h1>
+
+    {% if form.errors %}
+        <p>{{ form.errors.error }}</p>
+    {% endif %}
+
+    <form action="{% url 'login' %} " method="post">
+        {% csrf_token %}
+        {{ form }}
+
+        <a href="{% url 'password_reset' %}">Забыли пароль?</a>
+
+    <button type="submit" class="btn btn-success">Подтвердить</button>
+    </form>
+{% endblock %}
