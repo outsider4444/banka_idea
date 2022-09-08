@@ -15,15 +15,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
     <script src="https://kit.fontawesome.com/f433a9122e.js" crossorigin="anonymous"></script>
 </head>
-<body class="container">
+<body style="background-image: url('{% static 'MainBG.jpg' %}');">
 
-<ul class="list-group">
-    <li class="list-group-item">
-        User {{ user }}
-    </li>
-    <li>
-        <a href="{% url 'main' %}">Главная</a>
-    </li>
+<ul class="nav" style="background-image: url('{% static 'NavBG.png' %}'); ">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="#"><a href="{% url 'main' %}">Главная</a></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">User {{ user }}</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+  </li>
 </ul>
 {% block main %}
 
@@ -35,22 +41,6 @@
     html {
         margin: 0;
         padding: 0;
-        height: 100%;
-    }
-
-    .user_card {
-        width: 100%;
-        margin-top: auto;
-        margin-bottom: auto;
-        position: relative;
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        padding: 10px;
-
-    }
-    .form_container {
-        margin-top: 20px;
     }
 </style>
 </html>

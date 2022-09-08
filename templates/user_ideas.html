@@ -5,7 +5,6 @@
     {% for idea in list %}
         {{ idea }} | {{ idea.description|safe }}
         <br>
-
         Теги:
         {% for tag in idea.tags.all  %}
             {{ tag.name }}

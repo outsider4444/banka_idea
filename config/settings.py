@@ -38,11 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-
-    'django_filters',
     'ckeditor',
     'ckeditor_uploader',
-    
+
+    'django_filters',
 
     # Наше приложение
     'banka_idea',

@@ -9,7 +9,7 @@ class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(
         label=("Email",),
         max_length=254,
-        widget=forms.EmailInput(attrs={"autocomplete":"email"})
+        widget=forms.EmailInput(attrs={"autocomplete": "email"})
     )
 
     class Meta(UserCreationForm.Meta):

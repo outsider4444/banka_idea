@@ -6,6 +6,9 @@ from django.db import models
 # Модели для базы данных
 class User(AbstractUser):
     pass
+    # rating
+    # avatar
+    #
 
 
 class IdeaTags(models.Model):
@@ -27,6 +30,11 @@ class Idea(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Answer(models.Model):
+    """Решения для идей"""
+    pass
 
 
 class UserIdeaLike(models.Model):

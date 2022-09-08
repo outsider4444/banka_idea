@@ -1,7 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.views import View
+from django.views.generic import ListView
 
 from banka_idea.forms import CustomUserCreationForm, IdeaForm
 from banka_idea.models import Idea, IdeaTags, UserIdeaLike
@@ -37,34 +39,23 @@ def main(request):
     context = {}
     return render(request, "main.html", context)
 
-
+###
 # Получение идеи
 def get_idea_title(request):
-    tags_idea = IdeaTags.objects.all()
+    idea_list = Idea.objects.all()
+    idea_tag_list = IdeaTags.objects.all()
+    if request.method == "POST":
+        check = request.POST.getlist('tags')
+        if len(check) > 0:
+            for tag in check:
+                idea_list = idea_list.filter(
+                    Q(tags__name=tag)
+                )
     context = {
-        "tags_idea":tags_idea,
+        "idea_list": idea_list,
+        "idea_tag_list": idea_tag_list
     }
     return render(request, "ideas/get_idea.html", context)
-
-
-# Получение новых идей
-def get_new_idea(request):
-    searched_idea = UserIdeaLike.objects.filter(user=request.user)
-    list_idea = Idea.objects.order_by('?').first()
-    context = {
-        "list_idea" : list_idea,
-    }
-    return render(request, "ideas/get_idea.html", context)
-
-
-# Идеи пользователя
-def list_user_ideas(request):
-    user = request.user
-    list = Idea.objects.filter(user=user)
-    context = {
-        "list": list,
-    }
-    return render(request, "user_ideas.html", context)
 
 
 # Создание новой идеи
@@ -100,3 +91,13 @@ def create_idea(request):
         "tags_idea": tags_idea,
     }
     return render(request, "ideas/create_new_idea.html", context)
+
+
+# Идеи пользователя
+def list_user_ideas(request):
+    user = request.user
+    list = Idea.objects.filter(user=user)
+    context = {
+        "list": list,
+    }
+    return render(request, "user_ideas.html", context)
