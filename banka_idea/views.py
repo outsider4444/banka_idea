@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from banka_idea.forms import CustomUserCreationForm, IdeaForm
-from banka_idea.models import Idea, IdeaTags
+from banka_idea.models import Idea, IdeaTags, UserIdeaLike
 
 
 # Регистрация
@@ -39,12 +39,21 @@ def main(request):
 
 
 # Получение идеи
-def get_idea(request):
-    context = {}
-    if request.method == "POST":
-        list_idea = Idea.objects.order_by('?').first()
-        context = {"list_idea": list_idea}
-        return render(request, "ideas/get_idea.html", context)
+def get_idea_title(request):
+    tags_idea = IdeaTags.objects.all()
+    context = {
+        "tags_idea":tags_idea,
+    }
+    return render(request, "ideas/get_idea.html", context)
+
+
+# Получение новых идей
+def get_new_idea(request):
+    searched_idea = UserIdeaLike.objects.filter(user=request.user)
+    list_idea = Idea.objects.order_by('?').first()
+    context = {
+        "list_idea" : list_idea,
+    }
     return render(request, "ideas/get_idea.html", context)
 
 
@@ -66,7 +75,7 @@ def create_idea(request):
     if request.method == 'POST':
         form = IdeaForm(request.POST)
 
-        ### ПАРАША ВЗЯТАЯ У ИНДУСА
+        ###
         tags_names = [x.name for x in tags_idea]
         tags_ids = []
         for x in tags_names:

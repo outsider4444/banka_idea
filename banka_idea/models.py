@@ -1,3 +1,4 @@
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -16,7 +17,7 @@ class IdeaTags(models.Model):
 
 class Idea(models.Model):
     name = models.CharField(max_length=100)
-    description = models.TextField(blank=True, null=True)
+    description = RichTextUploadingField(blank=True, null=True)
     date = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     tags = models.ManyToManyField(IdeaTags, related_name="ideas", blank=True, null=True)

@@ -1,3 +1,4 @@
+from ckeditor.widgets import CKEditorWidget
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
@@ -17,6 +18,7 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class IdeaForm(forms.ModelForm):
+
     class Meta:
         model = Idea
         fields = "__all__"

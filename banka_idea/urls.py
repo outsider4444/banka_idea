@@ -5,7 +5,8 @@ from banka_idea import views
 from banka_idea.views import Register
 
 urlpatterns = [
-    path('get_idea/', views.get_idea, name="get-idea"),
+    path('get_idea/force/', views.get_new_idea, name="get-new-idea"),
+    path('get_idea/', views.get_idea_title, name="get-idea-title"),
     path('create_idea/', views.create_idea, name="create-idea"),
 
     # auth

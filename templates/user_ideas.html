@@ -3,7 +3,7 @@
 {% block main %}
     <hr>
     {% for idea in list %}
-        {{ idea }} | {{ idea.description }}
+        {{ idea }} | {{ idea.description|safe }}
         <br>
 
         Теги:

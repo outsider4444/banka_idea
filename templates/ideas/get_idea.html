@@ -7,8 +7,12 @@
                 <h1 id="form-title">{{ list_idea }}</h1>
             </div>
             <div class="d-flex justify-content-center form_container">
-                <form method="POST" action="">
+                <form method="GET" action="{% url 'get-new-idea' %}">
                     {% csrf_token %}
+                {{ list_idea }}
+                    {% for tags in tags_idea %}
+                        <input type="checkbox" name="tags" value="{{ tags.name }}"> {{ tags.name }} <br>
+                    {% endfor %}
                     <input type="submit" class="btn btn-primary" value="Получить идею!">
                 </form>
             </div>
