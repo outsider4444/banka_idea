@@ -6,7 +6,7 @@ from django.views import View
 from django.views.generic import ListView
 
 from banka_idea.forms import CustomUserCreationForm, IdeaForm
-from banka_idea.models import Idea, IdeaTags, UserIdeaLike
+from banka_idea.models import Idea, IdeaTags, UserIdeaLike, User
 
 
 # Регистрация
@@ -65,7 +65,7 @@ def get_idea_title(request):
 def filter_idea(request):
     """Фильтрация идей и вывод по 1"""
     check = []
-    idea_list = Idea.objects.all()
+    idea_list = Idea.objects.exclude(user=request.user)
 
     # Получение идей пользователя, которые он отметил
     users_checked_idea = UserIdeaLike.objects.filter(user=request.user).filter(checked_idea=True) # последний фильтр под вопросом
@@ -87,6 +87,7 @@ def filter_idea(request):
 
     # Получение случайной
     new_idea = idea_list.order_by('?').first()
+    print(new_idea.date)
     context = {
         "idea_list": idea_list,
         "idea_tag_list": idea_tag_list,
@@ -100,12 +101,33 @@ def like_idea(request):
     if request.method == "POST":
         idea = request.POST.get("idea_id")
         user = request.user
+        idea_user_author = Idea.objects.get(id=idea)
+        author = User.objects.get(id=idea_user_author.user.id)
         print(idea)
         UserIdeaLike.objects.create(idea_id=idea, user=user, checked_idea=True)
+        author.rating += 10
+        author.save()
     context = {
 
     }
     return render(request, "ideas/get_idea.html", context)
+
+
+def dislike_idea(request):
+    """Удаление идей из избранного"""
+    if request.method == "POST":
+        idea = request.POST.get("idea_id")
+        print(idea)
+        idea_user_author = UserIdeaLike.objects.get(id=idea)
+        author = User.objects.get(id=idea_user_author.user.id)
+        delete_idea = UserIdeaLike.objects.get(id=idea)
+        delete_idea.delete()
+        author.rating -= 10
+        author.save()
+    context = {
+    }
+    return redirect('user-profile')
+
 
 # def filter_idea(request):
 #     check = []

@@ -8,6 +8,7 @@ urlpatterns = [
 
     path('get_idea/filter/', views.filter_idea, name="get-idea-filter"),
 
+    path('get_idea/dislike_idea/', views.dislike_idea, name="idea-dislike"),
     path('get_idea/like_idea/', views.like_idea, name="idea-like"),
     path('get_idea/', views.get_idea_title, name="get-idea-title"),
     path('create_idea/', views.create_idea, name="create-idea"),
