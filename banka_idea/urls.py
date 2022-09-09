@@ -6,7 +6,7 @@ from banka_idea.views import Register
 
 urlpatterns = [
 
-    # path('get_idea/get_filter_idea/', views.get_idea_filter, name="get-idea-filter"),
+    path('get_idea/filter/', views.filter_idea, name="get-idea-filter"),
     path('get_idea/', views.get_idea_title, name="get-idea-title"),
     path('create_idea/', views.create_idea, name="create-idea"),
 

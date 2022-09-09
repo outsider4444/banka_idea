@@ -12,5 +12,6 @@ User = get_user_model()
 class UserAdmin(UserAdmin):
     pass
 
+
 admin.site.register(Idea)
 admin.site.register(IdeaTags)

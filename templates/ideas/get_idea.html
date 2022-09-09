@@ -1,31 +1,49 @@
 {% extends 'layouts/base.html' %}
+{% load static %}
 {% block main %}
     <a href="{% url 'main' %}" class="btn btn-danger">На главную</a>
     <div class="d-flex justify-content-center form_container">
-        <form action="{% url 'get-idea-title' %}" method="post">
-            {% csrf_token %}
+        <form action="{% url 'get-idea-filter' %}" method="get">
             <div class="left-side my-4">
                 <h3 class="sear-head editContent">Теги</h3>
                 <ul class="w3layouts-box-list">
                     {% for tag in idea_tag_list.all %}
                         <li class="editContent">
-                            <input type="checkbox" name="tags" value="{{ tag.name }}">
+                            <input type="checkbox" name="{{ tag.name }}" value="{{ tag.name }}">
                             <span class="span editContent">{{ tag.name }}</span>
                         </li>
                     {% endfor %}
                 </ul>
             </div>
-            <button type="submit">Найти</button>
+            <button class="btn btn-medium elem" type="submit" style="border: none;">
+                <img src="{% static 'Banka.png' %}" alt=""></button>
         </form>
 
-
     </div>
-        <hr>
-     {% for idea in idea_list %}
-            {{ idea.name }}<br>
-            {% for tag in idea.tags.all %}
-                {{ tag.name }}
-            {% endfor %}
-         <br>
+    <hr>
+    {% for idea in idea_list %}
+        {{ idea.name }}<br>
+        {% for tag in idea.tags.all %}
+            {{ tag.name }}
         {% endfor %}
+        <br>
+    {% endfor %}
+
+    <style>
+        .elem:hover {
+            animation: 1.2s ease-in-out 0s normal none infinite running trambling-animation;
+        }
+
+        @keyframes trambling-animation {
+            0%, 50%, 100% {
+                transform: rotate(0deg);
+            }
+            10%, 30% {
+                transform: rotate(-10deg);
+            }
+            20%, 40% {
+                transform: rotate(10deg);
+            }
+        }
+    </style>
 {% endblock %}

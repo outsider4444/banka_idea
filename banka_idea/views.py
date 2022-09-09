@@ -44,13 +44,26 @@ def main(request):
 def get_idea_title(request):
     idea_list = Idea.objects.all()
     idea_tag_list = IdeaTags.objects.all()
-    if request.method == "POST":
-        check = request.POST.getlist('tags')
-        if len(check) > 0:
-            for tag in check:
-                idea_list = idea_list.filter(
-                    Q(tags__name=tag)
-                )
+    context = {
+        "idea_list": idea_list,
+        "idea_tag_list": idea_tag_list
+    }
+    return render(request, "ideas/get_idea.html", context)
+
+
+def filter_idea(request):
+    check = []
+    idea_list = Idea.objects.all()
+    idea_tag_list = IdeaTags.objects.all()
+    for tag in idea_tag_list:
+        check.append(request.GET.get(tag.name))
+    for tag in check:
+        if tag is not None:
+            idea_list = idea_list.filter(
+                Q(tags__name=tag)
+            )
+    print(check)
+    print(idea_list)
     context = {
         "idea_list": idea_list,
         "idea_tag_list": idea_tag_list

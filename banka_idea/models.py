@@ -5,10 +5,8 @@ from django.db import models
 
 # Модели для базы данных
 class User(AbstractUser):
-    pass
-    # rating
-    # avatar
-    #
+    avatar = models.ImageField(upload_to='media/user/avatar/', blank=True, null=True)
+    rating = models.IntegerField(default=0)
 
 
 class IdeaTags(models.Model):
@@ -23,13 +21,17 @@ class Idea(models.Model):
     description = RichTextUploadingField(blank=True, null=True)
     date = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    tags = models.ManyToManyField(IdeaTags, related_name="ideas", blank=True, null=True)
-    # Лайки?
-    # Просмотры?
-    # Счетчики?
+    tags = models.ManyToManyField(IdeaTags, related_name="ideas", blank=True)
 
     def __str__(self):
         return self.name
+
+
+class Solution(models.Model):
+    text = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='media/solutions/')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
+    idea = models.ForeignKey(Idea, on_delete=models.CASCADE, blank=True)
 
 
 class Answer(models.Model):
@@ -43,4 +45,3 @@ class UserIdeaLike(models.Model):
     checked_idea = models.BooleanField(default=False)
     # favorite?
     # liked ?
-    # ЧТО БЛЯТЬ И КАК ВООБЩЕ РЕАЛИЗОВЫВАТЬ, ПОД ТИНДЕР ИЛИ ПОД КАКУЮ ВООБЩЕ ХУЙНЮ?
