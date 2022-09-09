@@ -1,0 +1,200 @@
+[
+  {
+    "model": "models.User",
+    "pk": 1,
+    "fields": {
+      "first_name": "John",
+      "last_name": "Lennon",
+      "email": "foroji9714@nicoimg.com",
+      "password": "qwerty"
+    }
+  },
+  {
+    "model": "models.User",
+    "pk": 2,
+    "fields": {
+      "first_name": "Сергий",
+      "last_name": "Розинович",
+      "email": "egor_volkova@yahoo.com"
+    }
+  },
+  {
+    "model": "models.User",
+    "pk": 3,
+    "fields": {
+      "first_name": "Людмила",
+      "last_name": "Петрушева",
+      "email": "luka.vasilev49@hotmail.comm"
+    }
+  },
+  {
+    "model": "models.User",
+    "pk": 4,
+    "fields": {
+      "first_name": "Матвей",
+      "last_name": "Архипов",
+      "email": "matvei.arkhipova@yandex.ru"
+    }
+  },
+
+  {
+    "model": "models.IdeaTags",
+    "pk": 5,
+    "fields": {
+      "name": "IT"
+    }
+  },
+  {
+    "model": "models.IdeaTags",
+    "pk": 2,
+    "fields": {
+      "name": "Быт"
+    }
+  },
+  {
+    "model": "models.IdeaTags",
+    "pk": 3,
+    "fields": {
+      "name": "Креатив"
+    }
+  },
+  {
+    "model": "models.IdeaTags",
+    "pk": 4,
+    "fields": {
+      "name": "Работа"
+    }
+  },
+  {
+    "model": "models.IdeaTags",
+    "pk": 5,
+    "fields": {
+      "name": "Образование и коммуникации"
+    }
+  },
+  {
+    "model": "models.IdeaTags",
+    "pk": 6,
+    "fields": {
+      "name": "Хобби"
+    }
+  },
+
+  {
+    "model": "models.IdeaTags",
+    "pk": 7,
+    "fields": {
+      "name": "Семейная жизнь"
+    }
+  },
+  {
+    "model": "models.IdeaTags",
+    "pk": 8,
+    "fields": {
+      "name": "Питомцы и животные"
+    }
+  },
+  {
+    "model": "models.IdeaTags",
+    "pk": 9,
+    "fields": {
+      "name": "Праздники и традиции"
+    }
+  },
+  {
+    "model": "models.IdeaTags",
+    "pk": 10,
+    "fields": {
+      "name": "Дом и сад"
+    }
+  },
+
+  {
+    "model": "models.Idea",
+    "pk": 1,
+    "fields": {
+      "name": "Напиши книгу",
+      "description": "",
+      "date": "2022.04.07",
+      "user": "1",
+      "tags": "6"
+    }
+  },
+  {
+    "model": "models.Idea",
+    "pk": 2,
+    "fields": {
+      "name": "Отправься в поход со своими друзьями",
+      "description": "",
+      "date": "2022.05.13",
+      "user": "2",
+      "tags": "3"
+    }
+  },
+  {
+    "model": "models.Idea",
+    "pk": 3,
+    "fields": {
+      "name": "Создай модификацию для своей любимой игры",
+      "description": "В наших воспоминаниях, многие вещи кажутся совсем не такими, как на самом деле. Преврати игру своего детсва в игру мечты",
+      "date": "2022.07.04",
+      "user": "1",
+      "tags": "6"
+    }
+  },
+  {
+    "model": "models.Idea",
+    "pk": 4,
+    "fields": {
+      "name": "Освой музыкальный инструмент",
+      "description": "",
+      "date": "2022.15.04.",
+      "user": "1",
+      "tags": "6"
+    }
+  },
+  {
+    "model": "models.Idea",
+    "pk": 5,
+    "fields": {
+      "name": "Романтический пикник в ближайшем парке",
+      "description": "",
+      "date": "2022.21.07",
+      "user": "3",
+      "tags": "7"
+    }
+  },
+  {
+    "model": "models.Idea",
+    "pk": 1,
+    "fields": {
+      "name": "Напиши книгу",
+      "description": "",
+      "date": "2022.07.04",
+      "user": "5",
+      "tags": "6"
+    }
+  },
+  {
+    "model": "models.Idea",
+    "pk": 1,
+    "fields": {
+      "name": "Напиши книгу",
+      "description": "",
+      "date": "2022.08.03.",
+      "user": "4",
+      "tags": "6"
+    }
+  },
+  {
+    "model": "models.Idea",
+    "pk": 1,
+    "fields": {
+      "name": "Напиши книгу",
+      "description": "",
+      "date": "2022.07.04",
+      "user": "5",
+      "tags": "6"
+    }
+  }
+]
