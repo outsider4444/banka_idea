@@ -1,4 +1,32 @@
 {% extends 'layouts/base.html' %}
+{% block title %}Мой профиль{% endblock title %}
 {% block main %}
+    Пользователь: {{ user }}
+
+    Идеи, которые вам понравились: <br>
+    {% for liked in users_idea_liked %}
+        Название: {{ liked.idea.name }}| Автор идеи: {{ liked.idea.user }} <br>
+        {{ liked.idea.description|safe }}<br>
+        Теги:
+        {% for tag in liked.idea.tags.all %}
+            {{ tag.name }},
+        {% endfor %}
+        <hr>
+    {% endfor %}
+
+
+    <hr>
+    Ваши идеи:
+    {% for idea in list_user_idea %}
+        Название: {{ idea.name }}<br>
+        Описание:
+        {{ idea.description|safe }}
+        Теги: <br>
+        {% for tag in idea.tags.all %}
+            {{ tag.name }},
+        {% endfor %}
+        <hr>
+    {% endfor %}
+
 
 {% endblock %}

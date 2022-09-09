@@ -38,6 +38,9 @@ class UserIdeaLike(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     idea = models.ForeignKey(Idea, on_delete=models.CASCADE)
     checked_idea = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.user.username} взял {self.idea.name}. Статус: {self.checked_idea}'
     # favorite?
     # liked ?
-    # Статусы ?
+    # Статусы (взял, не взял, выполнил и тд) ?
