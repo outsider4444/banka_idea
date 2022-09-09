@@ -34,14 +34,10 @@ class Solution(models.Model):
     idea = models.ForeignKey(Idea, on_delete=models.CASCADE, blank=True)
 
 
-class Answer(models.Model):
-    """Решения для идей"""
-    pass
-
-
 class UserIdeaLike(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     idea = models.ForeignKey(Idea, on_delete=models.CASCADE)
     checked_idea = models.BooleanField(default=False)
     # favorite?
     # liked ?
+    # Статусы ?

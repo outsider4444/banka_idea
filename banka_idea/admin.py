@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
-from banka_idea.models import Idea, IdeaTags
+from banka_idea.models import Idea, IdeaTags, UserIdeaLike, Solution
 
 # Настройки для панели администратора
 
@@ -15,3 +15,5 @@ class UserAdmin(UserAdmin):
 
 admin.site.register(Idea)
 admin.site.register(IdeaTags)
+admin.site.register(UserIdeaLike)
+admin.site.register(Solution)

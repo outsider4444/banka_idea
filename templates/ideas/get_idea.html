@@ -21,13 +21,20 @@
 
     </div>
     <hr>
-    {% for idea in idea_list %}
-        {{ idea.name }}<br>
-        {% for tag in idea.tags.all %}
-            {{ tag.name }}
-        {% endfor %}
-        <br>
-    {% endfor %}
+    <form action="{% url 'idea-like' %}" method="post">
+        {% csrf_token %}
+        <input hidden type="text" name="idea_id" value="{{ new_idea.id }}">
+        <label for="" name="idea">{{ new_idea.name }}</label>
+
+        <input class="btn btn-primary" type="submit" value="Принять задачу">
+    </form>
+{#    {% for idea in idea_list %}#}
+{#        {{ idea.name }}<br>#}
+{#        {% for tag in idea.tags.all %}#}
+{#            {{ tag.name }}#}
+{#        {% endfor %}#}
+{#        <br>#}
+{#    {% endfor %}#}
 
     <style>
         .elem:hover {

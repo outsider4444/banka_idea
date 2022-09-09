@@ -39,7 +39,7 @@ def main(request):
     context = {}
     return render(request, "main.html", context)
 
-###
+
 # Получение идеи
 def get_idea_title(request):
     idea_list = Idea.objects.all()
@@ -62,13 +62,43 @@ def filter_idea(request):
             idea_list = idea_list.filter(
                 Q(tags__name=tag)
             )
-    print(check)
-    print(idea_list)
+    new_idea = idea_list.order_by('?').first()
     context = {
         "idea_list": idea_list,
-        "idea_tag_list": idea_tag_list
+        "idea_tag_list": idea_tag_list,
+        "new_idea": new_idea,
     }
     return render(request, "ideas/get_idea.html", context)
+
+
+def like_idea(request):
+    if request.method == "POST":
+        idea = request.POST.get("idea_id")
+        user = request.user
+        print(idea)
+        UserIdeaLike.objects.create(idea_id=idea, user=user, checked_idea=True)
+    context = {
+
+    }
+    return render(request, "ideas/get_idea.html", context)
+
+# def filter_idea(request):
+#     check = []
+#     idea_list = Idea.objects.all()
+#     idea_tag_list = IdeaTags.objects.all()
+#     for tag in idea_tag_list:
+#         check.append(request.GET.get(tag.name))
+#     for tag in check:
+#         if tag is not None:
+#             idea_list = idea_list.filter(
+#                 Q(tags__name=tag)
+#             )
+#     context = {
+#         "idea_list": idea_list,
+#         "idea_tag_list": idea_tag_list
+#     }
+#     return render(request, "ideas/get_idea.html", context)
+
 
 
 # Создание новой идеи
