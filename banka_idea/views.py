@@ -6,8 +6,8 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView
 
-from banka_idea.forms import CustomUserCreationForm, IdeaForm, UpdateUserForm
-from banka_idea.models import Idea, IdeaTags, UserIdeaLike, User
+from banka_idea.forms import CustomUserCreationForm, IdeaForm, UpdateUserForm, SolutionForm
+from banka_idea.models import Idea, IdeaTags, UserIdeaLike, User, Solution
 
 
 ### Пользователь
@@ -42,10 +42,12 @@ def user_profile(request):
     """Вывод страницы пользователя"""
     users_idea_liked = UserIdeaLike.objects.filter(user=request.user)
     list_user_idea = Idea.objects.filter(user=request.user)
-    print(request.user.avatar.url)
+    # Получение решений для идей пользователя
+    solution_list = Solution.objects.filter(idea__user=request.user)
     context = {
         "users_idea_liked": users_idea_liked,
         "list_user_idea": list_user_idea,
+        "solution_list": solution_list,
     }
     return render(request, "registration/profile.html", context)
 
@@ -121,28 +123,25 @@ def filter_idea_random(request):
     return render(request, "ideas/get_idea_random.html", context)
 
 
-def like_idea(request):
+def like_idea(request, pk):
     """Добавление идей в избранное"""
-    if request.method == "POST":
-        idea = request.POST.get("idea_id")
-        user = request.user
-        idea_user_author = Idea.objects.get(id=idea)
-        author = User.objects.get(id=idea_user_author.user.id)
-        print(idea)
-        UserIdeaLike.objects.create(idea_id=idea, user=user, checked_idea=True)
-        author.rating += 10
-        author.save()
-        messages.success(request, 'Идея добавлена в избранное')
-        context = {
+    user = request.user
+    idea_user_author = Idea.objects.get(id=pk)
+    author = User.objects.get(id=idea_user_author.user.id)
+    print(pk)
+    UserIdeaLike.objects.create(idea_id=pk, user=user, checked_idea=True)
+    author.rating += 10
+    author.save()
+    messages.success(request, 'Идея добавлена в избранное')
+    context = {
 
-        }
-        return render(request, "main.html", context)
+    }
+    return render(request, "main.html", context)
 
 
 def dislike_idea(request, pk):
     """Удаление идей из избранного"""
     print(pk)
-    # Получается
     user = User.objects.get(id=request.user.id)
     delete_idea = UserIdeaLike.objects.get(id=pk)
     delete_idea.delete()
@@ -239,9 +238,26 @@ def update_user_idea(request, pk):
     return render(request, "ideas/change_idea.html", context)
 
 
-# Удаление идеи
+# Удаление идеи пользователя
 @login_required
 def delete_user_idea(request, pk):
     idea = Idea.objects.get(id=pk)
     idea.delete()
     return redirect("user-profile")
+
+
+def add_solution_to_idea(request, pk):
+    idea_to_solution = UserIdeaLike.objects.get(id=pk)
+    form = SolutionForm(instance=idea_to_solution)
+    if request.method == "POST":
+        form = SolutionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('user-profile')
+        else:
+            print(form.errors)
+    context ={
+        "idea": idea_to_solution,
+        "form": form
+    }
+    return render(request, "ideas/add_solution.html", context)

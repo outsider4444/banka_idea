@@ -1,9 +1,9 @@
 {% extends 'layouts/base.html' %}
 {% block title %}Мой профиль{% endblock title %}
 {% block main %}
-    <a style="float: right" class="btn btn-success" href="{% url 'user-change' %}">Изменить профиль</a><br>
+    <a style="float: right" class="btn btn-success" href="{% url 'user-change' %}"><i class="fa-solid fa-gears"></i>Изменить профиль</a><br>
 
-    {% if user.avatar != None %}
+    {% if user.avatar %}
         <img width="150px" height="200px" src="{{ user.avatar.url }}" alt=""><br>
     {% endif %}
 
@@ -13,6 +13,7 @@
     Идеи, которые вам понравились: <br>
     {% for liked in users_idea_liked %}
             Название: {{ liked.idea.name }}| Автор идеи: {{ liked.idea.user }}
+            <a href="{% url 'add-solution' pk=liked.id %}" class="btn btn-success">Добавить решение</a>
             <a href="{% url 'idea-dislike' pk=liked.id %}" class="btn btn-danger">Отказаться от идеи</a>
             {{ liked.idea.description|safe }}<br>
             Теги:
@@ -35,6 +36,21 @@
         Теги: <br>
         {% for tag in idea.tags.all %}
             <button class="btn btn-primary btn-sm">{{ tag.name }}</button>
+        {% endfor %}
+        <br>
+        {% for solution in solution_list %}
+            {% if idea.id == solution.idea.id %}
+                Ответ от пользователя {{ solution.user }}: <br>
+                {{ solution.text }}
+                <br>
+                {% if solution.image %}
+                    Прикрепленная фотография: <br>
+                    <img src="{{ solution.image.url }}" alt=""> <br>
+                {% endif %}
+                {% if solution.url_to_upload != '' %}
+                    Прикрепленная ссылка: {{ solution.url_to_upload }}
+                {% endif %}
+            {% endif %}
         {% endfor %}
         <hr>
     {% endfor %}

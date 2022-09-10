@@ -37,9 +37,10 @@ class Idea(models.Model):
 
 class Solution(models.Model):
     text = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='media/solutions/')
+    image = models.ImageField(upload_to='solutions/', blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
     idea = models.ForeignKey(Idea, on_delete=models.CASCADE, blank=True)
+    url_to_upload = models.URLField(blank=True)
 
     class Meta:
         verbose_name = "Решение"
