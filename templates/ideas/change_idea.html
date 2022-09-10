@@ -1,0 +1,31 @@
+{% extends 'layouts/base.html' %}
+
+{% block main %}
+    <div class="d-flex justify-content-center h-100">
+        <div class="user_card" style="z-index: 11;">
+            <div class="d-flex justify-content-center">
+                <h1 id="form-title">Введите данные</h1>
+            </div>
+            <form action="{% url 'idea-change' pk=idea.id %}" method="post">
+                {% csrf_token %}
+                {% for tags in tags_idea %}
+                    <input type="checkbox"
+                            {% for idea_tag in tags_idea_current %}
+                                {% if idea_tag.name == tags.name %}
+                           checked="checked"
+                                {% endif %}
+                            {% endfor %}
+                           name="{{ tags.name }}" value="{{ tags.id }}"> {{ tags.name }} <br>
+                {% endfor %}
+                <label for="">Название:</label>{{ form.name }}<br>
+                <label for="">Описание: </label><br>{{ form.description }}<br>
+                {#        <label for="">Теги: </label><br>{{ form.tags }}<br>#}
+                <input type="submit" class="btn btn-primary" value="Подтвердить">
+            </form>
+        </div>
+    </div>
+    {% load static %}
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+{% endblock %}

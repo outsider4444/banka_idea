@@ -17,7 +17,7 @@ class IdeaInstanceInline(admin.TabularInline):
 class UserAdmin(UserAdmin):
     fieldsets = (
         (None, {
-            'fields': ('username', 'email', 'password')
+            'fields': ('avatar','username', 'email', 'password')
         }),
         ('Личная информация', {
             'fields': ('first_name', 'last_name',)

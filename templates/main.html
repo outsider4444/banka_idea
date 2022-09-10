@@ -4,7 +4,6 @@
 
     {% if user.is_authenticated %}
         <a href="{% url 'logout' %}">Выход</a>
-        <a href="{% url 'user-profile' %}">Мои профиль</a>
     {% else %}
         <a href="{% url 'login' %}">Вход</a> | <a href="{% url 'register' %}"> Регистрация</a>
     {% endif %}
