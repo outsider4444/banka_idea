@@ -19,7 +19,7 @@ class IdeaTags(models.Model):
 class Idea(models.Model):
     name = models.CharField(max_length=100)
     description = RichTextUploadingField(blank=True, null=True)
-    date = models.DateField(auto_now=True)
+    date = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_ideas", blank=True, null=True)
     tags = models.ManyToManyField(IdeaTags, related_name="ideas", blank=True)
 

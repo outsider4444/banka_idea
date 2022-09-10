@@ -1,0 +1,9 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Изменение профиля{% endblock %}
+{% block main %}
+    <form action="" enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    {{ user_form }}<br>
+        <input type="submit" class="btn btn-primary" value="Готово!">
+    </form>
+{% endblock %}
