@@ -5,6 +5,10 @@
 * python manage.py makemigrations
 * python manage.py migrate 
 
+
+Заполнение БД:
+* python manage.py loaddata fixture.json
+
 Создание администратора
 * python manage.py createsuperuser
 

@@ -15,21 +15,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
     <script src="https://kit.fontawesome.com/f433a9122e.js" crossorigin="anonymous"></script>
 </head>
-<body style="background-image: url('{% static 'MainBG.jpg' %}');">
+<body style="background-image: url('{% static 'MainBG.jpg' %}') no-repete;">
 
 <ul class="nav" style="background-image: url('{% static 'NavBG.png' %}'); ">
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="#"><a href="{% url 'main' %}">Главная</a></a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">User {{ user }}</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-  </li>
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="#"><a href="{% url 'main' %}">Главная</a></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link"  href="{% url 'user-profile' %}">{{ user }}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/admin">Админка</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+    </li>
 </ul>
 {% block main %}
 
@@ -41,6 +41,7 @@
     html {
         margin: 0;
         padding: 0;
+        background-repeat: no-repeat;
     }
 </style>
 </html>
