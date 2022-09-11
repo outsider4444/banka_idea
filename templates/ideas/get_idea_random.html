@@ -24,7 +24,11 @@
     <hr>
     {% if new_idea %}
         <label for="" name="idea">{{ new_idea.name }}</label>
+{% if user.is_authenticated %}
         <a href="{% url 'idea-like' pk=new_idea.id %}" class="btn btn-primary">Принять задачу</a>
+{%else%}
+Авторизируйтесь, скотина!
+{%endif%}
     {% endif %}
 {#    {% for idea in idea_list %}#}
 {#        {{ idea.name }}<br>#}

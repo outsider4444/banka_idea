@@ -92,11 +92,13 @@ def get_idea_title(request):
 def filter_idea_random(request):
     """Фильтрация идей и вывод по 1"""
     check = []
-    idea_list = Idea.objects.exclude(user=request.user)
+    users_checked_idea = UserIdeaLike.objects.filter(checked_idea=True)  # последний фильтр под вопросом
+    idea_list = Idea.objects.all()
+    if request.user.is_authenticated:
+        idea_list = idea_list.exclude(user=request.user)
+        users_checked_idea = users_checked_idea.filter(user=request.user)
+        # Получение идей пользователя, которые он отметил
 
-    # Получение идей пользователя, которые он отметил
-    users_checked_idea = UserIdeaLike.objects.filter(user=request.user).filter(
-        checked_idea=True)  # последний фильтр под вопросом
     idea_tag_list = IdeaTags.objects.all()
 
     # Получаем теги из формы
