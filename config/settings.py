@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     # Наше приложение
     'banka_idea',
+    'achievements',
 ]
 
 

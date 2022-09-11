@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView
 
+from achievements.views import add_base_achivement, get_user_achievments
 from banka_idea.forms import CustomUserCreationForm, IdeaForm, UpdateUserForm, SolutionForm
 from banka_idea.models import Idea, IdeaTags, UserIdeaLike, User, Solution
 
@@ -44,10 +45,13 @@ def user_profile(request):
     list_user_idea = Idea.objects.filter(user=request.user)
     # Получение решений для идей пользователя
     solution_list = Solution.objects.filter(idea__user=request.user)
+    # Получение достижений пользователя
+    user_achievments = get_user_achievments(request.user)
     context = {
         "users_idea_liked": users_idea_liked,
         "list_user_idea": list_user_idea,
         "solution_list": solution_list,
+        "user_achievments":user_achievments,
     }
     return render(request, "registration/profile.html", context)
 
@@ -194,7 +198,10 @@ def create_idea(request):
             for x in tags_ids:
                 obj.tags.add(IdeaTags.objects.get(id=x))
             obj.save()
-            # return redirect("create_idea")
+            # Тестовое достижение
+            add_base_achivement(user, name="Первый шаг")
+
+            return redirect("user-profile")
         else:
             print(form.errors)
     context = {
@@ -261,3 +268,4 @@ def add_solution_to_idea(request, pk):
         "form": form
     }
     return render(request, "ideas/add_solution.html", context)
+

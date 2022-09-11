@@ -15,25 +15,56 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
     <script src="https://kit.fontawesome.com/f433a9122e.js" crossorigin="anonymous"></script>
 </head>
-<body style="background-image: url('{% static 'MainBG.jpg' %}') no-repete;">
+<body style="">
 
-<ul class="nav" style="background-image: url('{% static 'NavBG.png' %}'); ">
-    <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#"><a href="{% url 'main' %}">Главная</a></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link"  href="{% url 'user-profile' %}">{{ user }}</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/admin">Админка</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-    </li>
-</ul>
-{% block main %}
+<nav class="navbar fixed-top navbar-expand-lg navbar-light "
+     style="background-image: url('{% static 'NavBG.png' %}'); ">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'main' %}">Банка идей</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page"
+                       href="{% url 'user-profile' %}">{{ user.username }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin">Админка</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <form class="d-flex">
+                <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+    <div style="margin-top: 50px">
+        {% block main %}
 
-{% endblock main %}
+        {% endblock main %}
+
+</div>
 
 </body>
 <style>
@@ -41,7 +72,8 @@
     html {
         margin: 0;
         padding: 0;
-        background-repeat: no-repeat;
+        background-image: url('{% static 'MainBG.jpg' %}');
+        background-attachment: fixed
     }
 </style>
 </html>

@@ -10,6 +10,15 @@
     Пользователь: {{ user }} <br>
     Социальный рейтинг: {{ user.rating }} <br>
     <hr>
+    Достижения:
+    {% for achievment in user_achievments %}
+        {{ achievment.achievment.name }}<br>
+        <img src="{{ achievment.achievment.image.url }}" alt="" width="50px" height="50px"> <br>
+        {{ achievment.achievment.description }}
+    {% endfor %}
+
+
+    <hr>
     Идеи, которые вам понравились: <br>
     {% for liked in users_idea_liked %}
             Название: {{ liked.idea.name }}| Автор идеи: {{ liked.idea.user }}
