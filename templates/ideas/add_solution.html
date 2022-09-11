@@ -1,0 +1,12 @@
+{% extends 'layouts/base.html' %}
+{% block title %}
+
+{% endblock %}
+{% block main %}
+    <form action="{% url 'add-solution' pk=idea.pk %}" method="post">
+    {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Подтвердить" class="btn btn-primary">
+    </form>
+
+{% endblock %}

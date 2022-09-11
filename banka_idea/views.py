@@ -1,13 +1,16 @@
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView
 
-from banka_idea.forms import CustomUserCreationForm, IdeaForm
-from banka_idea.models import Idea, IdeaTags, UserIdeaLike, User
+from banka_idea.forms import CustomUserCreationForm, IdeaForm, UpdateUserForm, SolutionForm
+from banka_idea.models import Idea, IdeaTags, UserIdeaLike, User, Solution
 
+
+### Пользователь
 
 # Регистрация
 class Register(View):
@@ -34,14 +37,37 @@ class Register(View):
         return render(request, self.template_name, context)
 
 
+@login_required
 def user_profile(request):
+    """Вывод страницы пользователя"""
     users_idea_liked = UserIdeaLike.objects.filter(user=request.user)
     list_user_idea = Idea.objects.filter(user=request.user)
+    # Получение решений для идей пользователя
+    solution_list = Solution.objects.filter(idea__user=request.user)
     context = {
         "users_idea_liked": users_idea_liked,
         "list_user_idea": list_user_idea,
+        "solution_list": solution_list,
     }
     return render(request, "registration/profile.html", context)
+
+
+@login_required
+def change_user(request):
+    """Изменение страницы пользователя"""
+    user_form = UpdateUserForm(instance=request.user)
+    if request.method == 'POST':
+        avatar = request.POST.get("avatar")
+        print(avatar)
+        user_form = UpdateUserForm(request.POST, request.FILES, instance=request.user)
+        if user_form.is_valid():
+            user_form.save()
+            messages.success(request, 'Your profile is updated successfully')
+            return redirect(to='user-profile')
+    context = {
+        "user_form": user_form,
+    }
+    return render(request, "registration/change_profile.html", context)
 
 
 # Главное меню
@@ -50,7 +76,7 @@ def main(request):
     return render(request, "main.html", context)
 
 
-# Получение идеи
+# Странциа с банкой
 def get_idea_title(request):
     """Вывод страницы идей"""
     idea_list = Idea.objects.all()
@@ -59,16 +85,18 @@ def get_idea_title(request):
         "idea_list": idea_list,
         "idea_tag_list": idea_tag_list
     }
-    return render(request, "ideas/get_idea.html", context)
+    return render(request, "ideas/get_idea_random.html", context)
 
 
-def filter_idea(request):
+# Получение значений на странице с банкой
+def filter_idea_random(request):
     """Фильтрация идей и вывод по 1"""
     check = []
     idea_list = Idea.objects.exclude(user=request.user)
 
     # Получение идей пользователя, которые он отметил
-    users_checked_idea = UserIdeaLike.objects.filter(user=request.user).filter(checked_idea=True) # последний фильтр под вопросом
+    users_checked_idea = UserIdeaLike.objects.filter(user=request.user).filter(
+        checked_idea=True)  # последний фильтр под вопросом
     idea_tag_list = IdeaTags.objects.all()
 
     # Получаем теги из формы
@@ -87,45 +115,39 @@ def filter_idea(request):
 
     # Получение случайной
     new_idea = idea_list.order_by('?').first()
-    print(new_idea.date)
     context = {
         "idea_list": idea_list,
         "idea_tag_list": idea_tag_list,
         "new_idea": new_idea,
     }
-    return render(request, "ideas/get_idea.html", context)
+    return render(request, "ideas/get_idea_random.html", context)
 
 
-def like_idea(request):
+def like_idea(request, pk):
     """Добавление идей в избранное"""
-    if request.method == "POST":
-        idea = request.POST.get("idea_id")
-        user = request.user
-        idea_user_author = Idea.objects.get(id=idea)
-        author = User.objects.get(id=idea_user_author.user.id)
-        print(idea)
-        UserIdeaLike.objects.create(idea_id=idea, user=user, checked_idea=True)
-        author.rating += 10
-        author.save()
+    user = request.user
+    idea_user_author = Idea.objects.get(id=pk)
+    author = User.objects.get(id=idea_user_author.user.id)
+    print(pk)
+    UserIdeaLike.objects.create(idea_id=pk, user=user, checked_idea=True)
+    author.rating += 10
+    author.save()
+    messages.success(request, 'Идея добавлена в избранное')
     context = {
 
     }
-    return render(request, "ideas/get_idea.html", context)
+    return render(request, "main.html", context)
 
 
-def dislike_idea(request):
+def dislike_idea(request, pk):
     """Удаление идей из избранного"""
-    if request.method == "POST":
-        idea = request.POST.get("idea_id")
-        print(idea)
-        idea_user_author = UserIdeaLike.objects.get(id=idea)
-        author = User.objects.get(id=idea_user_author.user.id)
-        delete_idea = UserIdeaLike.objects.get(id=idea)
-        delete_idea.delete()
-        author.rating -= 10
-        author.save()
-    context = {
-    }
+    print(pk)
+    user = User.objects.get(id=request.user.id)
+    delete_idea = UserIdeaLike.objects.get(id=pk)
+    delete_idea.delete()
+    if user.rating >= 10:
+        user.rating -= 10
+        user.save()
     return redirect('user-profile')
 
 
@@ -144,7 +166,7 @@ def dislike_idea(request):
 #         "idea_list": idea_list,
 #         "idea_tag_list": idea_tag_list
 #     }
-#     return render(request, "ideas/get_idea.html", context)
+#     return render(request, "ideas/get_idea_random.html", context)
 
 
 # Создание новой идеи
@@ -180,3 +202,62 @@ def create_idea(request):
         "tags_idea": tags_idea,
     }
     return render(request, "ideas/create_new_idea.html", context)
+
+
+# Изменение идеи пользователя
+def update_user_idea(request, pk):
+    tags_idea = IdeaTags.objects.all()
+    idea = Idea.objects.get(id=pk)
+    form = IdeaForm(instance=idea)
+    tags_idea_current = IdeaTags.objects.filter(ideas__id=pk)
+
+    if request.method == "POST":
+        form = IdeaForm(request.POST, instance=idea)
+
+        tags_names = [x.name for x in tags_idea]
+        tags_ids = []
+        for x in tags_names:
+            tags_ids.append(int(request.POST.get(x))) if request.POST.get(x) else print()
+            print(tags_ids)
+
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.user = request.user
+            obj.tags.clear()
+            obj.save()
+            for x in tags_ids:
+                obj.tags.add(IdeaTags.objects.get(id=x))
+            obj.save()
+            return redirect('user-profile')
+    context = {
+        "tags_idea": tags_idea,
+        "tags_idea_current": tags_idea_current,
+        "idea": idea,
+        "form": form
+    }
+    return render(request, "ideas/change_idea.html", context)
+
+
+# Удаление идеи пользователя
+@login_required
+def delete_user_idea(request, pk):
+    idea = Idea.objects.get(id=pk)
+    idea.delete()
+    return redirect("user-profile")
+
+
+def add_solution_to_idea(request, pk):
+    idea_to_solution = UserIdeaLike.objects.get(id=pk)
+    form = SolutionForm(instance=idea_to_solution)
+    if request.method == "POST":
+        form = SolutionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('user-profile')
+        else:
+            print(form.errors)
+    context ={
+        "idea": idea_to_solution,
+        "form": form
+    }
+    return render(request, "ideas/add_solution.html", context)

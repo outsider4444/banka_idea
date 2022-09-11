@@ -2,7 +2,7 @@ from ckeditor.widgets import CKEditorWidget
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from banka_idea.models import Idea, User, IdeaTags
+from banka_idea.models import Idea, User, IdeaTags, Solution
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -14,11 +14,30 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ("username", "email")
+        fields = ["username", "email", "avatar"]
+
+
+class UpdateUserForm(forms.ModelForm):
+    username = forms.CharField(max_length=100,
+                               required=True,
+                               widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(required=True,
+                             widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'avatar']
 
 
 class IdeaForm(forms.ModelForm):
 
     class Meta:
         model = Idea
+        fields = "__all__"
+
+
+class SolutionForm(forms.ModelForm):
+
+    class Meta:
+        model = Solution
         fields = "__all__"

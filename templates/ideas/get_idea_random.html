@@ -4,7 +4,7 @@
 {% block main %}
     <a href="{% url 'main' %}" class="btn btn-danger">На главную</a>
     <div class="d-flex justify-content-center form_container">
-        <form action="{% url 'get-idea-filter' %}" method="get">
+        <form action="{% url 'get-idea-filter-random' %}" method="get">
             <div class="left-side my-4">
                 <h3 class="sear-head editContent">Теги</h3>
                 <ul class="w3layouts-box-list">
@@ -22,13 +22,10 @@
 
     </div>
     <hr>
-    <form action="{% url 'idea-like' %}" method="post">
-        {% csrf_token %}
-        <input hidden type="text" name="idea_id" value="{{ new_idea.id }}">
+    {% if new_idea %}
         <label for="" name="idea">{{ new_idea.name }}</label>
-
-        <input class="btn btn-primary" type="submit" value="Принять задачу">
-    </form>
+        <a href="{% url 'idea-like' pk=new_idea.id %}" class="btn btn-primary">Принять задачу</a>
+    {% endif %}
 {#    {% for idea in idea_list %}#}
 {#        {{ idea.name }}<br>#}
 {#        {% for tag in idea.tags.all %}#}

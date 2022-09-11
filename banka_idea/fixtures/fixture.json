@@ -24,7 +24,7 @@
     "fields": {
       "username": "Luda",
       "last_name": "Петрушева",
-      "email": "luka.vasilev49@hotmail.comm"
+      "email": "luka.vasilev49@hotmail.com"
     }
   },
   {
@@ -161,39 +161,6 @@
       "date": "2022-07-21",
       "user": "3",
       "tags": "7"
-    }
-  },
-  {
-    "model": "banka_idea.Idea",
-    "pk": 1,
-    "fields": {
-      "name": "Напиши книгу",
-      "description": "",
-      "date": "2022-07-04",
-      "user": "5",
-      "tags": "6"
-    }
-  },
-  {
-    "model": "banka_idea.Idea",
-    "pk": 1,
-    "fields": {
-      "name": "Напиши книгу",
-      "description": "",
-      "date": "2022-08-03",
-      "user": "4",
-      "tags": "6"
-    }
-  },
-  {
-    "model": "banka_idea.Idea",
-    "pk": 1,
-    "fields": {
-      "name": "Напиши книгу",
-      "description": "",
-      "date": "2022-07-04",
-      "user": "5",
-      "tags": "6"
     }
   }
 ]

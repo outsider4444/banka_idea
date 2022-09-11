@@ -1,35 +1,56 @@
 {% extends 'layouts/base.html' %}
 {% block title %}Мой профиль{% endblock title %}
 {% block main %}
+    <a style="float: right" class="btn btn-success" href="{% url 'user-change' %}"><i class="fa-solid fa-gears"></i>Изменить профиль</a><br>
+
+    {% if user.avatar %}
+        <img width="150px" height="200px" src="{{ user.avatar.url }}" alt=""><br>
+    {% endif %}
+
     Пользователь: {{ user }} <br>
     Социальный рейтинг: {{ user.rating }} <br>
     <hr>
     Идеи, которые вам понравились: <br>
     {% for liked in users_idea_liked %}
-        <form action="{% url 'idea-dislike' %}" method="post">
-        {% csrf_token %}
             Название: {{ liked.idea.name }}| Автор идеи: {{ liked.idea.user }}
-            <input hidden name="idea_id" value="{{ liked.id }}">
-            <input class="btn btn-danger" type="submit" value="Отказаться от идеи"> <br>
+            <a href="{% url 'add-solution' pk=liked.id %}" class="btn btn-success">Добавить решение</a>
+            <a href="{% url 'idea-dislike' pk=liked.id %}" class="btn btn-danger">Отказаться от идеи</a>
             {{ liked.idea.description|safe }}<br>
             Теги:
             {% for tag in liked.idea.tags.all %}
-                {{ tag.name }},
+                <button class="btn btn-primary btn-sm">{{ tag.name }}</button>
             {% endfor %}
-        </form>
         <hr>
     {% endfor %}
 
 
     <hr>
-    Ваши идеи:
+    Ваши идеи: <br>
     {% for idea in list_user_idea %}
-        Название: {{ idea.name }}<br>
+        Название: {{ idea.name }}
+        <a href="{% url 'idea-change' pk=idea.id %} " class="btn btn-primary">Изменить</a>
+        <a href="{% url 'idea-delete' pk=idea.id %}" class="btn btn-danger">Удалить</a>
+        <br>
         Описание:
         {{ idea.description|safe }}
         Теги: <br>
         {% for tag in idea.tags.all %}
-            {{ tag.name }},
+            <button class="btn btn-primary btn-sm">{{ tag.name }}</button>
+        {% endfor %}
+        <br>
+        {% for solution in solution_list %}
+            {% if idea.id == solution.idea.id %}
+                Ответ от пользователя {{ solution.user }}: <br>
+                {{ solution.text }}
+                <br>
+                {% if solution.image %}
+                    Прикрепленная фотография: <br>
+                    <img src="{{ solution.image.url }}" alt=""> <br>
+                {% endif %}
+                {% if solution.url_to_upload != '' %}
+                    Прикрепленная ссылка: {{ solution.url_to_upload }}
+                {% endif %}
+            {% endif %}
         {% endfor %}
         <hr>
     {% endfor %}
