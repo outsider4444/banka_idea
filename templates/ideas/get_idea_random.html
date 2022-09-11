@@ -2,39 +2,60 @@
 {% load static %}
 {% block title %}Получить идею{% endblock title %}
 {% block main %}
-    <a href="{% url 'main' %}" class="btn btn-danger">На главную</a>
-    <div class="d-flex justify-content-center form_container">
-        <form action="{% url 'get-idea-filter-random' %}" method="get">
-            <div class="left-side my-4">
-                <h3 class="sear-head editContent">Теги</h3>
-                <ul class="w3layouts-box-list">
-                    {% for tag in idea_tag_list.all %}
-                        <li class="editContent">
-                            <input type="checkbox" name="{{ tag.name }}" value="{{ tag.name }}">
-                            <span class="span editContent">{{ tag.name }}</span>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <button class="btn btn-medium elem" type="submit" style="border: none;">
-                <img src="{% static 'Banka.png' %}" alt=""></button>
-        </form>
+    <aside style="float: left; width: 250px">
+        {% if new_idea %}
+            <label for="" name="idea"><b>Идея:</b> {{ new_idea.name }}</label> <br>
+            {% if new_idea.user != None %}
+               <b> Автор: </b>{{ new_idea.user.username }}<br>
+            {% endif %}
+            {% if new_idea.description != '' %}
+                <b>Описание:</b> <br>
+                {{ new_idea.description|safe }}
+            {% endif %}
+            <a href="{% url 'idea-like' pk=new_idea.id %}" class="btn btn-primary">Принять задачу</a>
+        {% endif %}
+    </aside>
+    <form action="{% url 'get-idea-filter-random' %}" method="get">
+        <aside style="float: right; width: 250px;">
+            <h3 class="d-flex editContent justify-content-center ">Теги</h3>
+            <ul class="w3layouts-box-list">
+                {% for tag in idea_tag_list.all %}
+                    <input type="checkbox" name="{{ tag.name }}" value="{{ tag.name }}">
+                    <span class="span editContent">{{ tag.name }}</span><br>
+                {% endfor %}
+            </ul>
+        </aside>
 
+        <div class="container" style="width: 100%;">
+            <div class="row">
+                <h4 class="d-flex editContent justify-content-center text-our-style"
+                    style="font-size: 70pt">
+                    Потряси банку</h4>
+                <div class="d-flex justify-content-center form_container">
+                    <button class="btn btn-medium elem" type="submit" style="border: none; ">
+                        <img src="{% static 'base/Banka.png' %}" alt=""></button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="d-flex justify-content-center ">
+        <img src="{% static 'base/Table.png' %}" class="table-random" alt="">
     </div>
-    <hr>
-    {% if new_idea %}
-        <label for="" name="idea">{{ new_idea.name }}</label>
-        <a href="{% url 'idea-like' pk=new_idea.id %}" class="btn btn-primary">Принять задачу</a>
-    {% endif %}
-{#    {% for idea in idea_list %}#}
-{#        {{ idea.name }}<br>#}
-{#        {% for tag in idea.tags.all %}#}
-{#            {{ tag.name }}#}
-{#        {% endfor %}#}
-{#        <br>#}
-{#    {% endfor %}#}
 
     <style>
+        .table-random {
+            z-index: 1;
+            margin-top: -30px;
+            width: 766px;
+            height: 157px;
+            bottom: 0;
+        }
+
+        .elem {
+            z-index: 2;
+        }
+
         .elem:hover {
             animation: 1.2s ease-in-out 0s normal none infinite running trambling-animation;
         }

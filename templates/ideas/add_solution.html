@@ -1,12 +1,21 @@
 {% extends 'layouts/base.html' %}
 {% block title %}
-
+    Добавить решение
 {% endblock %}
 {% block main %}
-    <form action="{% url 'add-solution' pk=idea.pk %}" method="post">
-    {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Подтвердить" class="btn btn-primary">
-    </form>
-
+    <div class="d-flex justify-content-center h-100">
+        <div class="user_card" style="z-index: 11;">
+            <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center">
+                    <h1 id="form-title">Введите данные</h1>
+                </div>
+                <div class="d-flex justify-content-center form_container">
+                    <form action="{% url 'add-solution' pk=idea.pk %}" method="post">
+                        {% csrf_token %}
+                        {{ form }}
+                        <input type="submit" value="Подтвердить" class="btn btn-primary">
+                    </form>
+                </div>
+            </div>
+        </div>
 {% endblock %}

@@ -268,3 +268,4 @@ def add_solution_to_idea(request, pk):
         "form": form
     }
     return render(request, "ideas/add_solution.html", context)
+

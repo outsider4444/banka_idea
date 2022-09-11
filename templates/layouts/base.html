@@ -14,66 +14,70 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
     <script src="https://kit.fontawesome.com/f433a9122e.js" crossorigin="anonymous"></script>
-</head>
-<body style="">
 
-<nav class="navbar fixed-top navbar-expand-lg navbar-light "
-     style="background-image: url('{% static 'NavBG.png' %}'); ">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'main' %}">Банка идей</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page"
-                       href="{% url 'user-profile' %}">{{ user.username }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin">Админка</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-toggle="dropdown" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-            <form class="d-flex">
-                <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<header>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light "
+         style="background-image: url('{% static 'base/NavBG.png' %}'); ">
+        <div class="container-fluid">
+            <a class="navbar-brand text-our-style" href="{% url 'main' %}" style="font-size: 24pt;
+        padding: 0;
+">Банка идей</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page"
+                           href="{% url 'user-profile' %}">{{ user.username }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin">Админка</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
-    <div style="margin-top: 50px">
+    </nav>
+</header>
+    <div style="margin-top: 60px">
         {% block main %}
 
         {% endblock main %}
-
-</div>
-
+    </div>
 </body>
 <style>
-    body,
-    html {
-        margin: 0;
-        padding: 0;
-        background-image: url('{% static 'MainBG.jpg' %}');
-        background-attachment: fixed
+    body {
+        background-image: url('{% static 'base/MainBG.jpg' %}');
+        background-attachment: fixed;
+    }
+
+    .text-our-style {
+        font-family: Caveat;
+    }
+
+    nav {
+        background-image: url("{% static 'base/NavBG.png' %}");
     }
 </style>
 </html>
