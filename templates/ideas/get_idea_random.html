@@ -12,7 +12,7 @@
                 <b>Описание:</b> <br>
                 {{ new_idea.description|safe }}
             {% endif %}
-            <a href="{% url 'idea-like' pk=new_idea.id %}" class="btn btn-primary">Принять задачу</a>
+            <a href="{% url 'idea-like' pk=new_idea.id %}" class="btn btn-primary">Сохранить идею</a>
         {% endif %}
     </aside>
     <form action="{% url 'get-idea-filter-random' %}" method="get">

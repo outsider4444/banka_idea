@@ -134,9 +134,10 @@ def filter_idea_random(request):
 def like_idea(request, pk):
     """Добавление идей в избранное"""
     user = request.user
-    idea_user_author = Idea.objects.get(id=pk)
-    author = User.objects.get(id=idea_user_author.user.id)
-    print(pk)
+    # Получение автора идеи
+    idea = Idea.objects.get(id=pk)
+    author = User.objects.get(id=idea.user.id)
+    # Добавление в лайк
     UserIdeaLike.objects.create(idea_id=pk, user=user, checked_idea=True)
     author.rating += 10
     author.save()
@@ -157,24 +158,6 @@ def dislike_idea(request, pk):
         user.rating -= 10
         user.save()
     return redirect('user-profile')
-
-
-# def filter_idea(request):
-#     check = []
-#     idea_list = Idea.objects.all()
-#     idea_tag_list = IdeaTags.objects.all()
-#     for tag in idea_tag_list:
-#         check.append(request.GET.get(tag.name))
-#     for tag in check:
-#         if tag is not None:
-#             idea_list = idea_list.filter(
-#                 Q(tags__name=tag)
-#             )
-#     context = {
-#         "idea_list": idea_list,
-#         "idea_tag_list": idea_tag_list
-#     }
-#     return render(request, "ideas/get_idea_random.html", context)
 
 
 # Создание новой идеи
@@ -305,14 +288,21 @@ def solution_update(request, pk):
 
 
 ### Поиск (переделать)
-class SearchResultsView(ListView):
-    model = Idea
-    template_name = 'ideas/search_results.html'
-
-    def get_queryset(self):  # новый
-        query = self.request.GET.get('search')
-        object_list = Idea.objects.filter(
+def search_results(request):
+    query = request.GET.get('search')
+    object_list = Idea.objects.filter(
+        Q(name__icontains=query) |
+        Q(description__icontains=query)
+    )
+    users_ideas = Idea.objects.\
+        filter(useridealike__user=request.user).\
+        filter(
             Q(name__icontains=query) |
             Q(description__icontains=query)
         )
-        return object_list
+    context = {
+        "object_list": object_list,
+        "users_ideas": users_ideas,
+        "query": query,
+    }
+    return render(request, 'ideas/search_results.html', context)

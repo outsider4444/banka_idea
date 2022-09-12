@@ -32,6 +32,7 @@
             Название: {{ liked.idea.name }}| Автор идеи: {{ liked.idea.user }}
             <a href="{% url 'add-solution' pk=liked.id %}" class="btn btn-success">Добавить решение</a>
             <a href="{% url 'idea-dislike' pk=liked.id %}" class="btn btn-danger">Отказаться от идеи</a>
+        <br>
             {{ liked.idea.description|safe }}<br>
             Теги:
             {% for tag in liked.idea.tags.all %}

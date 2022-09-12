@@ -24,7 +24,7 @@ urlpatterns = [
     path('users/profile/<int:pk>/delete/', views.delete_user_idea, name="idea-delete"),
 
     # Поиск
-    path('search/', views.SearchResultsView.as_view(), name="search"),
+    path('search/', views.search_results, name="search"),
 
 
     # auth
