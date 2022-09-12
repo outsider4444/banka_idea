@@ -1,0 +1,10 @@
+{% extends 'layouts/base.html' %}
+{% block main %}
+    <h3>Найденные результаты</h3>
+    {% for obj in object_list %}
+        Идея: {{ obj.name }} | Автор: {{ obj.user }} <br>
+        Описание: <br>
+        {{ obj.description | safe }}
+        <hr>
+    {% endfor %}
+{% endblock %}

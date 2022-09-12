@@ -14,12 +14,17 @@ urlpatterns = [
 
 
 
-    path('users/profile/add_solution/<int:pk>/', views.add_solution_to_idea, name="add-solution"),
-
+    path('users/profile/solution_list/<int:pk>/', views.solution_update, name="solution-update"),
+    path('users/profile/solution_list/', views.solution_list, name="solution-list"),
+    # Добавление ответа к идее
+    path('users/profile/<int:pk>/add_solution/', views.add_solution_to_idea, name="add-solution"),
     # Изменение идеи
     path('users/profile/<int:pk>/update/', views.update_user_idea, name="idea-change"),
     # Удаление идеи
     path('users/profile/<int:pk>/delete/', views.delete_user_idea, name="idea-delete"),
+
+    # Поиск
+    path('search/', views.SearchResultsView.as_view(), name="search"),
 
 
     # auth

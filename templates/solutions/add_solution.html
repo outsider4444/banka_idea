@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% block title %}
-    Добавить решение
+    Добавить ответ
 {% endblock %}
 {% block main %}
     <div class="d-flex justify-content-center h-100">
@@ -10,7 +10,7 @@
                     <h1 id="form-title">Введите данные</h1>
                 </div>
                 <div class="d-flex justify-content-center form_container">
-                    <form action="{% url 'add-solution' pk=idea.pk %}" method="post">
+                    <form action="{% url 'add-solution' pk=idea.id %}" method="post">
                         {% csrf_token %}
                         {{ form }}
                         <input type="submit" value="Подтвердить" class="btn btn-primary">

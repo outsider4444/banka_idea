@@ -6,7 +6,8 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView
 
-from achievements.views import add_base_achivement, get_user_achievments
+from achievements.views import add_base_achivement, add_achievments_to_user, get_user_achievments_unlocked, \
+    get_user_achievments_locked
 from banka_idea.forms import CustomUserCreationForm, IdeaForm, UpdateUserForm, SolutionForm
 from banka_idea.models import Idea, IdeaTags, UserIdeaLike, User, Solution
 
@@ -31,6 +32,7 @@ class Register(View):
             password = form.cleaned_data.get("password1")
             user = authenticate(username=username, password=password)
             login(request, user)
+            add_achievments_to_user(user)
             return redirect("main")
         context = {
             "form": form,
@@ -46,7 +48,9 @@ def user_profile(request):
     # Получение решений для идей пользователя
     solution_list = Solution.objects.filter(idea__user=request.user)
     # Получение достижений пользователя
-    user_achievments = get_user_achievments(request.user)
+    user_achievments = get_user_achievments_unlocked(request.user)
+    # Получение закрытых достижений пользователя
+    # user_locked_achievments = get_user_achievments_locked(request.user)
     context = {
         "users_idea_liked": users_idea_liked,
         "list_user_idea": list_user_idea,
@@ -74,7 +78,7 @@ def change_user(request):
     return render(request, "registration/change_profile.html", context)
 
 
-# Главное меню
+### Главное меню
 def main(request):
     context = {}
     return render(request, "main.html", context)
@@ -253,6 +257,7 @@ def delete_user_idea(request, pk):
     return redirect("user-profile")
 
 
+# Добавление ответа к идее
 def add_solution_to_idea(request, pk):
     idea_to_solution = UserIdeaLike.objects.get(id=pk)
     form = SolutionForm(instance=idea_to_solution)
@@ -267,5 +272,47 @@ def add_solution_to_idea(request, pk):
         "idea": idea_to_solution,
         "form": form
     }
-    return render(request, "ideas/add_solution.html", context)
+    return render(request, "solutions/add_solution.html", context)
 
+
+# Вывод списка ответов
+def solution_list(request):
+    user = request.user
+    solution_list = Solution.objects.filter(user=user)
+    print(solution_list)
+    context = {
+        "solution_list": solution_list,
+    }
+    return render(request, "solutions/solution_list.html", context)
+
+
+# Изменение идеи
+def solution_update(request, pk):
+    solution = Solution.objects.get(id=pk)
+    form = SolutionForm(instance=solution)
+    if request.method == "POST":
+        form = SolutionForm(request.POST, instance=solution)
+        if form.is_valid():
+            form.save()
+            return redirect('solution-list')
+        else:
+            print(form.errors)
+    context = {
+        "form": form,
+        "solution": solution
+    }
+    return render(request, "solutions/update_solution.html", context)
+
+
+### Поиск (переделать)
+class SearchResultsView(ListView):
+    model = Idea
+    template_name = 'ideas/search_results.html'
+
+    def get_queryset(self):  # новый
+        query = self.request.GET.get('search')
+        object_list = Idea.objects.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query)
+        )
+        return object_list
