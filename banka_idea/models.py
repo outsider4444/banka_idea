@@ -5,8 +5,8 @@ from django.db import models
 
 # Модели для базы данных
 class User(AbstractUser):
-    avatar = models.ImageField(upload_to=f'user/avatar', blank=True, null=True)
-    rating = models.PositiveIntegerField(default=0)
+    avatar = models.ImageField("Аватар",upload_to=f'user/avatar', blank=True, null=True)
+    rating = models.PositiveIntegerField("Рейтинг пользователя", default=0)
 
 
 class IdeaTags(models.Model):
@@ -21,11 +21,11 @@ class IdeaTags(models.Model):
 
 
 class Idea(models.Model):
-    name = models.CharField(max_length=100)
-    description = RichTextUploadingField(blank=True, null=True)
-    date = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_ideas", blank=True, null=True)
-    tags = models.ManyToManyField(IdeaTags, related_name="ideas", blank=True)
+    name = models.CharField("Название", max_length=100)
+    description = RichTextUploadingField("Описание", blank=True, null=True)
+    date = models.DateTimeField("Дата", auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_ideas", blank=True, null=True, verbose_name="Пользователь")
+    tags = models.ManyToManyField(IdeaTags, related_name="ideas", blank=True, verbose_name="Теги")
 
     def __str__(self):
         return self.name
@@ -36,11 +36,15 @@ class Idea(models.Model):
 
 
 class Solution(models.Model):
-    text = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='solutions/', blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
-    idea = models.ForeignKey(Idea, on_delete=models.CASCADE, blank=True)
-    url_to_upload = models.URLField(blank=True)
+    text = models.CharField("Текст ответа", max_length=100)
+    image = models.ImageField("Изображение", upload_to='solutions', blank=True,)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, verbose_name="Пользователь")
+    idea = models.ForeignKey(Idea, on_delete=models.CASCADE, blank=True, )
+    url_to_upload = models.URLField("Ссылка", blank=True, )
+    date = models.DateTimeField("Дата", auto_now=True, blank=True)
+
+    def __str__(self):
+        return f'{self.text} | {self.user.username}'
 
     class Meta:
         verbose_name = "Решение"
@@ -50,9 +54,7 @@ class Solution(models.Model):
 class UserIdeaLike(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     idea = models.ForeignKey(Idea, on_delete=models.CASCADE)
-    checked_idea = models.BooleanField(default=False)
-    # favorite?
-    # Статусы (взял, не взял, выполнил и тд) ?
+    checked_idea = models.BooleanField(default=False, )  # надо ли
 
     def __str__(self):
         return f'{self.user.username} взял {self.idea.name}. Статус: {self.checked_idea}'
@@ -60,4 +62,3 @@ class UserIdeaLike(models.Model):
     class Meta:
         verbose_name = "Лайк"
         verbose_name_plural = 'Лайки'
-

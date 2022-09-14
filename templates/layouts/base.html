@@ -4,8 +4,8 @@
 <head>
     <title>{% block title %}{% endblock title %}</title>
     <meta charset="utf-8">
-    {#    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">#}
-    {#    <script src="{% static 'js/bootstrap.js' %}"></script>#}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <script src="{% static 'js/bootstrap.js' %}"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -21,38 +21,10 @@
 </head>
 
 <body>
-<header>
-    <nav class="navbar fixed-top navbar-expand-lg navbar-light "
-         style="background-image: url('{% static 'base/NavBG.png' %}'); ">
-        <div class="container-fluid">
-            <a class="navbar-brand text-our-style" href="{% url 'main' %}" style="font-size: 24pt;
-        padding: 0;
-">Банка идей</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page"
-                           href="{% url 'user-profile' %}">{{ user.username }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin">Админка</a>
-                    </li>
 
-                </ul>
+{% include 'layouts/header.html' %}
 
-            </div>
-            <form method="get" action="{% url 'search' %}" class="d-flex"style="float: right">
-                <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Поиск</button>
-            </form>
-        </div>
-    </nav>
-</header>
-<div style="margin-top: 60px">
+<div style="margin-top: 60px;">
     {% block main %}
 
     {% endblock main %}
@@ -66,6 +38,7 @@
 
     .text-our-style {
         font-family: Caveat;
+        font-size: 16pt;
     }
 
     nav {

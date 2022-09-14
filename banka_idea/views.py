@@ -47,6 +47,7 @@ def user_profile(request):
     list_user_idea = Idea.objects.filter(user=request.user)
     # Получение решений для идей пользователя
     solution_list = Solution.objects.filter(idea__user=request.user)
+    users_solution = Solution.objects.filter(user=request.user)
     # Получение достижений пользователя
     user_achievments = get_user_achievments_unlocked(request.user)
     # Получение закрытых достижений пользователя
@@ -55,7 +56,8 @@ def user_profile(request):
         "users_idea_liked": users_idea_liked,
         "list_user_idea": list_user_idea,
         "solution_list": solution_list,
-        "user_achievments":user_achievments,
+        "user_achievments": user_achievments,
+        "users_solution": users_solution,
     }
     return render(request, "registration/profile.html", context)
 
@@ -65,8 +67,6 @@ def change_user(request):
     """Изменение страницы пользователя"""
     user_form = UpdateUserForm(instance=request.user)
     if request.method == 'POST':
-        avatar = request.POST.get("avatar")
-        print(avatar)
         user_form = UpdateUserForm(request.POST, request.FILES, instance=request.user)
         if user_form.is_valid():
             user_form.save()
@@ -172,8 +172,8 @@ def create_idea(request):
         tags_names = [x.name for x in tags_idea]
         tags_ids = []
         for x in tags_names:
-            tags_ids.append(int(request.POST.get(x))) if request.POST.get(x) else print()
-            print(tags_ids)
+            if request.POST.get(x):
+                tags_ids.append(int(request.POST.get(x)))
         ###
         if form.is_valid():
             obj = form.save(commit=False)
@@ -181,7 +181,6 @@ def create_idea(request):
             if user.is_authenticated:
                 obj.user = user
             obj.save()
-            print(obj.user)
             for x in tags_ids:
                 obj.tags.add(IdeaTags.objects.get(id=x))
             obj.save()
@@ -245,13 +244,13 @@ def add_solution_to_idea(request, pk):
     idea_to_solution = UserIdeaLike.objects.get(id=pk)
     form = SolutionForm(instance=idea_to_solution)
     if request.method == "POST":
-        form = SolutionForm(request.POST)
+        form = SolutionForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('user-profile')
         else:
             print(form.errors)
-    context ={
+    context = {
         "idea": idea_to_solution,
         "form": form
     }
@@ -261,21 +260,21 @@ def add_solution_to_idea(request, pk):
 # Вывод списка ответов
 def solution_list(request):
     user = request.user
-    solution_list = Solution.objects.filter(user=user)
-    print(solution_list)
+    solution_list = Solution.objects.filter(user=user).order_by("-date")
     context = {
         "solution_list": solution_list,
     }
     return render(request, "solutions/solution_list.html", context)
 
 
-# Изменение идеи
+# Изменение ответа к идее
 def solution_update(request, pk):
     solution = Solution.objects.get(id=pk)
     form = SolutionForm(instance=solution)
     if request.method == "POST":
-        form = SolutionForm(request.POST, instance=solution)
+        form = SolutionForm(request.POST, request.FILES, instance=solution)
         if form.is_valid():
+            print(form)
             form.save()
             return redirect('solution-list')
         else:
@@ -287,19 +286,21 @@ def solution_update(request, pk):
     return render(request, "solutions/update_solution.html", context)
 
 
-### Поиск (переделать)
+
+
+
+# Поиск
 def search_results(request):
     query = request.GET.get('search')
     object_list = Idea.objects.filter(
         Q(name__icontains=query) |
         Q(description__icontains=query)
     )
-    users_ideas = Idea.objects.\
-        filter(useridealike__user=request.user).\
-        filter(
+    users_ideas = Idea.objects. \
+        filter(useridealike__user=request.user).filter(
             Q(name__icontains=query) |
             Q(description__icontains=query)
-        )
+         )
     context = {
         "object_list": object_list,
         "users_ideas": users_ideas,

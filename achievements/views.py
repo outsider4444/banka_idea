@@ -22,14 +22,22 @@ def get_user_achievments_unlocked(user):
 
 def add_base_achivement(user, name, parametr=1, condition=None):
     achiv = Achievment.objects.get(name=name)
-    if achiv not in get_user_achievments_locked(user):
+    achivments_list = UsersAchievments.objects.filter(user=user).filter(achievment__name=name)
+    # print(achivments_list)
+    # print(achiv)
+    # for i in achivments_list:
+    #     if i.achievment.name == achiv.name:
+    #         print("ин")
+    if not achivments_list.filter(achievment__name=achiv.name).exists():
         add_achievments_to_user(user)
-    locked_achiev = UsersAchievments.objects.filter(user=user).get(achievment__name=name)
-    print(locked_achiev)
-    # Условие - специальное обозначение для того чтобы отличать "уникальные" достижения от простых
-    if condition is None:
-        if locked_achiev.users_score == achiv.count_to_unlock:
-            locked_achiev.status = True
-            locked_achiev.save()
-        else:
-            locked_achiev += parametr
+    if achivments_list.filter(status=False).get(achievment__name=achiv.name):
+        print("в списке заблокированных")
+        locked_achiv = achivments_list.filter(status=False).get(achievment__name=achiv.name)
+        print(locked_achiv)
+        # Условие - специальное обозначение для того чтобы отличать "уникальные" достижения от простых
+        if condition is None:
+            if locked_achiv.users_score == achiv.count_to_unlock:
+                locked_achiv.status = True
+                locked_achiv.save()
+            else:
+                locked_achiv += parametr
