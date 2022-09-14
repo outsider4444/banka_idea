@@ -43,15 +43,13 @@ class Register(View):
 @login_required
 def user_profile(request):
     """Вывод страницы пользователя"""
-    users_idea_liked = UserIdeaLike.objects.filter(user=request.user)
-    list_user_idea = Idea.objects.filter(user=request.user)
+    users_idea_liked = UserIdeaLike.objects.filter(user=request.user).order_by("date")
+    list_user_idea = Idea.objects.filter(user=request.user).order_by("date")
     # Получение решений для идей пользователя
-    solution_list = Solution.objects.filter(idea__user=request.user)
-    users_solution = Solution.objects.filter(user=request.user)
+    solution_list = Solution.objects.filter(idea__user=request.user).order_by("date")
+    users_solution = Solution.objects.filter(user=request.user).order_by("date")
     # Получение достижений пользователя
     user_achievments = get_user_achievments_unlocked(request.user)
-    # Получение закрытых достижений пользователя
-    # user_locked_achievments = get_user_achievments_locked(request.user)
     context = {
         "users_idea_liked": users_idea_liked,
         "list_user_idea": list_user_idea,
@@ -184,6 +182,9 @@ def create_idea(request):
             for x in tags_ids:
                 obj.tags.add(IdeaTags.objects.get(id=x))
             obj.save()
+            user.rating += 5
+            user.save()
+
             # Тестовое достижение
             add_base_achivement(user, name="Первый шаг")
 
@@ -286,7 +287,13 @@ def solution_update(request, pk):
     return render(request, "solutions/update_solution.html", context)
 
 
-
+# Изменение ответа к идее
+def solution_delete(request, pk):
+    solution = Solution.objects.get(id=pk)
+    # Проверка на пользователя
+    if request.user == solution.user:
+        solution.delete()
+    return redirect("user-profile")
 
 
 # Поиск

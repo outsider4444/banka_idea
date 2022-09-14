@@ -15,6 +15,7 @@ class IdeaInstanceInline(admin.TabularInline):
 
 @admin.register(User)
 class UserAdmin(UserAdmin):
+    readonly_fields = ['first_login']
     fieldsets = (
         (None, {
             'fields': ('avatar','username', 'email', 'password')
@@ -23,7 +24,7 @@ class UserAdmin(UserAdmin):
             'fields': ('first_name', 'last_name',)
         }),
         ('Информация', {
-            'fields': ('rating',)
+            'fields': ('rating', 'first_login')
         }),
     )
 

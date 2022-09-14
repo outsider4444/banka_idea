@@ -14,6 +14,7 @@ urlpatterns = [
 
 
 
+    path('users/profile/solution_list/<int:pk>/delete/', views.solution_delete, name="solution-delete"),
     path('users/profile/solution_list/<int:pk>/', views.solution_update, name="solution-update"),
     path('users/profile/solution_list/', views.solution_list, name="solution-list"),
     # Добавление ответа к идее
