@@ -1,10 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView
+from django.core.cache import cache
 
 from achievements.views import add_base_achivement, add_achievments_to_user, get_user_achievments_unlocked, \
     get_user_achievments_locked
@@ -82,6 +84,11 @@ def main(request):
     return render(request, "main.html", context)
 
 
+def about_page(request):
+    context = {}
+    return render(request, "about.html", context)
+
+
 # Странциа с банкой
 def get_idea_title(request):
     """Вывод страницы идей"""
@@ -99,6 +106,10 @@ def filter_idea_random(request):
     """Фильтрация идей и вывод по 1"""
     check = []
     idea_list = Idea.objects.exclude(user=request.user)
+    cache.delete('idea_list')
+    cache.delete('new_idea')
+    cache_list = cache.get('idea_list')
+    print(cache_list)
 
     # Получение идей пользователя, которые он отметил
     users_checked_idea = UserIdeaLike.objects.filter(user=request.user).filter(
@@ -121,12 +132,32 @@ def filter_idea_random(request):
 
     # Получение случайной
     new_idea = idea_list.order_by('?').first()
+    cache.set('idea_list', idea_list)
     context = {
         "idea_list": idea_list,
         "idea_tag_list": idea_tag_list,
         "new_idea": new_idea,
     }
-    return render(request, "ideas/get_idea_random.html", context)
+    return render(request, "ideas/idea_cookie.html", context)
+
+
+def delete_idea_random(request, pk):
+    idea_list = cache.get('idea_list')
+    ban_list = cache.set('new_idea', pk)
+    ban_list_get = cache.get('new_idea')
+    print("Список готовых идей", idea_list)
+    print("Список идей для бана", ban_list_get)
+    if len(idea_list) > 1:
+        idea_list = idea_list.exclude(id=ban_list_get)
+        print("Измененный", idea_list)
+        cache.set('idea_list', idea_list)
+        new_idea = idea_list.order_by('?').first()
+    else:
+        return redirect('main')
+    context = {
+        "new_idea": new_idea,
+    }
+    return render(request, "ideas/idea_cookie.html", context)
 
 
 def like_idea(request, pk):
@@ -258,6 +289,11 @@ def add_solution_to_idea(request, pk):
     return render(request, "solutions/add_solution.html", context)
 
 
+
+def finish_idea(request):
+    pass
+
+
 # Вывод списка ответов
 def solution_list(request):
     user = request.user
@@ -305,9 +341,9 @@ def search_results(request):
     )
     users_ideas = Idea.objects. \
         filter(useridealike__user=request.user).filter(
-            Q(name__icontains=query) |
-            Q(description__icontains=query)
-         )
+        Q(name__icontains=query) |
+        Q(description__icontains=query)
+    )
     context = {
         "object_list": object_list,
         "users_ideas": users_ideas,

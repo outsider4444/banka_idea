@@ -1,9 +1,17 @@
 {% extends 'layouts/base.html' %}
 {% block title %}Изменение профиля{% endblock %}
 {% block main %}
-    <form action="" enctype="multipart/form-data" method="post">
-        {% csrf_token %}
-        {{ user_form }}<br>
-        <input type="submit" class="btn btn-primary" value="Готово!">
-    </form>
+    <div class="container" style="margin-top: 100px">
+        <div class="row">
+            <form action="" enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                Имя {{ user_form.first_name }}<br>
+                Фамииля {{ user_form.last_name }} <br>
+                Имя пользователя {{ user_form.username }}<br>
+                Почта {{ user_form.email }} <br>
+                Аватарка {{ user_form.avatar }} <br>
+                <input type="submit" class="btn btn-primary mt-5" value="Готово!">
+            </form>
+        </div>
+    </div>
 {% endblock %}

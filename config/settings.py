@@ -145,7 +145,7 @@ LOGOUT_REDIRECT_URL = "/"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 STATIC_URL = '/static/'
-
+# STATIC_ROOT = '/static/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
@@ -173,12 +173,12 @@ CKEDITOR_CONFIGS = {
             {'name': 'basicstyles',
              'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
             {'name': 'paragraph',
-             'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-',
+             'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote',  '-',
                        'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl',
-                       'Language']},
-            {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
+                       'Language']}, #'CreateDiv',
+            {'name': 'links', 'items': ['Link', 'Unlink']}, # , 'Anchor'
             {'name': 'insert',
-             'items': ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe']},
+             'items': ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak']}, #, 'Iframe'
             '/',
             {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
             {'name': 'colors', 'items': ['TextColor', 'BGColor']},
@@ -202,7 +202,7 @@ CKEDITOR_CONFIGS = {
         # 'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
         'tabSpaces': 4,
         'extraPlugins': ','.join([
-            'uploadimage', # the upload image feature
+            # 'uploadimage', # the upload image feature
             # your extra plugins here
             'div',
             'autolink',
@@ -217,5 +217,11 @@ CKEDITOR_CONFIGS = {
             'dialogui',
             'elementspath'
         ]),
+    }
+}
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
     }
 }

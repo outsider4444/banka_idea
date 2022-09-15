@@ -1,27 +1,52 @@
 {% extends 'layouts/base.html' %}
-
+{% block title %}Создание новой идеи{% endblock title %}
 {% block main %}
-    <div class="d-flex justify-content-center h-100">
-        <div class="user_card" style="z-index: 11;">
+    <div class="container" style="margin-top: 100px">
+        <div class="row">
             <div class="d-flex justify-content-center">
-                <h1 id="form-title">Введите данные</h1>
+                <h1 id="form-title">Опишите свою идею</h1>
             </div>
-            <form action="{% url 'idea-change' pk=idea.id %}" method="post">
-                {% csrf_token %}
-                {% for tags in tags_idea %}
-                    <input type="checkbox"
-                            {% for idea_tag in tags_idea_current %}
-                                {% if idea_tag.name == tags.name %}
-                           checked="checked"
-                                {% endif %}
-                            {% endfor %}
-                           name="{{ tags.name }}" value="{{ tags.id }}"> {{ tags.name }} <br>
-                {% endfor %}
-                <label for="">Название:</label>{{ form.name }}<br>
-                <label for="">Описание: </label><br>{{ form.description }}<br>
-                {#        <label for="">Теги: </label><br>{{ form.tags }}<br>#}
-                <input type="submit" class="btn btn-primary" value="Подтвердить">
-            </form>
+            <div class="d-flex justify-content-center form_container">
+                <form action="{% url 'idea-change' pk=idea.id %}" method="post">
+                    {% csrf_token %}
+                    <p>
+                        <a class="btn btn-primary col-md-3" data-bs-toggle="collapse" href="#collapseExample"
+                           role="button"
+                           aria-expanded="false" aria-controls="collapseExample">
+                            Показать/Скрыть теги
+                        </a>
+                    </p>
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+                            <div class="row">
+                                {% for tags in tags_idea %}
+                                    <div class="col-md-10">
+                                        <div class="form-check">
+                                                <input type="checkbox" class="form-check-input"
+                                                        {% for idea_tag in tags_idea_current %}
+                                                            {% if idea_tag.name == tags.name %}
+                                                       checked="checked"
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                       name="{{ tags.name }}" value="{{ tags.id }}"> {{ tags.name }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-md-8">
+                        <label for="formGroupExampleInput" class="form-label">Название</label>
+                        {{ form.name }}
+                    </div>
+                    <div class="mb-3 col-md-8">
+                        <label for="formGroupExampleInput2" class="form-label">Описание (не обязательно)</label>
+                        <br>
+                        {{ form.description }}
+                    </div>
+                    <input type="submit" class="btn btn-primary col-md-2" value="Готово">
+                </form>
+            </div>
         </div>
     </div>
     {% load static %}

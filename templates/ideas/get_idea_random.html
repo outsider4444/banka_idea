@@ -6,7 +6,7 @@
         {% if new_idea %}
             <label for="" name="idea"><b>Идея:</b> {{ new_idea.name }}</label> <br>
             {% if new_idea.user != None %}
-               <b> Автор: </b>{{ new_idea.user.username }}<br>
+                <b> Автор: </b>{{ new_idea.user.username }}<br>
             {% endif %}
             {% if new_idea.description != '' %}
                 <b>Описание:</b> <br>
@@ -25,7 +25,6 @@
                 {% endfor %}
             </ul>
         </aside>
-
         <div class="container" style="width: 100%; margin-top: 70px">
             <div class="row">
                 <h4 class="d-flex editContent justify-content-center text-our-style"
@@ -40,11 +39,9 @@
             </div>
         </div>
     </form>
-
     <div class="d-flex justify-content-center ">
         <img src="{% static 'base/Table.png' %}" class="table-random" alt="">
     </div>
-
     <style>
         .table-random {
             z-index: 1;

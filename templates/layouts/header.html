@@ -10,7 +10,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse " id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="font-size: 18pt">
                     <li class="nav-item">
                         <a class="nav-link active"
                            href="{% url 'user-profile' %}">{{ user.username }}</a>
@@ -19,7 +19,13 @@
                         <a class="nav-link active" href="/admin">Админка</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Справка</a>
+                        <a class="nav-link active" href="{% url 'get-idea-title' %}">Банка</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/admin">Список</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'about-page' %}">Справка</a>
                     </li>
                 </ul>
             </div>

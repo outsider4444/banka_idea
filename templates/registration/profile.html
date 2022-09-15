@@ -2,7 +2,6 @@
 {% load static %}
 {% block main %}
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-
     <div class="container emp-profile" style="margin-top: 100px">
         <div class="row">
             <div class="col-md-4">
@@ -112,14 +111,6 @@
                                 <p>{{ user.first_login }}</p>
                             </div>
                         </div>
-                        {#                        <div class="row">#}
-                        {#                            <div class="col-md-6">#}
-                        {#                                <label>Name</label>#}
-                        {#                            </div>#}
-                        {#                            <div class="col-md-6">#}
-                        {#                                <p>Kshiti Ghelani</p>#}
-                        {#                            </div>#}
-                        {#                        </div>#}
                     </div>
                     <div class="tab-pane fade" id="idea" role="tabpanel" aria-labelledby="profile-tab">
                         {% for idea in list_user_idea %}
