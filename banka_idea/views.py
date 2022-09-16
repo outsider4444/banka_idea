@@ -45,7 +45,8 @@ class Register(View):
 @login_required
 def user_profile(request):
     """Вывод страницы пользователя"""
-    users_idea_liked_not_finish = UserIdeaLike.objects.filter(user=request.user).filter(checked_idea=False).order_by("date")
+    users_idea_liked_not_finish = UserIdeaLike.objects.filter(user=request.user).filter(checked_idea=False).order_by(
+        "date")
     users_idea_liked_finish = UserIdeaLike.objects.filter(user=request.user).filter(checked_idea=True).order_by("date")
     list_user_idea = Idea.objects.filter(user=request.user).order_by("date")
     # Получение решений для идей пользователя
@@ -95,7 +96,7 @@ def about_page(request):
 def get_idea_random_title(request):
     """Вывод страницы банки"""
     idea_list = Idea.objects.all()
-    idea_tag_list = IdeaTags.objects.all()
+    idea_tag_list = IdeaTags.objects.all().order_by('name')
     context = {
         "idea_list": idea_list,
         "idea_tag_list": idea_tag_list
@@ -105,18 +106,45 @@ def get_idea_random_title(request):
 
 def get_idea_list_title(request):
     """Вывод страницы списка"""
+    idea_tag_list = IdeaTags.objects.all().order_by('name')
     if request.user.is_authenticated:
         idea_list = Idea.objects.exclude(user=request.user).order_by('date')
     else:
         idea_list = Idea.objects.all().order_by('date')
-    idea_tag_list = IdeaTags.objects.all()
+
     context = {
         "idea_list": idea_list,
         "idea_tag_list": idea_tag_list
-
     }
-    return render(request,"ideas/get_idea_list.html", context)
+    return render(request, "ideas/get_idea_list.html", context)
 
+
+def get_list_idea_filter(request):
+    """Фильтры для страницы списка идей"""
+    idea_tag_list = IdeaTags.objects.all().order_by('name')
+    check = []
+    if request.user.is_authenticated:
+        idea_list = Idea.objects.exclude(user=request.user).order_by('date')
+    else:
+        idea_list = Idea.objects.all().order_by('date')
+
+    # Получаем теги из формы
+    for tag in idea_tag_list:
+        check.append(request.GET.get(tag.name))
+    print(check)
+    # Фильтруем по тегам
+    for tag in check:
+        if tag is not None:
+            idea_list = idea_list.filter(
+                Q(tags__id=tag)
+            )
+    if not idea_list:
+        return redirect('main')
+    context = {
+        "idea_list": idea_list,
+        "idea_tag_list": idea_tag_list,
+    }
+    return render(request, "ideas/get_idea_list.html", context)
 
 # Получение значений на странице с банкой
 def filter_idea_random(request):
@@ -125,30 +153,35 @@ def filter_idea_random(request):
     idea_list = Idea.objects.exclude(user=request.user)
     cache.delete('idea_list')
     cache.delete('new_idea')
-    cache_list = cache.get('idea_list')
-    print(cache_list)
 
     # Получение идей пользователя, которые он отметил
     users_checked_idea = UserIdeaLike.objects.filter(user=request.user).filter(
         checked_idea=True)  # последний фильтр под вопросом
     idea_tag_list = IdeaTags.objects.all()
+    print("Список идей", idea_list)
 
     # Получаем теги из формы
     for tag in idea_tag_list:
         check.append(request.GET.get(tag.name))
-
+    print("Теги", check)
     # Фильтруем по тегам
     for tag in check:
         if tag is not None:
             idea_list = idea_list.filter(
-                Q(tags__name=tag)
+                Q(tags__id=tag)
             )
+
     # Фильтруем по отмеченным идеям
     for checked_idea in users_checked_idea:
         idea_list = idea_list.exclude(id=checked_idea.idea.id)
+    print("Новый список идей", idea_list)
 
     # Получение случайной
     new_idea = idea_list.order_by('?').first()
+    print(new_idea)
+    if not idea_list:
+        return redirect('main')
+
     cache.set('idea_list', idea_list)
     context = {
         "idea_list": idea_list,
@@ -213,14 +246,13 @@ def dislike_idea(request, pk):
 
 # Создание новой идеи
 def create_idea(request):
-    tags_idea = IdeaTags.objects.all()
+    idea_tag_list = IdeaTags.objects.all().order_by('name')
     form = IdeaForm()
     user = request.user
     if request.method == 'POST':
         form = IdeaForm(request.POST)
-
         ###
-        tags_names = [x.name for x in tags_idea]
+        tags_names = [x.name for x in idea_tag_list]
         tags_ids = []
         for x in tags_names:
             if request.POST.get(x):
@@ -246,14 +278,14 @@ def create_idea(request):
             print(form.errors)
     context = {
         "form": form,
-        "tags_idea": tags_idea,
+        "tags_idea": idea_tag_list,
     }
     return render(request, "ideas/create_new_idea.html", context)
 
 
 # Изменение идеи пользователя
 def update_user_idea(request, pk):
-    tags_idea = IdeaTags.objects.all()
+    idea_tag_list = IdeaTags.objects.all().order_by('name')
     idea = Idea.objects.get(id=pk)
     form = IdeaForm(instance=idea)
     tags_idea_current = IdeaTags.objects.filter(ideas__id=pk)
@@ -261,7 +293,7 @@ def update_user_idea(request, pk):
     if request.method == "POST":
         form = IdeaForm(request.POST, instance=idea)
 
-        tags_names = [x.name for x in tags_idea]
+        tags_names = [x.name for x in idea_tag_list]
         tags_ids = []
         for x in tags_names:
             tags_ids.append(int(request.POST.get(x))) if request.POST.get(x) else print()
@@ -277,7 +309,7 @@ def update_user_idea(request, pk):
             obj.save()
             return redirect('user-profile')
     context = {
-        "tags_idea": tags_idea,
+        "tags_idea": idea_tag_list,
         "tags_idea_current": tags_idea_current,
         "idea": idea,
         "form": form
