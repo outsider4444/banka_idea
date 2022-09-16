@@ -45,7 +45,8 @@ class Register(View):
 @login_required
 def user_profile(request):
     """Вывод страницы пользователя"""
-    users_idea_liked = UserIdeaLike.objects.filter(user=request.user).order_by("date")
+    users_idea_liked_not_finish = UserIdeaLike.objects.filter(user=request.user).filter(checked_idea=False).order_by("date")
+    users_idea_liked_finish = UserIdeaLike.objects.filter(user=request.user).filter(checked_idea=True).order_by("date")
     list_user_idea = Idea.objects.filter(user=request.user).order_by("date")
     # Получение решений для идей пользователя
     solution_list = Solution.objects.filter(idea__user=request.user).order_by("date")
@@ -53,7 +54,8 @@ def user_profile(request):
     # Получение достижений пользователя
     user_achievments = get_user_achievments_unlocked(request.user)
     context = {
-        "users_idea_liked": users_idea_liked,
+        "users_idea_liked": users_idea_liked_not_finish,
+        "users_idea_liked_finish": users_idea_liked_finish,
         "list_user_idea": list_user_idea,
         "solution_list": solution_list,
         "user_achievments": user_achievments,
@@ -167,7 +169,7 @@ def like_idea(request, pk):
     idea = Idea.objects.get(id=pk)
     author = User.objects.get(id=idea.user.id)
     # Добавление в лайк
-    UserIdeaLike.objects.create(idea_id=pk, user=user, checked_idea=True)
+    UserIdeaLike.objects.create(idea_id=pk, user=user, checked_idea=False)
     author.rating += 10
     author.save()
     messages.success(request, 'Идея добавлена в избранное')
@@ -182,7 +184,12 @@ def dislike_idea(request, pk):
     print(pk)
     user = User.objects.get(id=request.user.id)
     delete_idea = UserIdeaLike.objects.get(id=pk)
-    delete_idea.delete()
+
+    if delete_idea.checked_idea:
+        delete_idea.checked_idea = False
+        delete_idea.save()
+    else:
+        delete_idea.delete()
     if user.rating >= 10:
         user.rating -= 10
         user.save()
@@ -289,9 +296,11 @@ def add_solution_to_idea(request, pk):
     return render(request, "solutions/add_solution.html", context)
 
 
-
-def finish_idea(request):
-    pass
+def finish_idea(request, pk):
+    finish_idea = UserIdeaLike.objects.get(id=pk)
+    finish_idea.checked_idea = True
+    finish_idea.save()
+    return redirect('user-profile')
 
 
 # Вывод списка ответов

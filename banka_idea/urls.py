@@ -5,20 +5,23 @@ from banka_idea import views
 from banka_idea.views import Register
 
 urlpatterns = [
-
+    # Банка
     path('get_idea/<int:pk>/dislike_idea/', views.dislike_idea, name="idea-dislike"),
     path('get_idea/<int:pk>/like_idea/', views.like_idea, name="idea-like"),
     path('get_idea/filter_random/<int:pk>/', views.delete_idea_random, name="delete-idea-random"),
     path('get_idea/filter_random/', views.filter_idea_random, name="get-idea-filter-random"),
     path('get_idea/', views.get_idea_title, name="get-idea-title"),
+
     path('create_idea/', views.create_idea, name="create-idea"),
     path('about_page/', views.about_page, name="about-page"),
 
-    path('users/profile/solution_list/<int:pk>/delete/', views.solution_delete, name="solution-delete"),
-    path('users/profile/solution_list/<int:pk>/', views.solution_update, name="solution-update"),
-    path('users/profile/solution_list/', views.solution_list, name="solution-list"),
-    # Добавление ответа к идее
+    # Ответы к идеям
+    path('users/profile/solution/<int:pk>/delete/', views.solution_delete, name="solution-delete"),
+    path('users/profile/solution/<int:pk>/', views.solution_update, name="solution-update"),
     path('users/profile/<int:pk>/add_solution/', views.add_solution_to_idea, name="add-solution"),
+
+    # Помещение идеи в архив
+    path('users/profile/<int:pk>/finish/', views.finish_idea, name="idea-finish"),
     # Изменение идеи
     path('users/profile/<int:pk>/update/', views.update_user_idea, name="idea-change"),
     # Удаление идеи
@@ -26,7 +29,6 @@ urlpatterns = [
 
     # Поиск
     path('search/', views.search_results, name="search"),
-
 
     # auth
     path('users/profile/change/', views.change_user, name="user-change"),

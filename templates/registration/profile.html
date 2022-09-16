@@ -13,11 +13,17 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <div class="profile-head">
+                    <div class="col-sm-2" style="float: right; margin-right: 50px; ">
+                        <a class="btn btn-secondary" style="border-radius: 30px" href="{% url 'user-change' %}">
+                            Изменить профиль
+                        </a>
+                    </div>
                     <h5>
                         {{ user.username }}
                     </h5>
+
                     <h6>
                         Рейтинг: {{ user.rating }}
                     </h6>
@@ -39,14 +45,14 @@
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#solution" role="tab"
                                aria-controls="solution" aria-selected="false">Ответы</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#finish_ideas" role="tab"
+                               aria-controls="solution" aria-selected="false">Завершенное</a>
+                        </li>
                     </ul>
                 </div>
             </div>
-            <div class="col-md-2">
-                <a class="btn btn-secondary" style="border-radius: 30px" href="{% url 'user-change' %}">
-                    Изменить профиль
-                </a>
-            </div>
+
         </div>
         <div class="row">
             <div class="col-md-4">
@@ -98,6 +104,30 @@
                             <div class="col-md-6">
                                 {% if user.email %}
                                     <p>{{ user.email }}</p>
+                                {% else %}
+                                    <p style="color: red">Не указано</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    <div class="row">
+                            <div class="col-md-6">
+                                <label>Имя</label>
+                            </div>
+                            <div class="col-md-6">
+                                {% if user.first_name %}
+                                    <p>{{ user.first_name }}</p>
+                                {% else %}
+                                    <p style="color: red">Не указано</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    <div class="row">
+                            <div class="col-md-6">
+                                <label>Фамилия</label>
+                            </div>
+                            <div class="col-md-6">
+                                {% if user.last_name %}
+                                    <p>{{ user.last_name }}</p>
                                 {% else %}
                                     <p style="color: red">Не указано</p>
                                 {% endif %}
@@ -224,7 +254,7 @@
                                     <p>{{ liked.idea.user.username }}</p>
                                 </div>
                                 <div class="col-md-3">
-                                    <a href="{% url 'add-solution' liked.id %}" class="btn btn-success"
+                                    <a href="{% url 'add-solution' liked.id %}" class="btn btn-primary"
                                        style="color: white; font-weight: 600;">
                                         +
                                     </a>
@@ -232,6 +262,11 @@
                                        style="color: white; font-weight: 600;">
                                         <i class="fa-solid fa-trash"></i>
                                     </a>
+                                    <a href="{% url 'idea-finish' liked.id %}" class="btn btn-success"
+                                       style="color: white; font-weight: 600;">
+                                        <i class="fa-solid fa-flag-checkered"></i>
+                                    </a>
+
                                 </div>
                             </div>
                             <hr>
@@ -289,6 +324,49 @@
                                         <i class="fa-solid fa-pen"></i>
                                     </a>
                                     <a href="{% url 'solution-delete' solution.id %}" class="btn btn-danger"
+                                       style="color: white; font-weight: 600;">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <hr>
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="finish_ideas" role="tabpanel" aria-labelledby="profile-tab">
+                        {% for liked in users_idea_liked_finish %}
+                            <div class="row">
+                                <div id="accordion" role="tablist" aria-multiselectable="true" class="col-md-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingOne">
+                                            <p>
+                                                {% if liked.idea.description != '' %}
+                                                    <a data-toggle="collapse" data-parent="#accordion"
+                                                       href="#like_{{ liked.idea.id }}"
+                                                       aria-expanded="true" aria-controls="collapseOne">
+                                                        {{ liked.idea.name }}
+                                                    </a>
+                                                {% else %}
+                                                    {{ liked.idea.name }}
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                        <div id="like_{{ liked.idea.id }}" class="panel-collapse collapse in"
+                                             role="tabpanel"
+                                             aria-labelledby="headingOne">
+                                            {{ liked.idea.description | safe }}
+                                            <hr>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>{{ liked.idea.user.username }}</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="{% url 'add-solution' liked.id %}" class="btn btn-primary"
+                                       style="color: white; font-weight: 600;">
+                                        +
+                                    </a>
+                                    <a href="{% url 'idea-dislike' liked.id %}" class="btn btn-danger"
                                        style="color: white; font-weight: 600;">
                                         <i class="fa-solid fa-trash"></i>
                                     </a>
