@@ -92,8 +92,8 @@ def about_page(request):
 
 
 # Странциа с банкой
-def get_idea_title(request):
-    """Вывод страницы идей"""
+def get_idea_random_title(request):
+    """Вывод страницы банки"""
     idea_list = Idea.objects.all()
     idea_tag_list = IdeaTags.objects.all()
     context = {
@@ -101,6 +101,21 @@ def get_idea_title(request):
         "idea_tag_list": idea_tag_list
     }
     return render(request, "ideas/get_idea_random.html", context)
+
+
+def get_idea_list_title(request):
+    """Вывод страницы списка"""
+    if request.user.is_authenticated:
+        idea_list = Idea.objects.exclude(user=request.user).order_by('date')
+    else:
+        idea_list = Idea.objects.all().order_by('date')
+    idea_tag_list = IdeaTags.objects.all()
+    context = {
+        "idea_list": idea_list,
+        "idea_tag_list": idea_tag_list
+
+    }
+    return render(request,"ideas/get_idea_list.html", context)
 
 
 # Получение значений на странице с банкой
@@ -301,16 +316,6 @@ def finish_idea(request, pk):
     finish_idea.checked_idea = True
     finish_idea.save()
     return redirect('user-profile')
-
-
-# Вывод списка ответов
-def solution_list(request):
-    user = request.user
-    solution_list = Solution.objects.filter(user=user).order_by("-date")
-    context = {
-        "solution_list": solution_list,
-    }
-    return render(request, "solutions/solution_list.html", context)
 
 
 # Изменение ответа к идее

@@ -5,12 +5,16 @@ from banka_idea import views
 from banka_idea.views import Register
 
 urlpatterns = [
+    # Список
+    path('idea_list/', views.get_idea_list_title, name="get-idea-list"),
+
+
     # Банка
     path('get_idea/<int:pk>/dislike_idea/', views.dislike_idea, name="idea-dislike"),
     path('get_idea/<int:pk>/like_idea/', views.like_idea, name="idea-like"),
     path('get_idea/filter_random/<int:pk>/', views.delete_idea_random, name="delete-idea-random"),
     path('get_idea/filter_random/', views.filter_idea_random, name="get-idea-filter-random"),
-    path('get_idea/', views.get_idea_title, name="get-idea-title"),
+    path('get_idea/', views.get_idea_random_title, name="get-idea-title"),
 
     path('create_idea/', views.create_idea, name="create-idea"),
     path('about_page/', views.about_page, name="about-page"),

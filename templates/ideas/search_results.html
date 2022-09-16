@@ -1,16 +1,18 @@
 {% extends 'layouts/base.html' %}
 {% block main %}
-    <h3>Результаты по запросу: "{{ query }}"</h3>
-    {% for obj in object_list %}
-        Идея: {{ obj.name }} | Автор: {{ obj.user }} <br>
-        {% if obj in users_ideas %}
-            <label for="" style="color: red; font-weight: bold">Данная идея уже находится в вашем списке</label> <br>
-
-        {% else %}
-            <a href="{% url 'idea-like' pk=obj.id %}" class="btn btn-primary">Сохранить идею</a> <br>
-        {% endif %}
-        Описание: <br>
-        {{ obj.description | safe }}
-        <hr>
-    {% endfor %}
+    <div style="margin-top: 100px">
+        <h3>Результаты по запросу: "{{ query }}"</h3>
+        {% for obj in object_list %}
+            Идея: {{ obj.name }} | Автор: {{ obj.user }} <br>
+            {% if obj in users_ideas %}
+                <label for="" style="color: red; font-weight: bold">Данная идея уже находится в вашем списке</label>
+                <br>
+            {% else %}
+                <a href="{% url 'idea-like' pk=obj.id %}" class="btn btn-primary">Сохранить идею</a> <br>
+            {% endif %}
+            Описание: <br>
+            {{ obj.description | safe }}
+            <hr>
+            </div>
+        {% endfor %}
 {% endblock %}
