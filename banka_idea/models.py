@@ -7,7 +7,7 @@ from django.db import models
 class User(AbstractUser):
     avatar = models.ImageField("Аватар", upload_to=f'user/avatar', blank=True, null=True)
     rating = models.PositiveIntegerField("Рейтинг пользователя", default=0)
-    first_login = models.DateTimeField(auto_now=True, blank=True)
+    first_login = models.DateTimeField(auto_now=True, blank=True, null=True)
 
 
 class IdeaTags(models.Model):
@@ -37,22 +37,6 @@ class Idea(models.Model):
         verbose_name_plural = 'Идеи'
 
 
-class Solution(models.Model):
-    text = models.CharField("Текст ответа", max_length=100)
-    image = models.ImageField("Изображение", upload_to='solutions', blank=True, )
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, verbose_name="Пользователь")
-    idea = models.ForeignKey(Idea, on_delete=models.CASCADE, blank=True, )
-    url_to_upload = models.URLField("Ссылка", blank=True, )
-    date = models.DateTimeField("Дата", auto_now=True, blank=True)
-
-    def __str__(self):
-        return f'{self.text} | {self.user.username}'
-
-    class Meta:
-        verbose_name = "Решение"
-        verbose_name_plural = 'Решения'
-
-
 class UserIdeaLike(models.Model):
     Choices = ({
         "done": "Выполнено",
@@ -69,3 +53,20 @@ class UserIdeaLike(models.Model):
     class Meta:
         verbose_name = "Лайк"
         verbose_name_plural = 'Лайки'
+
+
+class Solution(models.Model):
+    text = models.CharField("Текст ответа", max_length=100)
+    image = models.ImageField("Изображение", upload_to='solutions', blank=True, )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, verbose_name="Пользователь")
+    idea = models.ForeignKey(Idea, on_delete=models.CASCADE, blank=True, )
+    url_to_upload = models.URLField("Ссылка", blank=True, )
+    description = RichTextUploadingField("Описание", blank=True, null=True)
+    date = models.DateTimeField("Дата", auto_now=True, blank=True)
+
+    def __str__(self):
+        return f'{self.text} | {self.user.username}'
+
+    class Meta:
+        verbose_name = "Решение"
+        verbose_name_plural = 'Решения'

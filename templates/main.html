@@ -5,11 +5,7 @@
 
     <div class="container">
         <div class="row" style="margin-top: 100px">
-            {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}">Выход</a>
-            {% else %}
-                <a href="{% url 'login' %}">Вход</a> | <a href="{% url 'register' %}"> Регистрация</a>
-            {% endif %}
+
 
             <div class="d-flex justify-content-center h-100">
                 <div class="user_card" style="z-index: 11;">
@@ -27,4 +23,7 @@
         </div>
     </div>
 
+<footer class="fixed-bottom" style="height: 80px; background-color: black; color: white;">
+    <label for=""></label>Привет, букт
+</footer>
 {% endblock %}

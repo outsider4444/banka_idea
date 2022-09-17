@@ -329,10 +329,13 @@ def delete_user_idea(request, pk):
 def add_solution_to_idea(request, pk):
     idea_to_solution = UserIdeaLike.objects.get(id=pk)
     form = SolutionForm(instance=idea_to_solution)
+    idea_finish = UserIdeaLike.objects.get(idea__id=idea_to_solution.idea.id)
     if request.method == "POST":
         form = SolutionForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            idea_finish.checked_idea = True
+            idea_finish.save()
             return redirect('user-profile')
         else:
             print(form.errors)
@@ -341,13 +344,6 @@ def add_solution_to_idea(request, pk):
         "form": form
     }
     return render(request, "solutions/add_solution.html", context)
-
-
-def finish_idea(request, pk):
-    finish_idea = UserIdeaLike.objects.get(id=pk)
-    finish_idea.checked_idea = True
-    finish_idea.save()
-    return redirect('user-profile')
 
 
 # Изменение ответа к идее

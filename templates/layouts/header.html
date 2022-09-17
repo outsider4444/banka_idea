@@ -1,7 +1,8 @@
+{% load static %}
 <header>
     <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light text-our-style">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'main' %}" style="font-size: 24pt">
+            <a class="navbar-brand" href="{% url 'main' %}" style="font-size: 24pt; font-weight: bold">
                 Банка идей
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -10,32 +11,42 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse " id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="font-size: 18pt">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="font-size: 24pt;">
                     <li class="nav-item">
                         <a class="nav-link active"
                            href="{% url 'user-profile' %}">{{ user.username }}</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item ml-2">
                         <a class="nav-link active" href="/admin">Админка</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item ml-2">
                         <a class="nav-link active" href="{% url 'get-idea-title' %}">Банка</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item ml-2">
                         <a class="nav-link active" href="{% url 'get-idea-list' %}">Список</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item ml-2">
                         <a class="nav-link active" href="{% url 'about-page' %}">Справка</a>
                     </li>
+                    <form method="get" action="{% url 'search' %}" class="d-flex ml-2">
+                        <div class="input-group ">
+                            <input class="form-control mr-sm-2  mt-2" type="search" name="search"
+                                   placeholder="Введите..."
+                                   aria-label="Search" style="font-size: 18pt; width: 500px; height: 50px;">
+                            <button class="btn btn-outline-success mt-2" type="submit"
+                                    style="font-size: 18pt; height: 50px;">Поиск
+                            </button>
+                        </div>
+                    </form>
                 </ul>
-            </div>
-            <form method="get" action="{% url 'search' %}" class="d-flex">
-                <div class="input-group ">
-                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Введите..."
-                           aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Поиск</button>
+                <div style="font-size: 24pt">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'logout' %}">Выход</a>
+                    {% else %}
+                        <a href="{% url 'login' %}">Вход</a> | <a href="{% url 'register' %}"> Регистрация</a>
+                    {% endif %}
                 </div>
-            </form>
+            </div>
         </div>
     </nav>
 </header>

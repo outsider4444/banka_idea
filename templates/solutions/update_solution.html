@@ -3,7 +3,7 @@
     Изменить ответ
 {% endblock %}
 {% block main %}
-    <div class="d-flex justify-content-center h-100">
+    <div class="d-flex justify-content-center h-100" style="margin-top: 100px">
         <div class="user_card" style="z-index: 11;">
             <div class="d-flex justify-content-center">
                 <div class="d-flex justify-content-center">
@@ -12,7 +12,9 @@
                 <div class="d-flex justify-content-center form_container">
                     <form action="{% url 'solution-update' pk=solution.id %}" enctype="multipart/form-data" method="post">
                         {% csrf_token %}
-                        {{ form }}
+                        {{ form.text }} <br>
+                        {{ form.image }} <br>
+                        {{ form.url_to_upload }} <br>
                         <input type="submit" value="Подтвердить" class="btn btn-primary">
                     </form>
                 </div>

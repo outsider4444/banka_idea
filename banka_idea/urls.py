@@ -25,8 +25,6 @@ urlpatterns = [
     path('users/profile/solution/<int:pk>/', views.solution_update, name="solution-update"),
     path('users/profile/<int:pk>/add_solution/', views.add_solution_to_idea, name="add-solution"),
 
-    # Помещение идеи в архив
-    path('users/profile/<int:pk>/finish/', views.finish_idea, name="idea-finish"),
     # Изменение идеи
     path('users/profile/<int:pk>/update/', views.update_user_idea, name="idea-change"),
     # Удаление идеи
