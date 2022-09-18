@@ -3,11 +3,16 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
+class UserTags(models.Model):
+    name = models.CharField(max_length=50)
+
+
 # Модели для базы данных
 class User(AbstractUser):
     avatar = models.ImageField("Аватар", upload_to=f'user/avatar', blank=True, null=True)
     rating = models.PositiveIntegerField("Рейтинг пользователя", default=0)
     first_login = models.DateTimeField(auto_now=True, blank=True, null=True)
+    tags = models.ManyToManyField(UserTags)
 
 
 class IdeaTags(models.Model):
@@ -58,9 +63,9 @@ class UserIdeaLike(models.Model):
 class Solution(models.Model):
     text = models.CharField("Текст ответа", max_length=100)
     image = models.ImageField("Изображение", upload_to='solutions', blank=True, )
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, verbose_name="Пользователь")
-    idea = models.ForeignKey(Idea, on_delete=models.CASCADE, blank=True, )
-    url_to_upload = models.URLField("Ссылка", blank=True, )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
+    idea = models.ForeignKey(Idea, on_delete=models.CASCADE)
+    url_to_upload = models.URLField("Ссылка", blank=True, null=True)
     description = RichTextUploadingField("Описание", blank=True, null=True)
     date = models.DateTimeField("Дата", auto_now=True, blank=True)
 
@@ -70,3 +75,6 @@ class Solution(models.Model):
     class Meta:
         verbose_name = "Решение"
         verbose_name_plural = 'Решения'
+
+
+

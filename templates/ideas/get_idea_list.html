@@ -35,11 +35,11 @@
                                 <h5 class="card-title">{{ idea.name }}</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">{{ idea.user }}</h6>
                                 {% for tag in idea.tags.all %}
-                                    <button class="btn btn-primary btn-sm ">{{ tag.name }}</button>
+                                    <a href="{% url 'tags-search' pk=tag.id %}" class="btn btn-primary btn-sm ">{{ tag.name }}</a>
+{#                                    <button class="btn btn-primary btn-sm ">{{ tag.name }}</button>#}
                                 {% endfor %}
-
                                 <p class="card-text">{{ idea.description|safe }}</p>
-                                <a href="#" class="btn btn-success">Принять идею</a>
+                                <a href="{% url 'idea-like' pk=idea.id %}" class="btn btn-success">Принять идею</a>
                                 {#                                <a href="#" class="card-link">Другая ссылка</a>#}
                             </div>
                         </div>

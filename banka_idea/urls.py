@@ -6,6 +6,7 @@ from banka_idea.views import Register
 
 urlpatterns = [
     # Список
+    path('idea_list/<int:pk>/tags/', views.tags_search, name="tags-search"),
     path('idea_list/', views.get_idea_list_title, name="get-idea-list"),
     path('idea_list/filter/', views.get_list_idea_filter, name="get-idea-list-filter"),
 
@@ -23,7 +24,7 @@ urlpatterns = [
     # Ответы к идеям
     path('users/profile/solution/<int:pk>/delete/', views.solution_delete, name="solution-delete"),
     path('users/profile/solution/<int:pk>/', views.solution_update, name="solution-update"),
-    path('users/profile/<int:pk>/add_solution/', views.add_solution_to_idea, name="add-solution"),
+    path('users/profile/<int:pk>/add_solution/', views.add_solution_to_idea, name="solution-add"),
 
     # Изменение идеи
     path('users/profile/<int:pk>/update/', views.update_user_idea, name="idea-change"),

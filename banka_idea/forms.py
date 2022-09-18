@@ -35,6 +35,7 @@ class UpdateUserForm(forms.ModelForm):
 class IdeaForm(forms.ModelForm):
     name = forms.CharField(max_length=100, required=True,
                                widget=forms.TextInput(attrs={'class': 'form-control'}))
+
     class Meta:
         model = Idea
         fields = "__all__"
@@ -43,8 +44,9 @@ class IdeaForm(forms.ModelForm):
 class SolutionForm(forms.ModelForm):
     text = forms.CharField(max_length=100, required=True,
                                widget=forms.TextInput(attrs={'class': 'form-control'}))
-    url_to_upload = forms.CharField(max_length=100,
+    url_to_upload = forms.CharField(max_length=100, required=False,
                                widget=forms.TextInput(attrs={'class': 'form-control'}))
+
     class Meta:
         model = Solution
         fields = "__all__"

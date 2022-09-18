@@ -2,6 +2,9 @@
 <header>
     <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light text-our-style">
         <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'base/Logo.png' %}" width="100" height="60" alt="">
+            </a>
             <a class="navbar-brand" href="{% url 'main' %}" style="font-size: 24pt; font-weight: bold">
                 Банка идей
             </a>
@@ -23,7 +26,22 @@
                         <a class="nav-link active" href="{% url 'get-idea-title' %}">Банка</a>
                     </li>
                     <li class="nav-item ml-2">
-                        <a class="nav-link active" href="{% url 'get-idea-list' %}">Список</a>
+                        <a class="nav-link active" href="{% url 'get-idea-list' %}">Список идей</a>
+                    </li>
+
+                    <li class="nav-item dropdown" >
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false" style="color: black">
+                            Команды
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'my-comands' %}">Мои команды</a></li>
+                            <li><a class="dropdown-item" href="#">Список команд</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Создать команду</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item ml-2">
                         <a class="nav-link active" href="{% url 'about-page' %}">Справка</a>

@@ -1,0 +1,20 @@
+{% extends 'layouts/base.html' %}
+{% block main %}
+    <div style="margin-top: 100px">
+    <h1>Список ваших команд</h1>
+        {% for comand in comands_list %}
+            Команда:{{ comand.comand.name }} <br>
+            Состав команды: <br>
+            {% for coop in cooperators %}
+                {% if coop.comand.name == comand.comand.name %}
+                    * {{ coop.user.username }}
+                    {% if comand.comand.capitan.username == coop.user.username %}
+                        (Капитан)
+                    {% endif %}
+                    <br>
+                {% endif %}
+            {% endfor %}
+            <hr>
+        {% endfor %}
+    </div>
+{% endblock %}

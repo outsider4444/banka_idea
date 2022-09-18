@@ -7,9 +7,11 @@
             <div class="col-md-4">
                 <div class="profile-img">
                     {% if user.avatar %}
-                        <img class="base-avatar" src="{{ user.avatar.url }}" alt="" style="width: 200px; height: 200px"><br>
+                        <img class="base-avatar" src="{{ user.avatar.url }}" alt="" style="width: 200px; height: 200px">
+                        <br>
                     {% else %}
-                        <img class="base-avatar" src="{% static 'base/base_avatar.png' %}" alt="" style="width: 200px; height: 200px"><br>
+                        <img class="base-avatar" src="{% static 'base/base_avatar.png' %}" alt=""
+                             style="width: 200px; height: 200px"><br>
                     {% endif %}
                 </div>
             </div>
@@ -41,10 +43,10 @@
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#liked" role="tab"
                                aria-controls="liked" aria-selected="false">Избранное</a>
                         </li>
-{#                        <li class="nav-item">#}
-{#                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#solution" role="tab"#}
-{#                               aria-controls="solution" aria-selected="false">Комментарии</a>#}
-{#                        </li>#}
+                        {#                        <li class="nav-item">#}
+                        {#                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#solution" role="tab"#}
+                        {#                               aria-controls="solution" aria-selected="false">Комментарии</a>#}
+                        {#                        </li>#}
                         <li class="nav-item">
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#finish_ideas" role="tab"
                                aria-controls="solution" aria-selected="false">Завершенное</a>
@@ -109,7 +111,7 @@
                                 {% endif %}
                             </div>
                         </div>
-                    <div class="row">
+                        <div class="row">
                             <div class="col-md-6">
                                 <label>Имя</label>
                             </div>
@@ -121,7 +123,7 @@
                                 {% endif %}
                             </div>
                         </div>
-                    <div class="row">
+                        <div class="row">
                             <div class="col-md-6">
                                 <label>Фамилия</label>
                             </div>
@@ -147,14 +149,13 @@
                             <div class="row">
                                 <div class="col-md-10">
                                     <label>
-                                        {% if idea.description != '' %}
-                                            <a data-toggle="collapse" data-parent="#accordion"
-                                               href="#{{ idea.id }}"
-                                               aria-expanded="true" aria-controls="collapseOne">
-                                                {{ idea.name }}
-                                            </a>
-                                        {% else %}
+                                        <a data-toggle="collapse" data-parent="#accordion"
+                                           href="#{{ idea.id }}"
+                                           aria-expanded="true" aria-controls="collapseOne">
                                             {{ idea.name }}
+                                        </a>
+                                        {% if idea.description != '' %}
+                                            {{ idea.description }}
                                         {% endif %}
                                     </label>
                                     <div id="{{ idea.id }}" class="panel-collapse collapse in"
@@ -164,9 +165,10 @@
                                             <button class="btn btn-primary btn-sm mt-2">{{ tag.name }}</button>
                                         {% endfor %}
                                         {{ idea.description | safe }}
+                                        <hr>
                                         {% for solution in solution_list %}
                                             {% if idea.id == solution.idea.id %}
-                                                <hr>Ответ от пользователя {{ solution.user }}: <br>
+                                                <hr>Решение от пользователя {{ solution.user }}: <br>
                                                 {{ solution.text }}
                                                 <br>
                                                 {{ solution.description|safe }}
@@ -259,7 +261,7 @@
                                        style="color: white; font-weight: 600;">
                                         <i class="fa-solid fa-trash"></i>
                                     </a>
-                                    <a href="{% url 'add-solution' liked.id %}" class="btn btn-success"
+                                    <a href="{% url 'solution-add' liked.id %}" class="btn btn-success"
                                        style="color: white; font-weight: 600;">
                                         <i class="fa-solid fa-flag-checkered"></i>
                                     </a>
@@ -269,66 +271,66 @@
                             <hr>
                         {% endfor %}
                     </div>
-{#                    <div class="tab-pane fade" id="solution" role="tabpanel" aria-labelledby="profile-tab">#}
-{#                        {% for solution in users_solution %}#}
-{#                            <div class="row">#}
-{#                                <div class="col-md-8">#}
-{#                                    <a data-toggle="collapse" data-parent="#accordion"#}
-{#                                       href="#solution_{{ solution.id }}"#}
-{#                                       aria-expanded="true" aria-controls="collapseOne">#}
-{#                                        {{ solution.idea.name }}#}
-{#                                    </a>#}
-{#                                    <div id="solution_{{ solution.id }}" class="panel-collapse collapse in"#}
-{#                                         role="tabpanel"#}
-{#                                         aria-labelledby="headingOne">#}
-{#                                        {{ solution.text }} <br>#}
-{#                                        {% if solution.image %}#}
-{#                                            Прикрепленное изображение:#}
-{#                                            <button class="btn btn-medium" type="button" data-toggle="modal"#}
-{#                                                    data-target="#my_solution_{{ solution.id }}"><img#}
-{#                                                    src="{{ solution.image.url }}" width="100px" height="100px" alt="">#}
-{#                                            </button>#}
-{#                                            <br>#}
-{#                                            <!--Модальное окно-->#}
-{#                                            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"#}
-{#                                                 aria-labelledby="myLargeModalLabel" aria-hidden="true"#}
-{#                                                 id="my_solution_{{ solution.id }}">#}
-{#                                                <div class="modal-dialog modal-lg" role="document">#}
-{#                                                    <div class="modal-content">#}
-{#                                                        <div class="modal-header">#}
-{#                                                            <button type="button" class="close" data-dismiss="modal"#}
-{#                                                                    aria-label="Close">#}
-{#                                                                <span aria-hidden="true">&times;</span>#}
-{#                                                            </button>#}
-{#                                                        </div>#}
-{#                                                        <div class="modal-body">#}
-{#                                                            <img src="{{ solution.image.url }}"#}
-{#                                                                 class="img_achiv" alt="" width="100%" height="100%">#}
-{#                                                            <br>#}
-{#                                                        </div>#}
-{#                                                    </div>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                            <!--/Модальное окно-->#}
-{#                                        {% endif %}#}
-{#                                        Прикрепленная ссылка: <a#}
-{#                                            href="{{ solution.url_to_upload }}">{{ solution.url_to_upload }}</a>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                                <div class="col-md-2">#}
-{#                                    <a href="{% url 'solution-update' pk=solution.id %}" class="btn btn-success"#}
-{#                                       style="color: white; font-weight: 600;">#}
-{#                                        <i class="fa-solid fa-pen"></i>#}
-{#                                    </a>#}
-{#                                    <a href="{% url 'solution-delete' solution.id %}" class="btn btn-danger"#}
-{#                                       style="color: white; font-weight: 600;">#}
-{#                                        <i class="fa-solid fa-trash"></i>#}
-{#                                    </a>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <hr>#}
-{#                        {% endfor %}#}
-{#                    </div>#}
+                    {#                    <div class="tab-pane fade" id="solution" role="tabpanel" aria-labelledby="profile-tab">#}
+                    {#                        {% for solution in users_solution %}#}
+                    {#                            <div class="row">#}
+                    {#                                <div class="col-md-8">#}
+                    {#                                    <a data-toggle="collapse" data-parent="#accordion"#}
+                    {#                                       href="#solution_{{ solution.id }}"#}
+                    {#                                       aria-expanded="true" aria-controls="collapseOne">#}
+                    {#                                        {{ solution.idea.name }}#}
+                    {#                                    </a>#}
+                    {#                                    <div id="solution_{{ solution.id }}" class="panel-collapse collapse in"#}
+                    {#                                         role="tabpanel"#}
+                    {#                                         aria-labelledby="headingOne">#}
+                    {#                                        {{ solution.text }} <br>#}
+                    {#                                        {% if solution.image %}#}
+                    {#                                            Прикрепленное изображение:#}
+                    {#                                            <button class="btn btn-medium" type="button" data-toggle="modal"#}
+                    {#                                                    data-target="#my_solution_{{ solution.id }}"><img#}
+                    {#                                                    src="{{ solution.image.url }}" width="100px" height="100px" alt="">#}
+                    {#                                            </button>#}
+                    {#                                            <br>#}
+                    {#                                            <!--Модальное окно-->#}
+                    {#                                            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"#}
+                    {#                                                 aria-labelledby="myLargeModalLabel" aria-hidden="true"#}
+                    {#                                                 id="my_solution_{{ solution.id }}">#}
+                    {#                                                <div class="modal-dialog modal-lg" role="document">#}
+                    {#                                                    <div class="modal-content">#}
+                    {#                                                        <div class="modal-header">#}
+                    {#                                                            <button type="button" class="close" data-dismiss="modal"#}
+                    {#                                                                    aria-label="Close">#}
+                    {#                                                                <span aria-hidden="true">&times;</span>#}
+                    {#                                                            </button>#}
+                    {#                                                        </div>#}
+                    {#                                                        <div class="modal-body">#}
+                    {#                                                            <img src="{{ solution.image.url }}"#}
+                    {#                                                                 class="img_achiv" alt="" width="100%" height="100%">#}
+                    {#                                                            <br>#}
+                    {#                                                        </div>#}
+                    {#                                                    </div>#}
+                    {#                                                </div>#}
+                    {#                                            </div>#}
+                    {#                                            <!--/Модальное окно-->#}
+                    {#                                        {% endif %}#}
+                    {#                                        Прикрепленная ссылка: <a#}
+                    {#                                            href="{{ solution.url_to_upload }}">{{ solution.url_to_upload }}</a>#}
+                    {#                                    </div>#}
+                    {#                                </div>#}
+                    {#                                <div class="col-md-2">#}
+                    {#                                    <a href="{% url 'solution-update' pk=solution.id %}" class="btn btn-success"#}
+                    {#                                       style="color: white; font-weight: 600;">#}
+                    {#                                        <i class="fa-solid fa-pen"></i>#}
+                    {#                                    </a>#}
+                    {#                                    <a href="{% url 'solution-delete' solution.id %}" class="btn btn-danger"#}
+                    {#                                       style="color: white; font-weight: 600;">#}
+                    {#                                        <i class="fa-solid fa-trash"></i>#}
+                    {#                                    </a>#}
+                    {#                                </div>#}
+                    {#                            </div>#}
+                    {#                            <hr>#}
+                    {#                        {% endfor %}#}
+                    {#                    </div>#}
                     <div class="tab-pane fade" id="finish_ideas" role="tabpanel" aria-labelledby="profile-tab">
                         {% for solution in users_solution %}
                             <div class="row">
@@ -358,16 +360,16 @@
                                 <div class="col-md-3">
                                     <p>{{ solution.idea.user.username }}</p>
                                 </div>
-{#                                <div class="col-md-3">#}
-{#                                    <a href="{% url 'add-solution' liked.id %}" class="btn btn-primary"#}
-{#                                       style="color: white; font-weight: 600;">#}
-{#                                        +#}
-{#                                    </a>#}
-{#                                    <a href="{% url 'idea-dislike' liked.id %}" class="btn btn-danger"#}
-{#                                       style="color: white; font-weight: 600;">#}
-{#                                        <i class="fa-solid fa-trash"></i>#}
-{#                                    </a>#}
-{#                                </div>#}
+                                <div class="col-md-3">
+                                    <a href="{% url 'solution-update' pk=solution.id %}" class="btn btn-success"
+                                       style="color: white; font-weight: 600;">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </a>
+                                    <a href="{% url 'solution-delete' solution.id %}" class="btn btn-danger"
+                                       style="color: white; font-weight: 600;">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                </div>
                             </div>
                             <hr>
                         {% endfor %}

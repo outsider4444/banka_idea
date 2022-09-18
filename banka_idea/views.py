@@ -107,11 +107,17 @@ def get_idea_random_title(request):
 def get_idea_list_title(request):
     """Вывод страницы списка"""
     idea_tag_list = IdeaTags.objects.all().order_by('name')
+    # Получение идей пользователя, которые он отметил
     if request.user.is_authenticated:
-        idea_list = Idea.objects.exclude(user=request.user).order_by('date')
+        idea_list = Idea.objects.exclude(user=request.user)
+        users_checked_idea = UserIdeaLike.objects.filter(user=request.user)  # последний фильтр под вопросом
+        users_idea = UserIdeaLike.objects.filter(user=request.user)
+        for checked_idea in users_checked_idea:
+            idea_list = idea_list.exclude(id=checked_idea.idea.id)
     else:
         idea_list = Idea.objects.all().order_by('date')
-
+    print(users_idea)
+    print(idea_list)
     context = {
         "idea_list": idea_list,
         "idea_tag_list": idea_tag_list
@@ -146,6 +152,7 @@ def get_list_idea_filter(request):
     }
     return render(request, "ideas/get_idea_list.html", context)
 
+
 # Получение значений на странице с банкой
 def filter_idea_random(request):
     """Фильтрация идей и вывод по 1"""
@@ -155,8 +162,7 @@ def filter_idea_random(request):
     cache.delete('new_idea')
 
     # Получение идей пользователя, которые он отметил
-    users_checked_idea = UserIdeaLike.objects.filter(user=request.user).filter(
-        checked_idea=True)  # последний фильтр под вопросом
+    users_checked_idea = UserIdeaLike.objects.filter(user=request.user)  # последний фильтр под вопросом
     idea_tag_list = IdeaTags.objects.all()
     print("Список идей", idea_list)
 
@@ -332,7 +338,9 @@ def add_solution_to_idea(request, pk):
     idea_finish = UserIdeaLike.objects.get(idea__id=idea_to_solution.idea.id)
     if request.method == "POST":
         form = SolutionForm(request.POST, request.FILES)
+        # print(form)
         if form.is_valid():
+            # print(form)
             form.save()
             idea_finish.checked_idea = True
             idea_finish.save()
@@ -355,7 +363,7 @@ def solution_update(request, pk):
         if form.is_valid():
             print(form)
             form.save()
-            return redirect('solution-list')
+            return redirect('user-profile')
         else:
             print(form.errors)
     context = {
@@ -390,5 +398,16 @@ def search_results(request):
         "object_list": object_list,
         "users_ideas": users_ideas,
         "query": query,
+    }
+    return render(request, 'ideas/search_results.html', context)
+
+
+def tags_search(request, pk):
+    query = IdeaTags.objects.get(id=pk)
+    object_list = Idea.objects.filter(tags__in=[query])
+    print("Запрос по тегам", object_list)
+    context = {
+        "query":query,
+        "object_list":object_list,
     }
     return render(request, 'ideas/search_results.html', context)
