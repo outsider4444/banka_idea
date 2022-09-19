@@ -1,25 +1,42 @@
 {% extends 'layouts/base.html' %}
+{% load static %}
 {% block main %}
     <div class="container" style="margin-top: 100px">
         <div class="row">
             <div class="d-flex justify-content-center">
-                <h1 id="form-title">Опишите свою идею</h1>
+                <h1 id="form-title">Редактирование команды</h1>
             </div>
             <div class="d-flex justify-content-center form_container">
                 <form action="" method="post">
                     {% csrf_token %}
                     Название команды{{ form.name }}<br>
-                    Лого команды {{ form.avatar }}<br>
-                    Описание {{ form.description }}<br>
+                    Лого команды <br>{{ form.avatar }}<br>
+                    Описание <br>{{ form.description }}<br>
                     Идея (опционально) {{ form.idea }}<br>
-                    Теги команды {{ form.tags }}<br>
-                    Капитан {{ form.capitan }}
+                    Теги команды (опционально) {{ form.tags }}<br>
+                    Участники: Капитан:
 
                     {% for coop in users_in_team %}
                         <div class="col-md-10">
                             <div class="form-check">
+                            {% if coop.user != updated_team.capitan %}
                                 <input type="checkbox" class="form-check-input" checked="checked"
-                                       name="users_in_team" value="{{ coop.user.id }}"> {{ coop.user.username }}
+                                       id="check_{{ coop.user.id }}"
+                                       name="users_in_team" value="{{ coop.user.id }}"
+                                       onclick="hide_checkbox({{ coop.user.id }})">
+                            {% else %}
+                                <input type="checkbox" class="form-check-input" checked="checked"
+                                       id="check_{{ coop.user.id }}"
+                                       name="users_in_team" value="{{ coop.user.id }}" hidden>
+                            {% endif %}
+                                {{ coop.user.username }}
+                                <input type="radio" class="form-radio-input"
+                                    {% if coop.user == updated_team.capitan %}
+                                       checked="checked"
+                                    {% endif %}
+                                   name="capitan_team" id="capitan_{{ coop.user.id }}"
+                                        value="{{ coop.user.username }}">
+                                <br>
                             </div>
                         </div>
                     {% endfor %}
@@ -28,4 +45,19 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function hide_checkbox(cap_id) {
+
+            if ($('#check_' + cap_id).is(':checked')) {
+                $('#capitan_' + cap_id).show()
+            } else {
+                $('#capitan_' + cap_id).hide()
+            }
+        }
+    </script>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 {% endblock %}

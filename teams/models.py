@@ -16,7 +16,7 @@ class Team(models.Model):
     description = RichTextUploadingField()
     idea = models.ForeignKey(Idea, on_delete=models.PROTECT, blank=True, null=True)
     tags = models.ManyToManyField(TeamTags, blank=True)
-    capitan = models.ForeignKey(User, on_delete=models.PROTECT, to_field='username', blank=True)
+    capitan = models.ForeignKey(User, on_delete=models.PROTECT, to_field='username', blank=True, null=True)
     status = models.BooleanField(default=False, verbose_name="Укомплектована")
 
     def __str__(self):
