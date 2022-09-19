@@ -16,7 +16,7 @@ class Team(models.Model):
     description = RichTextUploadingField()
     idea = models.ForeignKey(Idea, on_delete=models.PROTECT, blank=True, null=True)
     tags = models.ManyToManyField(TeamTags, blank=True)
-    capitan = models.ForeignKey(User, on_delete=models.PROTECT, to_field='username', blank=True, null=True)
+    # capitan = models.ForeignKey(User, on_delete=models.PROTECT, to_field='username', blank=True, null=True)
     status = models.BooleanField(default=False, verbose_name="Укомплектована")
 
     def __str__(self):
@@ -27,6 +27,7 @@ class UsersInTeams(models.Model):
     """Пользователи в командах"""
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
+    capitan = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.user} в команде {self.team}'

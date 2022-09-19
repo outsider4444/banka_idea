@@ -15,27 +15,26 @@
                     Идея (опционально) {{ form.idea }}<br>
                     Теги команды (опционально) {{ form.tags }}<br>
                     Участники: Капитан:
-
                     {% for coop in users_in_team %}
                         <div class="col-md-10">
                             <div class="form-check">
-                            {% if coop.user != updated_team.capitan %}
-                                <input type="checkbox" class="form-check-input" checked="checked"
-                                       id="check_{{ coop.user.id }}"
-                                       name="users_in_team" value="{{ coop.user.id }}"
-                                       onclick="hide_checkbox({{ coop.user.id }})">
-                            {% else %}
-                                <input type="checkbox" class="form-check-input" checked="checked"
-                                       id="check_{{ coop.user.id }}"
-                                       name="users_in_team" value="{{ coop.user.id }}" hidden>
-                            {% endif %}
+                                {% if coop.capitan == False %}
+                                    <input type="checkbox" class="form-check-input" checked="checked"
+                                           id="check_{{ coop.user.id }}"
+                                           name="users_in_team" value="{{ coop.user.id }}"
+                                           onclick="hide_checkbox({{ coop.user.id }})">
+                                {% else %}
+                                    <input type="checkbox" class="form-check-input" checked="checked"
+                                           id="check_{{ coop.user.id }}"
+                                           name="users_in_team" value="{{ coop.user.id }}" hidden>
+                                {% endif %}
                                 {{ coop.user.username }}
                                 <input type="radio" class="form-radio-input"
-                                    {% if coop.user == updated_team.capitan %}
-                                       checked="checked"
-                                    {% endif %}
-                                   name="capitan_team" id="capitan_{{ coop.user.id }}"
-                                        value="{{ coop.user.username }}">
+                                        {% if coop.capitan %}
+                                            checked="checked"
+                                        {% endif %}
+                                       name="capitan_team" id="capitan_{{ coop.user.id }}"
+                                       value="{{ coop.user.username }}">
                                 <br>
                             </div>
                         </div>

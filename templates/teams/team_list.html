@@ -5,10 +5,10 @@
         {% for team in team_list %}
             {{ team.name }}<br>
             Состав команды: <br>
-            {% for coop in users_in_comands %}
-                {% if coop.comand.name == team.name %}
-                    * {{ coop.user.username }}
-                    {% if team.capitan.username == coop.user.username %}
+            {% for teammates in users_not_in_team %}
+                {% if teammates.team.id == team.id %}
+                    * {{ teammates.user.username }}
+                    {% if teammates.capitan %}
                         (Капитан)
                     {% endif %}
                     <br>
@@ -16,7 +16,7 @@
             {% endfor %}
             Описание: <br>
             {{ team.description|safe }}
-            <a href="#" class="btn btn-primary">Присоедениться</a>
+            <a href="{% url 'add-team' pk=team.id %}" class="btn btn-primary">Присоедениться</a>
             <hr>
         {% endfor %}
     </div>
