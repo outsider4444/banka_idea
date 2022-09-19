@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'layouts/base.html' %}
+{% block main %}
+    <div style="margin-top: 100px">
+        {{ team_name.name }}<br>
+        Участники: <br>
+        {% for teammate in users_in_team %}
+            {% if user == teammate.user  %}
+            <a href="{% url 'user-profile' %}">
+            {% else %}
+            <a href="{% url 'teammate-profile' pk=teammate.user.id %}">
+            {% endif %}
+                * {{ teammate.user.username }}
+                {% if teammate.capitan %}
+                    (Капитан)
+                {% endif %}
+            </a>
+            email: {{ teammate.user.email }}
+            <br>
+        {% endfor %}
+    </div>
+{% endblock %}

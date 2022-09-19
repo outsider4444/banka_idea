@@ -14,7 +14,7 @@ from .models import Team, TeamTags, UsersInTeams
 def teams_list(request):
     team_list = Team.objects.filter(status=False)
     users_in_teams = UsersInTeams.objects.filter(user=request.user)
-    users_not_in_my_team = UsersInTeams.objects.exclude(user=request.user)
+    users_not_in_my_team = UsersInTeams.objects.exclude(user=request.user).order_by('-capitan')
 
     for team in team_list:
         for users in users_in_teams:
@@ -28,7 +28,7 @@ def teams_list(request):
 
 
 def my_teams_list(request):
-    cooperators = UsersInTeams.objects.all()
+    cooperators = UsersInTeams.objects.all().order_by('-capitan')
     teams_list = UsersInTeams.objects.filter(user=request.user)
     context = {
         'teams_list': teams_list,
@@ -63,7 +63,13 @@ def create_team(request):
 
 def team_info(request, pk):
     team_name = Team.objects.get(id=pk)
-    return redirect('my-teams')
+    users_in_team = UsersInTeams.objects.filter(team__id=team_name.id)
+
+    context = {
+        "team_name":team_name,
+        "users_in_team":users_in_team,
+    }
+    return render(request, "teams/team_detail.html", context)
 
 
 def team_leave(request, pk):
@@ -74,10 +80,12 @@ def team_leave(request, pk):
     teammates = UsersInTeams.objects.filter(team__name=team_name.name).exclude(user=request.user)
     print(teammates)
     if team_to_leave.capitan:
-
         teammates = teammates.order_by('-user__rating').first()
-        teammates.capitan = True
-        teammates.save()
+        if teammates:
+            teammates.capitan = True
+            teammates.save()
+        else:
+            team_name.delete()
     team_to_leave.delete()
     return redirect('my-teams')
 
@@ -85,7 +93,7 @@ def team_leave(request, pk):
 def team_update(request, pk):
     updated_team = Team.objects.get(id=pk)
     form = TeamCreateForm(instance=updated_team)
-    users_in_team_now = UsersInTeams.objects.filter(team=updated_team)
+    users_in_team_now = UsersInTeams.objects.filter(team=updated_team).order_by('-capitan')
     users_in_team_del = UsersInTeams.objects.filter(team=updated_team)
     if request.method == "POST":
         form = TeamCreateForm(request.POST, instance=updated_team)
@@ -108,7 +116,6 @@ def team_update(request, pk):
             for team in team_users:
                 for user_to_del in users_in_team_now:
                     if user_to_del.user.id == int(team):
-                        # print("ТРУ")
                         users_in_team_del = users_in_team_del.exclude(user_id=int(team))
             if users_in_team_del:
                 users_in_team_del.delete()
@@ -124,6 +131,15 @@ def team_update(request, pk):
         "users_in_team": users_in_team_now
     }
     return render(request, 'teams/team_update.html', context)
+
+
+# Профиль тиммейта
+def user_teammate_profile(request, pk):
+    user = User.objects.get(id=pk)
+    context = {
+        "user": user,
+    }
+    return render(request, "teams/user_teammate_profile.html", context)
 
 
 def team_delete(request):

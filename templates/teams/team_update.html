@@ -11,9 +11,6 @@
                     {% csrf_token %}
                     Название команды{{ form.name }}<br>
                     Лого команды <br>{{ form.avatar }}<br>
-                    Описание <br>{{ form.description }}<br>
-                    Идея (опционально) {{ form.idea }}<br>
-                    Теги команды (опционально) {{ form.tags }}<br>
                     Участники: Капитан:
                     {% for coop in users_in_team %}
                         <div class="col-md-10">
@@ -39,6 +36,10 @@
                             </div>
                         </div>
                     {% endfor %}
+
+                    Описание <br>{{ form.description }}<br>
+                    Идея (опционально) {{ form.idea }}<br>
+                    Теги команды (опционально) {{ form.tags }}<br>
                     <button type="submit" class="btn btn-primary">Готово</button>
                 </form>
             </div>

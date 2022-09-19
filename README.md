@@ -1,16 +1,17 @@
 # Банка идей
-#### Версия 0.3
+#### Версия 0.4а
 
 Обновление данных: 
 * python manage.py makemigrations
 * python manage.py migrate 
+* python manage.py createcachetable
 
 Заполнение БД:
 * python manage.py loaddata fixture.json
 
 Создание администратора
 * python manage.py createsuperuser
-
+* 
 **Запуск:**
 * в pycharm автоматически по нажатию галочки пуск
 * В теминале python manage.py runserver
@@ -35,7 +36,8 @@
 - [x] "Быстрая" смена идей
 - [x] Отметка ответа как решения
 - [ ] Поиск по тегам
-- [ ] Создание команд
+- [x] Создание команд
+- [ ] Расширенные возможности сокомандникам
 - [ ] Логотип
 - [ ] Красявый дизайн
 - [ ] Система жалоб
