@@ -65,17 +65,23 @@ def team_leave(request):
 def team_update(request, pk):
     updated_team = Team.objects.get(id=pk)
     form = TeamCreateForm(instance=updated_team)
-    users_in_team = UsersInTeams.objects.filter(team=updated_team)
-    # users_in_team_ids = UsersInTeams.objects.filter(team=updated_team).values(id)
-    # print(users_in_team_ids)
+    users_in_team_now = UsersInTeams.objects.filter(team=updated_team)
+    users_in_team_del = UsersInTeams.objects.filter(team=updated_team)
     if request.method == "POST":
         team_users = request.POST.getlist('users_in_team')
         print(team_users)
         for team in team_users:
-            users_to_delete = users_in_team.exclude(user_id=int(team))
+            for user_to_del in users_in_team_now:
+                if user_to_del.user.id == int(team):
+                    print("ТРУ")
+                    users_in_team_del = users_in_team_del.exclude(user_id=int(team))
 
-        users_to_delete.delete()
-        print(users_to_delete)
+        if users_in_team_del:
+            users_in_team_del.delete()
+        print(users_in_team_del)
+        return redirect('my-teams')
+        # if users_to_delete:
+        #     users_to_delete.delete()
         # user_names = [x.user.username for x in users_in_team]
         # user_ids = []
         # for x in user_names:
@@ -86,7 +92,7 @@ def team_update(request, pk):
 
     context = {
         "form":form,
-        "users_in_team":users_in_team
+        "users_in_team":users_in_team_now
     }
     return render(request, 'teams/team_update.html', context)
 
