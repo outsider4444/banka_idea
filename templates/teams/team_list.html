@@ -1,0 +1,23 @@
+{% extends 'layouts/base.html' %}
+{% block main %}
+    <div style="margin-top: 100px">
+        <h1>Список доступных команд</h1>
+        {% for team in team_list %}
+            {{ team.name }}<br>
+            Состав команды: <br>
+            {% for coop in users_in_comands %}
+                {% if coop.comand.name == team.name %}
+                    * {{ coop.user.username }}
+                    {% if team.capitan.username == coop.user.username %}
+                        (Капитан)
+                    {% endif %}
+                    <br>
+                {% endif %}
+            {% endfor %}
+            Описание: <br>
+            {{ team.description|safe }}
+            <a href="#" class="btn btn-primary">Присоедениться</a>
+            <hr>
+        {% endfor %}
+    </div>
+{% endblock %}

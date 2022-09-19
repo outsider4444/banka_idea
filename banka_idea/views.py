@@ -302,7 +302,8 @@ def update_user_idea(request, pk):
         tags_names = [x.name for x in idea_tag_list]
         tags_ids = []
         for x in tags_names:
-            tags_ids.append(int(request.POST.get(x))) if request.POST.get(x) else print()
+            if request.POST.get(x):
+                tags_ids.append(int(request.POST.get(x)))
             print(tags_ids)
 
         if form.is_valid():

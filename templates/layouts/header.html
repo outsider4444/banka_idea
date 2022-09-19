@@ -35,12 +35,12 @@
                             Команды
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{% url 'my-comands' %}">Мои команды</a></li>
-                            <li><a class="dropdown-item" href="#">Список команд</a></li>
+                            <li><a class="dropdown-item" href="{% url 'my-teams' %}">Мои команды</a></li>
+                            <li><a class="dropdown-item" href="{% url 'teams-list' %}">Список команд</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Создать команду</a></li>
+                            <li><a class="dropdown-item" href="{% url 'create-team' %}">Создать команду</a></li>
                         </ul>
                     </li>
                     <li class="nav-item ml-2">

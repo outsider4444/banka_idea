@@ -1,0 +1,9 @@
+[{
+    "pk": 1,
+    "model": "achievements.Achievment",
+    "fields": {
+        "image": "/media/achievements/pQPVKuif6OM.jpg.png",
+        "name": "Первый шаг",
+        "description": "Добавить первую запись"
+    }
+}]

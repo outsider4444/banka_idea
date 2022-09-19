@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 from banka_idea.models import User
 
+
 class Achievment(models.Model):
     name = models.CharField("Название", max_length=100)
     image = models.ImageField("Фото", upload_to='achievements')
