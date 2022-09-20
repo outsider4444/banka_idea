@@ -406,9 +406,11 @@ def search_results(request):
 def tags_search(request, pk):
     query = IdeaTags.objects.get(id=pk)
     object_list = Idea.objects.filter(tags__in=[query])
+    users_ideas = Idea.objects.filter(useridealike__user=request.user).filter(tags__in=[query])
     print("Запрос по тегам", object_list)
     context = {
         "query":query,
         "object_list":object_list,
+        "users_ideas": users_ideas,
     }
     return render(request, 'ideas/search_results.html', context)

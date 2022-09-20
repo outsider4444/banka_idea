@@ -7,25 +7,36 @@
                 <h1 id="form-title">Создайте свою команду</h1>
             </div>
             <div class="d-flex justify-content-center form_container">
-                <form action="" method="post">
+                <form action="" enctype="multipart/form-data" method="post">
                     {% csrf_token %}
-                    Название команды{{ form.name }}<br>
-
-                    Лого команды {{ form.avatar }}<br>
-
-                    Описание {{ form.description }}<br>
-
-                    Идея (опционально) {{ form.idea }}<br>
-                    Теги команды {{ form.tags }}<br>
-
+                    Название команды* {{ form.name }}
+                    Лого команды (опционально) {{ form.avatar }}
+                    Описание* <br> {{ form.description }}<br>
+                    Идея (опционально) {{ form.idea }}
+                    Необходимые навыки {{ form.tags }}
                     <div hidden>
                         {{ form.capitan }}
                     </div>
-                    <button type="submit" class="btn btn-primary">Готово</button>
+                    <button type="submit" class="btn btn-primary mt-2">Готово</button>
                 </form>
             </div>
         </div>
     </div>
+
+    <script>
+    id_name = document.getElementById('id_name');
+    id_name.placeholder = 'Введите название команды...';
+
+    id_idea = document.getElementById('id_idea');
+    id_idea.className = 'form-control';
+
+    id_avatar = document.getElementById('id_avatar');
+    id_avatar.className = 'form-control';
+
+    id_tags = document.getElementById('id_tags');
+    id_tags.className = 'form-control';
+
+    </script>
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>

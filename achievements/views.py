@@ -25,9 +25,11 @@ def add_base_achivement(user, name, parametr=1, condition=None):
     achivments_list = UsersAchievments.objects.filter(user=user).filter(achievment__name=name)
     if not achivments_list.filter(achievment__name=achiv.name).exists():
         add_achievments_to_user(user)
-    if achivments_list.filter(status=True).get(achievment__name=achiv.name):
+    check_achiv = achivments_list.get(achievment__name=name)
+    if check_achiv.status == True:
         pass
-    elif achivments_list.filter(status=False).get(achievment__name=achiv.name):
+
+    elif check_achiv.status == False:
         print("в списке заблокированных")
         locked_achiv = achivments_list.filter(status=False).get(achievment__name=achiv.name)
         print(locked_achiv)

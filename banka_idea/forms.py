@@ -22,9 +22,9 @@ class UpdateUserForm(forms.ModelForm):
                                widget=forms.TextInput(attrs={'class': 'form-control'}))
     email = forms.EmailField(required=True,
                              widget=forms.TextInput(attrs={'class': 'form-control'}))
-    first_name = forms.CharField(max_length=100,
+    first_name = forms.CharField(max_length=100,required=False,
                                  widget=forms.TextInput(attrs={'class': 'form-control'}))
-    last_name = forms.CharField(max_length=100,
+    last_name = forms.CharField(max_length=100,required=False,
                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:

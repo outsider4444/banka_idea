@@ -1,18 +1,32 @@
 {% extends 'layouts/base.html' %}
 {% block main %}
     <div style="margin-top: 100px">
-        <h3>Результаты по запросу: "{{ query }}"</h3>
-        {% for obj in object_list %}
-            Идея: {{ obj.name }} | Автор: {{ obj.user }} <br>
-            {% if obj in users_ideas %}
-                <label for="" style="color: red; font-weight: bold">Данная идея уже находится в вашем списке</label>
-                <br>
-            {% else %}
-                <a href="{% url 'idea-like' pk=obj.id %}" class="btn btn-primary">Сохранить идею</a> <br>
-            {% endif %}
-            Описание: <br>
-            {{ obj.description | safe }}
-            <hr>
+        <div class="container">
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <h1 id="form-title">Результаты по запросу: "{{ query }}"</h1>
+                </div>
             </div>
-        {% endfor %}
+            <div class="row justify-content-center">
+                {% for obj in object_list %}
+                    {% if obj not in users_ideas %}
+                        <div class="col-sm-10 mt-2">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ obj.name }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">{{ obj.user }}</h6>
+                                    {% for tag in obj.tags.all %}
+                                        <a href="{% url 'tags-search' pk=tag.id %}"
+                                           class="btn btn-primary btn-sm ">{{ tag.name }}</a>
+                                    {% endfor %}
+                                    <p class="card-text">{{ obj.description|safe }}</p>
+                                    <a href="{% url 'idea-like' pk=obj.id %}" class="btn btn-success">Принять идею</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

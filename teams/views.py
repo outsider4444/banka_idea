@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 
 from banka_idea.admin import User
 from .forms import TeamCreateForm
-from .models import Team, TeamTags, UsersInTeams
+from .models import Team, UsersInTeams
 
 
 # Create your views here.
@@ -29,9 +29,9 @@ def teams_list(request):
 
 def my_teams_list(request):
     cooperators = UsersInTeams.objects.all().order_by('-capitan')
-    teams_list = UsersInTeams.objects.filter(user=request.user)
+    team_list = UsersInTeams.objects.filter(user=request.user)
     context = {
-        'teams_list': teams_list,
+        'team_list': team_list,
         'cooperators': cooperators,
     }
     return render(request, "teams/my_teams.html", context)
@@ -66,8 +66,8 @@ def team_info(request, pk):
     users_in_team = UsersInTeams.objects.filter(team__id=team_name.id)
 
     context = {
-        "team_name":team_name,
-        "users_in_team":users_in_team,
+        "team_name": team_name,
+        "users_in_team": users_in_team,
     }
     return render(request, "teams/team_detail.html", context)
 

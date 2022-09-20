@@ -4,6 +4,7 @@
     "pk": 1,
     "fields": {
       "username": "John",
+      "first_name": "John",
       "last_name": "Lennon",
       "email": "foroji9714@nicoimg.com",
       "password": "qwerty"
@@ -14,8 +15,10 @@
     "pk": 2,
     "fields": {
       "username": "Sergey",
+      "first_name": "Сергей",
       "last_name": "Розинович",
-      "email": "egor_volkova@yahoo.com"
+      "email": "egor_volkova@yahoo.com",
+      "password": "qAh-pPp-k97-GjL"
     }
   },
   {
@@ -23,8 +26,10 @@
     "pk": 3,
     "fields": {
       "username": "Luda",
+      "first_name": "Люда",
       "last_name": "Петрушева",
-      "email": "luka.vasilev49@hotmail.com"
+      "email": "luka.vasilev49@hotmail.com",
+      "password": "qAh-pPp-k97-GjL"
     }
   },
   {
@@ -32,13 +37,81 @@
     "pk": 4,
     "fields": {
       "username": "Matve66",
+      "first_name": "Матевей",
       "last_name": "Архипов",
-      "email": "matvei.arkhipova@yandex.ru"
+      "email": "matvei.arkhipova@yandex.ru",
+      "password": "qwerty"
+    }
+  },
+  {
+    "model": "banka_idea.User",
+    "pk": 5,
+    "fields": {
+      "username": "Gavriil",
+      "first_name": "Гавриил",
+      "last_name": "Маюров",
+      "email": "gavriil.mayurov@rambler.ru",
+      "password": "48033287d"
+    }
+  },
+  {
+    "model": "banka_idea.User",
+    "pk": 6,
+    "fields": {
+      "username": "Valeriya22",
+      "first_name": "Валерия",
+      "last_name": "Яндукина",
+      "email": "valeriya50@yandex.ru",
+      "password": "2b2f25060"
+    }
+  },
+  {
+    "model": "banka_idea.User",
+    "pk": 7,
+    "fields": {
+      "username": "Ac1a",
+      "first_name": "Ася",
+      "last_name": "Яковец",
+      "email": "asya.yakovec@mail.ru",
+      "password": "e07b3d23c"
+    }
+  },
+  {
+    "model": "banka_idea.User",
+    "pk": 8,
+    "fields": {
+      "username": "Rufinatt",
+      "first_name": "Руфина",
+      "last_name": "Шепелева",
+      "email": "ruferina@mail.ru",
+      "password": "e07b3d23c"
+    }
+  },
+  {
+    "model": "banka_idea.User",
+    "pk": 9,
+    "fields": {
+      "username": "ida081",
+      "first_name": "Ида",
+      "last_name": "Баринова",
+      "email": "ida.barinova@mail.ru",
+      "password": "99a1141f3"
+    }
+  },
+  {
+    "model": "banka_idea.User",
+    "pk": 10,
+    "fields": {
+      "username": "adel44",
+      "first_name": "Адель",
+      "last_name": "Карандашова",
+      "email": "adel44@hotmail.com",
+      "password": "677fdb6ac"
     }
   },
   {
     "model": "banka_idea.IdeaTags",
-    "pk": 5,
+    "pk": 1,
     "fields": {
       "name": "IT"
     }
@@ -78,7 +151,6 @@
       "name": "Хобби"
     }
   },
-
   {
     "model": "banka_idea.IdeaTags",
     "pk": 7,
@@ -107,7 +179,6 @@
       "name": "Дом и сад"
     }
   },
-
   {
     "model": "banka_idea.Idea",
     "pk": 1,
@@ -161,6 +232,196 @@
       "date": "2022-07-21",
       "user": "3",
       "tags": "7"
+    }
+  },
+  {
+    "model": "banka_idea.UserTags",
+    "pk": 1,
+    "fields": {
+      "name": "Python"
+    }
+  },
+  {
+    "model": "banka_idea.UserTags",
+    "pk": 2,
+    "fields": {
+      "name": "C#"
+    }
+  },
+  {
+    "model": "banka_idea.UserTags",
+    "pk": 3,
+    "fields": {
+      "name": "PHP"
+    }
+  },
+  {
+    "model": "banka_idea.UserTags",
+    "pk": 4,
+    "fields": {
+      "name": "Макет"
+    }
+  },
+  {
+    "model": "banka_idea.UserTags",
+    "pk": 5,
+    "fields": {
+      "name": "MVC"
+    }
+  },
+  {
+    "model": "banka_idea.UserTags",
+    "pk": 6,
+    "fields": {
+      "name": "Delphi"
+    }
+  },
+  {
+    "model": "banka_idea.UserTags",
+    "pk": 7,
+    "fields": {
+      "name": "HTML"
+    }
+  },
+  {
+    "model": "banka_idea.UserTags",
+    "pk": 8,
+    "fields": {
+      "name": "CSS"
+    }
+  },
+  {
+    "model": "banka_idea.UserTags",
+    "pk": 9,
+    "fields": {
+      "name": "Java"
+    }
+  },
+  {
+    "model": "banka_idea.UserTags",
+    "pk": 10,
+    "fields": {
+      "name": "Музыка"
+    }
+  },
+  {
+    "model": "teams.Team",
+    "pk": 1,
+    "fields": {
+      "name": "Drafters 2.0 reborn",
+      "description": "Мы команда драфтеры, хотим создать хардкорную модификацию для The elder scroll's 5: Skyrim",
+      "idea": "3",
+      "tags": "7"
+    }
+  },
+  {
+    "model": "teams.Team",
+    "pk": 2,
+    "fields": {
+      "name": "Воинствующие эстеты",
+      "description": "Решили расширить идею и запилить свою группу, параллельно обучаясь игре на инструментах.",
+      "idea": "4",
+      "tags": "7"
+    }
+  },
+  {
+    "model": "teams.Team",
+    "pk": 3,
+    "fields": {
+      "name": "Ловчие желаний",
+      "description": "Нет друзей, но хотим собрать группу увлеченных друзей, для прохождения пешего маршрута в Карелии. Заинтересованным обращаться в личку: https://vk.com/id255416152",
+      "idea": "2",
+      "tags": "7"
+    }
+  },
+  {
+    "model": "teams.UsersInTeams",
+    "pk": 1,
+    "fields": {
+      "team": "1",
+      "user": "1",
+      "capitan": "False"
+    }
+  },
+  {
+    "model": "teams.UsersInTeams",
+    "pk": 2,
+    "fields": {
+      "team": "1",
+      "user": "2",
+      "capitan": "False"
+    }
+  },
+  {
+    "model": "teams.UsersInTeams",
+    "pk": 3,
+    "fields": {
+      "team": "1",
+      "user": "3",
+      "capitan": "False"
+    }
+  },
+  {
+    "model": "teams.UsersInTeams",
+    "pk": 4,
+    "fields": {
+      "team": "2",
+      "user": "4",
+      "capitan": "True"
+    }
+  },
+  {
+    "model": "teams.UsersInTeams",
+    "pk": 5,
+    "fields": {
+      "team": "2",
+      "user": "5",
+      "capitan": "False"
+    }
+  },
+  {
+    "model": "teams.UsersInTeams",
+    "pk": 6,
+    "fields": {
+      "team": "2",
+      "user": "6",
+      "capitan": "False"
+    }
+  },
+  {
+    "model": "teams.UsersInTeams",
+    "pk": 7,
+    "fields": {
+      "team": "2",
+      "user": "7",
+      "capitan": "False"
+    }
+  },
+  {
+    "model": "teams.UsersInTeams",
+    "pk": 8,
+    "fields": {
+      "team": "3",
+      "user": "8",
+      "capitan": "True"
+    }
+  },
+  {
+    "model": "teams.UsersInTeams",
+    "pk": 9,
+    "fields": {
+      "team": "3",
+      "user": "9",
+      "capitan": "False"
+    }
+  },
+  {
+    "model": "teams.UsersInTeams",
+    "pk": 10,
+    "fields": {
+      "team": "3",
+      "user": "10",
+      "capitan": "False"
     }
   }
 ]

@@ -24,7 +24,11 @@
                     <h6>
                         Рейтинг: {{ user.rating }}
                     </h6>
-                    <p class="proile-rating">Идей : <span>{{ list_user_idea|length }}</span></p>
+                    <p class="proile-rating">
+                        {% for skill in user.tags.all %}
+                            <span class="ml-2">{{ skill.name }}</span>
+                        {% endfor %}
+                    </p>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"

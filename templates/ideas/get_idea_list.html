@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 {% block main %}
     <div style="margin-top: 100px">
-        <aside style="float: right; width: 250px; margin-top: 10px">
+        <aside style="float: right; width: 250px;">
             <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button"
                aria-expanded="false" aria-controls="collapseExample">
                 Показать/Скрыть теги <i class="fa-solid fa-angle-down"></i>
@@ -36,7 +36,6 @@
                                 <h6 class="card-subtitle mb-2 text-muted">{{ idea.user }}</h6>
                                 {% for tag in idea.tags.all %}
                                     <a href="{% url 'tags-search' pk=tag.id %}" class="btn btn-primary btn-sm ">{{ tag.name }}</a>
-{#                                    <button class="btn btn-primary btn-sm ">{{ tag.name }}</button>#}
                                 {% endfor %}
                                 <p class="card-text">{{ idea.description|safe }}</p>
                                 <a href="{% url 'idea-like' pk=idea.id %}" class="btn btn-success">Принять идею</a>

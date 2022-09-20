@@ -15,13 +15,9 @@
             </button>
             <div class="collapse navbar-collapse " id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="font-size: 24pt;">
-                    <li class="nav-item">
-                        <a class="nav-link active"
-                           href="{% url 'user-profile' %}">{{ user.username }}</a>
-                    </li>
-                    <li class="nav-item ml-2">
-                        <a class="nav-link active" href="/admin">Админка</a>
-                    </li>
+{#                    <li class="nav-item ml-2">#}
+{#                        <a class="nav-link active" href="/admin">Админка</a>#}
+{#                    </li>#}
                     <li class="nav-item ml-2">
                         <a class="nav-link active" href="{% url 'get-idea-title' %}">Банка</a>
                     </li>
@@ -43,13 +39,17 @@
                             <li><a class="dropdown-item" href="{% url 'create-team' %}">Создать команду</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item ml-2">
-                        <a class="nav-link active" href="{% url 'about-page' %}">Справка</a>
+                    <li class="nav-item">
+                        <a class="nav-link active"
+                           href="{% url 'user-profile' %}">Профиль</a>
                     </li>
-                    <form method="get" action="{% url 'search' %}" class="d-flex ml-2">
-                        <div class="input-group ">
+{#                    <li class="nav-item ml-2">#}
+{#                        <a class="nav-link active" href="{% url 'about-page' %}">Справка</a>#}
+{#                    </li>#}
+                    <form method="get" action="{% url 'search' %}" class="d-flex ml-2" >
+                        <div class="input-group " style="margin-left: 250px">
                             <input class="form-control mr-sm-2  mt-2" type="search" name="search"
-                                   placeholder="Введите..."
+                                   placeholder="Введите..." required
                                    aria-label="Search" style="font-size: 18pt; width: 500px; height: 50px;">
                             <button class="btn btn-outline-success mt-2" type="submit"
                                     style="font-size: 18pt; height: 50px;">Поиск
