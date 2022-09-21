@@ -46,7 +46,7 @@ def add_to_team(request, pk):
 def create_team(request):
     form = TeamCreateForm()
     if request.method == "POST":
-        form = TeamCreateForm(request.POST)
+        form = TeamCreateForm(request.POST, request.FILES)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.save()
@@ -63,7 +63,7 @@ def create_team(request):
 
 def team_info(request, pk):
     team_name = Team.objects.get(id=pk)
-    users_in_team = UsersInTeams.objects.filter(team__id=team_name.id)
+    users_in_team = UsersInTeams.objects.filter(team__id=team_name.id).order_by('-capitan')
 
     context = {
         "team_name": team_name,
@@ -96,7 +96,7 @@ def team_update(request, pk):
     users_in_team_now = UsersInTeams.objects.filter(team=updated_team).order_by('-capitan')
     users_in_team_del = UsersInTeams.objects.filter(team=updated_team)
     if request.method == "POST":
-        form = TeamCreateForm(request.POST, instance=updated_team)
+        form = TeamCreateForm(request.POST, request.FILES, instance=updated_team)
         if form.is_valid():
             obj = form.save(commit=False)
 

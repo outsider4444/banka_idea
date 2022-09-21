@@ -10,13 +10,13 @@
                 <form method="POST" action="">
                     {% csrf_token %}
                 <p>
-                    <a class="btn btn-primary col-md-3" data-bs-toggle="collapse" href="#collapseExample" role="button"
-                       aria-expanded="false" aria-controls="collapseExample">
+                    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button"
+                       aria-expanded="false" aria-controls="collapseExample" style="margin-left: 10px">
                         Показать/Скрыть теги
                     </a>
                 </p>
-                <div class="collapse" id="collapseExample">
-                    <div class="card card-body">
+                <div class="collapse" id="collapseExample" style="border-radius: 25px; margin-left: 10px">
+                    <div class="card card-body" style="border-radius: 25px;">
                         <div class="row">
                             {% for tags in tags_idea %}
                                 <div class="col-md-10">
@@ -40,7 +40,7 @@
                         <br>
                         {{ form.description }}
                     </div>
-                    <input type="submit" class="btn btn-primary col-md-2" value="Готово">
+                    <input type="submit" class="btn btn-primary col-md-2" style="margin-left: 10px" value="Готово">
                 </form>
             </div>
         </div>
