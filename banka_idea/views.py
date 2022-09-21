@@ -50,7 +50,7 @@ def user_profile(request):
     users_idea_liked_finish = UserIdeaLike.objects.filter(user=request.user).filter(checked_idea=True).order_by("date")
     list_user_idea = Idea.objects.filter(user=request.user).order_by("date")
     # Получение решений для идей пользователя
-    solution_list = Solution.objects.filter(idea__user=request.user).order_by("date")
+    solution_list = Solution.objects.filter(idea__user=request.user).order_by("date").order_by("-best_solution")
     users_solution = Solution.objects.filter(user=request.user).order_by("date")
     # Получение достижений пользователя
     user_achievments = get_user_achievments_unlocked(request.user)
@@ -409,8 +409,21 @@ def tags_search(request, pk):
     users_ideas = Idea.objects.filter(useridealike__user=request.user).filter(tags__in=[query])
     print("Запрос по тегам", object_list)
     context = {
-        "query":query,
-        "object_list":object_list,
+        "query": query,
+        "object_list": object_list,
         "users_ideas": users_ideas,
     }
     return render(request, 'ideas/search_results.html', context)
+
+
+def set_best_solution(request, pk):
+
+    solution = Solution.objects.get(id=pk)
+    ideas_in_solution = Solution.objects.filter(idea__user=request.user).filter(idea=solution.idea)
+    for idea in ideas_in_solution:
+        idea.best_solution = False
+        idea.save()
+    solution.best_solution = True
+    solution.save()
+
+    return redirect("user-profile")

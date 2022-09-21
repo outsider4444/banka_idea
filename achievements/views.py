@@ -40,3 +40,5 @@ def add_base_achivement(user, name, parametr=1, condition=None):
                 locked_achiv.save()
             else:
                 locked_achiv += parametr
+
+

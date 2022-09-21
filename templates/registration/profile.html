@@ -42,10 +42,12 @@
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#idea" role="tab"
                                aria-controls="idea" aria-selected="false">Мои идеи</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#liked" role="tab"
-                               aria-controls="liked" aria-selected="false">Избранные идеи</a>
-                        </li>
+                        {% if users_idea_liked %}
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#liked" role="tab"
+                                   aria-controls="liked" aria-selected="false">Избранные идеи</a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#finish_ideas" role="tab"
                                aria-controls="solution" aria-selected="false">Завершенные идеи</a>
@@ -144,7 +146,7 @@
                     </div>
                     <div class="tab-pane fade" id="idea" role="tabpanel" aria-labelledby="profile-tab">
                         {% for idea in list_user_idea %}
-                            <div class="row" style="border: 1px solid gray; border-radius: 25px; vertical-align: middle;">
+                            <div class="row">
                                 <div class="col-md-10">
                                     <label>
                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -162,49 +164,54 @@
                                         {{ idea.description | safe }}
                                         <hr>
                                         {% for solution in solution_list %}
-                                            {% if idea.id == solution.idea.id %}
-                                                <div style="border: 1px gray; border-radius: 25px">
-                                                    Решение от пользователя {{ solution.user }}: <br>
-                                                    {{ solution.text }}
-                                                    <br>
-                                                    {{ solution.description|safe }}
-                                                    {% if solution.image %}
-                                                        Прикрепленное изображение: <br>
-                                                        <button class="btn btn-medium" type="button" data-toggle="modal"
-                                                                data-target="#my_idea_answer_{{ solution.id }}">
-                                                            <img src="{{ solution.image.url }}" alt="" width="100px"
-                                                                 height="100px">
-                                                        </button> <br>
-                                                        <!--Модальное окно-->
-                                                        <div class="modal fade bd-example-modal-lg" tabindex="-1"
-                                                             role="dialog"
-                                                             aria-labelledby="myLargeModalLabel" aria-hidden="true"
-                                                             id="my_idea_answer_{{ solution.id }}">
-                                                            <div class="modal-dialog modal-lg" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <button type="button" class="close"
-                                                                                data-dismiss="modal"
-                                                                                aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <img src="{{ solution.image.url }}"
-                                                                             class="img_achiv" alt="" width="100%"
-                                                                             height="100%">
-                                                                        <br>
-                                                                    </div>
+                                            {% if idea == solution.idea %}
+                                                Решение от пользователя {{ solution.user }}: <br>
+                                                {% if solution.best_solution %}
+                                                    <span style="color: green; font-weight: bold">Вы отметили этот ответ как лучший</span> <br>
+                                                {% else %}
+                                                    <a href="{% url 'solution-best' pk=solution.id %}"
+                                                       class="btn btn-success"><i class="fa-solid fa-check"
+                                                                                  style="color: white"></i></a> <br>
+                                                {% endif %}
+                                                {{ solution.text }} <br>
+                                                {{ solution.description|safe }}
+                                                {% if solution.image %}
+                                                    Прикрепленное изображение: <br>
+                                                    <button class="btn btn-medium" type="button" data-toggle="modal"
+                                                            data-target="#my_idea_answer_{{ solution.id }}">
+                                                        <img src="{{ solution.image.url }}" alt="" width="100px"
+                                                             height="100px">
+                                                    </button> <br>
+                                                    <!--Модальное окно-->
+                                                    <div class="modal fade bd-example-modal-lg" tabindex="-1"
+                                                         role="dialog"
+                                                         aria-labelledby="myLargeModalLabel" aria-hidden="true"
+                                                         id="my_idea_answer_{{ solution.id }}">
+                                                        <div class="modal-dialog modal-lg" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close"
+                                                                            data-dismiss="modal"
+                                                                            aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <img src="{{ solution.image.url }}"
+                                                                         class="img_achiv" alt="" width="100%"
+                                                                         height="100%">
+                                                                    <br>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <!--/Модальное окно-->
-
-                                                        </div>
-                                                    {% endif %}
+                                                    </div>
+                                                    <!--/Модальное окно-->
+                                                {% endif %}
                                                 {% if solution.url_to_upload != '' %}
                                                     Прикрепленная ссылка: <br>
                                                     <a href="{{ solution.url_to_upload }}">{{ solution.url_to_upload }}</a>
+
+                                            <hr>
                                                 {% endif %}
                                             {% endif %}
                                         {% endfor %}
@@ -226,7 +233,7 @@
                     </div>
                     <div class="tab-pane fade" id="liked" role="tabpanel" aria-labelledby="profile-tab">
                         {% for liked in users_idea_liked %}
-                            <div class="row mt-2" style="border: 1px solid gray; border-radius: 25px; vertical-align: middle;">
+                            <div class="row mt-2">
                                 <div id="accordion" role="tablist" aria-multiselectable="true" class="col-md-6">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="headingOne">

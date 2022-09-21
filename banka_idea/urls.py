@@ -22,6 +22,8 @@ urlpatterns = [
     path('about_page/', views.about_page, name="about-page"),
 
     # Ответы к идеям
+
+    path('users/profile/solution/<int:pk>/best/', views.set_best_solution, name="solution-best"),
     path('users/profile/solution/<int:pk>/delete/', views.solution_delete, name="solution-delete"),
     path('users/profile/solution/<int:pk>/', views.solution_update, name="solution-update"),
     path('users/profile/<int:pk>/add_solution/', views.add_solution_to_idea, name="solution-add"),

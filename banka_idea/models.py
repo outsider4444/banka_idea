@@ -37,6 +37,8 @@ class Idea(models.Model):
                              verbose_name="Пользователь")
     tags = models.ManyToManyField(IdeaTags, related_name="ideas", blank=True, verbose_name="Теги")
 
+
+
     def __str__(self):
         return self.name
 
@@ -71,6 +73,7 @@ class Solution(models.Model):
     url_to_upload = models.URLField("Ссылка", blank=True, null=True)
     description = RichTextUploadingField("Описание", blank=True, null=True)
     date = models.DateTimeField("Дата", auto_now=True, blank=True)
+    best_solution = models.BooleanField("Лучший ответ", default=False)
 
     def __str__(self):
         return f'{self.text} | {self.user.username}'
