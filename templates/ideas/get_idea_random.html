@@ -2,42 +2,58 @@
 {% load static %}
 {% block title %}Получить идею{% endblock title %}
 {% block main %}
-    <a href="{% url 'main' %}" class="btn btn-danger">На главную</a>
-    <div class="d-flex justify-content-center form_container">
-        <form action="{% url 'get-idea-filter-random' %}" method="get">
-            <div class="left-side my-4">
-                <h3 class="sear-head editContent">Теги</h3>
-                <ul class="w3layouts-box-list">
-                    {% for tag in idea_tag_list.all %}
-                        <li class="editContent">
-                            <input type="checkbox" name="{{ tag.name }}" value="{{ tag.name }}">
-                            <span class="span editContent">{{ tag.name }}</span>
-                        </li>
-                    {% endfor %}
-                </ul>
+    <form action="{% url 'get-idea-filter-random' %}" method="get" style=" margin-top:100px">
+        <aside style="float: right; width: 250px;">
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button"
+               aria-expanded="false" aria-controls="collapseExample">
+                Показать/Скрыть теги <i class="fa-solid fa-angle-down"></i>
+            </a>
+            <div class="collapse" id="collapseExample" style="border-radius: 25px; margin-left: -20px; margin-right: 20px">
+                <div class="card card-body" style="border-radius: 25px;">
+                    <div class="row">
+                        {% for tags in idea_tag_list.all %}
+                            <div class="col-md-10">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input mt-1" name="{{ tags.name }}"
+                                           value="{{ tags.id }}">
+                                    {{ tags.name }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-            <button class="btn btn-medium elem" type="submit" style="border: none;">
-                <img src="{% static 'Banka.png' %}" alt=""></button>
-        </form>
-
-    </div>
-    <hr>
-    <form action="{% url 'idea-like' %}" method="post">
-        {% csrf_token %}
-        <input hidden type="text" name="idea_id" value="{{ new_idea.id }}">
-        <label for="" name="idea">{{ new_idea.name }}</label>
-
-        <input class="btn btn-primary" type="submit" value="Принять задачу">
+        </aside>
+        <div class="container" style="width: 100%;">
+            <div class="row">
+                <h4 class="d-flex editContent justify-content-center text-our-style"
+                    style="font-size: 64pt">
+                    Потряси банку
+                </h4>
+                <div class="d-flex justify-content-center form_container">
+                    <button class="btn btn-medium elem" type="submit" style="border: none; ">
+                        <img src="{% static 'base/Banka0.png' %}" height="600px" alt="">
+                    </button>
+                </div>
+            </div>
+        </div>
     </form>
-{#    {% for idea in idea_list %}#}
-{#        {{ idea.name }}<br>#}
-{#        {% for tag in idea.tags.all %}#}
-{#            {{ tag.name }}#}
-{#        {% endfor %}#}
-{#        <br>#}
-{#    {% endfor %}#}
-
+    <div class="d-flex justify-content-center ">
+        <img src="{% static 'base/Table.png' %}" class="table-random" alt="">
+    </div>
     <style>
+        .table-random {
+            z-index: 1;
+            margin-top: -30px;
+            width: 766px;
+            height: 157px;
+            bottom: 0;
+        }
+
+        .elem {
+            z-index: 2;
+        }
+
         .elem:hover {
             animation: 1.2s ease-in-out 0s normal none infinite running trambling-animation;
         }

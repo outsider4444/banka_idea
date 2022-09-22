@@ -1,0 +1,83 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block main %}
+
+    <div class="container" style="margin-top: 100px">
+        <div class="row">
+            <div class="form-group row">
+                <div class="d-flex justify-content-center">
+                    <h1 id="form-title" class="text-our-style-normal">Идея</h1>
+                </div>
+                <label for="inputEmail3" class="col-sm-2 col-form-label text-our-style"
+                       style="font-size: 24pt">Название</label>
+                <div class="col-sm-10">
+                    <input type="text" value="{{ new_idea.name }}" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group " style="float: left;">
+                <label for="inputEmail3" class="col-sm-2 col-form-label text-our-style"
+                       style="font-size: 24pt">Теги</label>
+                {% for tag in new_idea.tags.all %}
+                    <a href="{% url 'tags-search' pk=tag.id %}" class="btn btn-primary btn-sm ml-2">{{ tag.name }}</a>
+                {% endfor %}
+            </div>
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label text-our-style"
+                       style="font-size: 24pt">Описание</label>
+                <div class="d-flex justify-content-center form_container col-sm-10"
+                     style="border-radius: 25px; border: none">
+                    <div class="form-image-white-bg" style="border-radius: 25px; border: none">
+                        <div class="form-control form-image-description"
+                             style=" min-height: 450px; min-width: 900px; border: none">
+                            {% if new_idea.description != '' %}
+                                {{ new_idea.description|safe }}
+                            {% else %}
+                                <label for="" style="color: red">Описание отсутствует</label>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <aside style="float: left; margin-left: 150px; margin-top: -50px " class="form-link-image">
+        <a href="
+            {% if new_idea %}
+                {% url 'delete-idea-random' pk=new_idea.id %}">
+        {% else %}
+            {% url 'main' %}
+        {% endif %}
+
+        <img src="{% static 'base/Bak.png' %}" id="bak" width="120px" height="150px" alt="">
+        </a><br>
+        <label for="#bak" class="text-our-style" style="font-size: 24pt; margin-left: -40px">Отказаться от идеи</label>
+    </aside>
+    <aside style="float: right; margin-right: 150px; margin-top: -50px" class="form-link-image">
+        <a href="{% url 'idea-like' pk=new_idea.id %}">
+            <img src="{% static 'base/Heart.png' %}" width="150px" height="150px" class="form-link-image" alt="">
+        </a><br>
+        <label for="" class="text-our-style" style="font-size: 24pt">Принять идею</label>
+    </aside>
+    <style>
+        .form-image-white-bg {
+            background: white;
+            z-index: 0;
+        }
+
+        .form-image-description {
+            background: url('{% static 'base/DescriptionBG_opacity.png' %}') no-repeat;
+            background-position: center;
+            background-size: 400px 400px;
+            z-index: 1;
+        }
+
+        .form-link-image {
+            transition: 1s; /* Время эффекта */
+        }
+
+        .form-link-image:hover {
+            transform: scale(1.2); /* Увеличиваем масштаб */
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}

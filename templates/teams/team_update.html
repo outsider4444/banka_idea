@@ -1,0 +1,86 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block main %}
+    <div class="container" style="margin-top: 100px">
+        <div class="row">
+            <div class="d-flex justify-content-center">
+                <h1 id="form-title">Редактирование команды</h1>
+            </div>
+
+            <div class="d-flex justify-content-center form_container">
+                <form action="" enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+
+                    Название команды{{ form.name }}
+                    <div class="table-responsive mt-2" style="border-radius: 25px">
+                        <table class="table table-hover table-light" style="border-radius: 25px">
+                            <thead>
+                            <tr>
+                                <th scope="col">Участник</th>
+                                <th scope="col">Капитан</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for coop in users_in_team %}
+                                <tr>
+                                    <td>
+                                        {% if coop.capitan == False %}
+                                            <input type="checkbox" class="form-check-input" checked="checked"
+                                                   id="check_{{ coop.user.id }}"
+                                                   name="users_in_team" value="{{ coop.user.id }}"
+                                                   onclick="hide_checkbox({{ coop.user.id }})"
+                                                   style="margin-left: 10px">
+                                        {% else %}
+                                            <input type="checkbox" class="form-check-input" checked="checked"
+                                                   id="check_{{ coop.user.id }}"
+                                                   name="users_in_team" value="{{ coop.user.id }}" hidden>
+                                        {% endif %}
+                                        <span style="margin-left: 30px">{{ coop.user.username }}</span>
+                                    </td>
+                                    <td>
+                                        <input type="radio" class="form-radio-input"
+                                                {% if coop.capitan %}
+                                               checked="checked"
+                                                {% endif %}
+                                               name="capitan_team" id="capitan_{{ coop.user.id }}"
+                                               value="{{ coop.user.username }}">
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    Лого команды {{ form.avatar }}
+                    Описание <br>{{ form.description }}<br>
+                    Идея (опционально) {{ form.idea }}
+                    Теги команды (опционально) {{ form.tags }}
+                    <button type="submit" class="btn btn-primary mt-2">Готово</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        function hide_checkbox(cap_id) {
+            if ($('#check_' + cap_id).is(':checked')) {
+                $('#capitan_' + cap_id).show()
+            } else {
+                $('#capitan_' + cap_id).hide()
+            }
+        }
+
+        id_name = document.getElementById('id_name');
+        id_name.placeholder = 'Введите название команды...';
+
+        id_idea = document.getElementById('id_idea');
+        id_idea.className = 'form-control';
+
+        id_avatar = document.getElementById('id_avatar');
+        id_avatar.className = 'form-control';
+
+        id_tags = document.getElementById('id_tags');
+        id_tags.className = 'form-control';
+    </script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+{% endblock %}

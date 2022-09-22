@@ -1,0 +1,363 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block main %}
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <div class="container emp-profile" style="margin-top: 100px">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    {% if user.avatar %}
+                        <img class="base-avatar" src="{{ user.avatar.url }}" alt="" style="width: 200px; height: 200px">
+                        <br>
+                    {% else %}
+                        <img class="base-avatar" src="{% static 'base/base_avatar.png' %}" alt=""
+                             style="width: 200px; height: 200px"><br>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="profile-head">
+                    <h5>
+                        {{ user.username }}
+                    </h5>
+
+                    <h6>
+                        Рейтинг: {{ user.rating }}
+                    </h6>
+                    <p class="proile-rating">
+                        {% for skill in user.tags.all %}
+                            <span class="ml-2">{{ skill.name }}</span>
+                        {% endfor %}
+                    </p>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                               aria-controls="home" aria-selected="true">Обо мне</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#idea" role="tab"
+                               aria-controls="idea" aria-selected="false">Идеи</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#finish_ideas" role="tab"
+                               aria-controls="solution" aria-selected="false">Завершенные идеи</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-work">
+                    <p>ДОСТИЖЕНИЯ</p>
+                    {% for achievment in user_achievments %}
+                        <a class="text-our-style" href="">{{ achievment.achievment.name }}</a><br/>
+                        <button class="btn btn-medium" type="button" data-toggle="modal"
+                                data-target="#achiv_{{ achievment.id }}">
+                            <img src="{{ achievment.achievment.image.url }}" class="img_achiv" alt="" width="50px"
+                                 height="50px">
+                        </button> <br/>
+                        <!-- Modal -->
+                        <div class="modal fade bd-example-modal-lg" id="achiv_{{ achievment.id }}" tabindex="-1"
+                             role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title"
+                                            id="exampleModalLongTitle">{{ achievment.achievment.name }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <img src="{{ achievment.achievment.image.url }}" class="img_achiv" alt=""> <br>
+                                        <label class="text-our-style"
+                                               for="">{{ achievment.achievment.description }}</label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Закрыть
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Modal -->
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Email</label>
+                            </div>
+                            <div class="col-md-6">
+                                {% if user.email %}
+                                    <p>{{ user.email }}</p>
+                                {% else %}
+                                    <p style="color: red">Не указано</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Имя</label>
+                            </div>
+                            <div class="col-md-6">
+                                {% if user.first_name %}
+                                    <p>{{ user.first_name }}</p>
+                                {% else %}
+                                    <p style="color: red">Не указано</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Фамилия</label>
+                            </div>
+                            <div class="col-md-6">
+                                {% if user.last_name %}
+                                    <p>{{ user.last_name }}</p>
+                                {% else %}
+                                    <p style="color: red">Не указано</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Дата регистрации</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{ user.first_login }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="idea" role="tabpanel" aria-labelledby="profile-tab">
+                        {% for idea in list_user_idea %}
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <label>
+                                        <a data-toggle="collapse" data-parent="#accordion"
+                                           href="#{{ idea.id }}"
+                                           aria-expanded="true" aria-controls="collapseOne">
+                                            {{ idea.name }}
+                                        </a>
+                                        {% if idea.description != '' %}
+                                            {{ idea.description }}
+                                        {% endif %}
+                                    </label>
+                                    <div id="{{ idea.id }}" class="panel-collapse collapse in"
+                                         role="tabpanel"
+                                         aria-labelledby="headingOne">
+                                        {% for tag in idea.tags.all %}
+                                            <button class="btn btn-primary btn-sm mt-2">{{ tag.name }}</button>
+                                        {% endfor %}
+                                        {{ idea.description | safe }}
+                                        <hr>
+                                        {% for solution in solution_list %}
+                                            {% if idea.id == solution.idea.id %}
+                                                <hr>Решение от пользователя {{ solution.user }}: <br>
+                                                {{ solution.text }}
+                                                <br>
+                                                {{ solution.description|safe }}
+                                                {% if solution.image %}
+                                                    Прикрепленное изображение: <br>
+                                                    <button class="btn btn-medium" type="button" data-toggle="modal"
+                                                            data-target="#my_idea_answer_{{ solution.id }}">
+                                                        <img src="{{ solution.image.url }}" alt="" width="100px"
+                                                             height="100px">
+                                                    </button> <br>
+                                                    <!--Модальное окно-->
+                                                    <div class="modal fade bd-example-modal-lg" tabindex="-1"
+                                                         role="dialog"
+                                                         aria-labelledby="myLargeModalLabel" aria-hidden="true"
+                                                         id="my_idea_answer_{{ solution.id }}">
+                                                        <div class="modal-dialog modal-lg" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close"
+                                                                            data-dismiss="modal"
+                                                                            aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <img src="{{ solution.image.url }}"
+                                                                         class="img_achiv" alt="" width="100%"
+                                                                         height="100%">
+                                                                    <br>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--/Модальное окно-->
+                                                {% endif %}
+                                                {% if solution.url_to_upload != '' %}
+                                                    Прикрепленная ссылка: <br>
+                                                    <a href="{{ solution.url_to_upload }}">{{ solution.url_to_upload }}</a>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="{% url 'idea-change' pk=idea.id %}" class="btn btn-success"
+                                       style="color: white; font-weight: 600;">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </a>
+                                    <a href="{% url 'idea-delete' pk=idea.id %}"
+                                       class="btn btn-danger profile-tab-buttons"
+                                       style="color: white; font-weight: 600;">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <hr>
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="finish_ideas" role="tabpanel" aria-labelledby="profile-tab">
+                        {% for solution in users_solution %}
+                            <div class="row">
+                                <div id="accordion" role="tablist" aria-multiselectable="true" class="col-md-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingOne">
+                                            <p>
+                                                {% if solution.idea.name != '' %}
+                                                    <a data-toggle="collapse" data-parent="#accordion"
+                                                       href="#like_{{ solution.id }}"
+                                                       aria-expanded="true" aria-controls="collapseOne">
+                                                        {{ solution.idea.name }}
+                                                    </a>
+                                                {% else %}
+                                                    {{ solution.idea.name }}
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                        <div id="like_{{ solution.id }}" class="panel-collapse collapse in"
+                                             role="tabpanel"
+                                             aria-labelledby="headingOne">
+                                            {{ solution.description | safe }}
+                                            <hr>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>{{ solution.idea.user.username }}</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="{% url 'solution-update' pk=solution.id %}" class="btn btn-success"
+                                       style="color: white; font-weight: 600;">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </a>
+                                    <a href="{% url 'solution-delete' solution.id %}" class="btn btn-danger"
+                                       style="color: white; font-weight: 600;">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <hr>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        nav {
+            background-image: url("{% static 'base/NavBG.png' %}");
+        }
+
+        .emp-profile {
+            padding: 3%;
+            margin-top: 3%;
+            margin-bottom: 3%;
+            border-radius: 0.5rem;
+            background: #fff;
+        }
+
+        .profile-img {
+            text-align: center;
+        }
+
+        .profile-img img {
+            width: 70%;
+            height: 100%;
+        }
+
+        .profile-head h5 {
+            color: #333;
+        }
+
+        .profile-head h6 {
+            color: #0062cc;
+        }
+
+        .proile-rating {
+            font-size: 12px;
+            color: #818182;
+            margin-top: 5%;
+        }
+
+        .proile-rating span {
+            color: #495057;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .profile-head .nav-tabs {
+            margin-bottom: 5%;
+        }
+
+        .profile-head .nav-tabs .nav-link {
+            font-weight: 600;
+            border: none;
+        }
+
+        .profile-head .nav-tabs .nav-link.active {
+            border: none;
+            border-bottom: 2px solid #0062cc;
+        }
+
+        .profile-work {
+            padding: 14%;
+            margin-top: -15%;
+        }
+
+        .profile-work p {
+            font-size: 12px;
+            color: #818182;
+            font-weight: 600;
+            margin-top: 10%;
+        }
+
+        .profile-work a {
+            text-decoration: none;
+            color: #495057;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .profile-work ul {
+            list-style: none;
+        }
+
+        .profile-tab label {
+            font-weight: 600;
+        }
+
+        .profile-tab p {
+            font-weight: 600;
+            color: black;
+        }
+
+        .profile-tab a {
+            color: #0062cc;
+            font-weight: 600;
+        }
+    </style>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{% endblock %}

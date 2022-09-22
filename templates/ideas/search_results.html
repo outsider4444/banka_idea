@@ -1,0 +1,32 @@
+{% extends 'layouts/base.html' %}
+{% block main %}
+    <div style="margin-top: 100px">
+        <div class="container">
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <h1 id="form-title">Результаты по запросу: "{{ query }}"</h1>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                {% for obj in object_list %}
+                    {% if obj not in users_ideas %}
+                        <div class="col-sm-10 mt-2">
+                            <div class="card" style="border-radius: 25px">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ obj.name }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">{{ obj.user }}</h6>
+                                    {% for tag in obj.tags.all %}
+                                        <a href="{% url 'tags-search' pk=tag.id %}"
+                                           class="btn btn-primary btn-sm ">{{ tag.name }}</a>
+                                    {% endfor %}
+                                    <p class="card-text">{{ obj.description|safe }}</p>
+                                    <a href="{% url 'idea-like' pk=obj.id %}" class="btn btn-success">Принять идею</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

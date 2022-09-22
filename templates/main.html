@@ -1,25 +1,54 @@
 {% extends 'layouts/base.html' %}
+{% load static %}
 {% block title %}Главная страница{% endblock title %}
 {% block main %}
 
-    {% if user.is_authenticated %}
-        <a href="{% url 'logout' %}">Выход</a>
-    {% else %}
-        <a href="{% url 'login' %}">Вход</a> | <a href="{% url 'register' %}"> Регистрация</a>
-    {% endif %}
 
-    <div class="d-flex justify-content-center h-100">
-        <div class="user_card" style="z-index: 11;">
-            <div class="d-flex justify-content-center">
-                <h1 id="form-title">Выберите следующее действие:</h1>
-            </div>
-            <div class="d-flex justify-content-center form_container">
-                <form action="">
-                        <a href="{% url 'create-idea' %}" class="btn btn-primary">Поделиться идеей</a>
-                        <a href="{% url 'get-idea-title' %}" class="btn btn-success">Найти свою идею</a>
-                </form>
+    <div class="container">
+        <div class="row" style="margin-top: 100px">
+            <div class="d-flex justify-content-center h-100">
+                <div class="user_card" style="z-index: 11;">
+                    <div class="d-flex justify-content-center">
+                        <h1 id="form-title">Выберите следующее действие:</h1>
+                    </div>
+                    <div class="d-flex justify-content-center form_container">
+                        <form action="">
+                            <a href="{% url 'create-idea' %}" class="btn btn-medium"><img
+                                    src="{% static 'base/для меню.png' %}" alt=""></a>
+                            <a href="{% url 'get-idea-title' %}" class="btn btn-medium"><img
+                                    src="{% static 'base/заглушка2.png' %}"
+                                    style="width: 290px; height: 200px; margin-top: 100px" alt=""></a>
+                        </form>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Модальное окно -->
+        <div  class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="border-radius: 25px">
+            <div class="modal-dialog modal-dialog-scrollable" style="border-radius: 25px">
+                <div class="modal-content" style="border-radius: 25px">
+                    <div class="modal-header ">
+                        <h5 class="modal-title text_about_title" id="exampleModalLabel">Политика сайта</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% include 'about.html' %}
+                    <div class="modal-footer" style="border: none">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <footer class="fixed-bottom" style="height: 70px; background-color: rgba(1,1,1,0.3); color: white; text-align: center">
+        <!-- Кнопка-триггер модального окна -->
+        <button type="button" class="btn btn-medium text_about" data-bs-toggle="modal" data-bs-target="#exampleModal" style="color: #00FFFF; font-size: 24pt">
+            Политика сайта
+        </button>
+    </footer>
 
 {% endblock %}

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
-from banka_idea.models import Idea, IdeaTags, UserIdeaLike, Solution
+from banka_idea.models import Idea, IdeaTags, UserIdeaLike, Solution, UserTags
 
 # Настройки для панели администратора
 
@@ -15,6 +15,7 @@ class IdeaInstanceInline(admin.TabularInline):
 
 @admin.register(User)
 class UserAdmin(UserAdmin):
+    readonly_fields = ['first_login']
     fieldsets = (
         (None, {
             'fields': ('avatar','username', 'email', 'password')
@@ -23,7 +24,10 @@ class UserAdmin(UserAdmin):
             'fields': ('first_name', 'last_name',)
         }),
         ('Информация', {
-            'fields': ('rating',)
+            'fields': ('rating', 'first_login')
+        }),
+        ('Теги', {
+            'fields': ('tags',)
         }),
     )
 
@@ -31,6 +35,7 @@ class UserAdmin(UserAdmin):
 admin.site.register(Idea)
 admin.site.register(IdeaTags)
 admin.site.register(Solution)
+admin.site.register(UserTags)
 
 
 @admin.register(UserIdeaLike)
