@@ -63,6 +63,7 @@ def create_team(request):
 
 def team_info(request, pk):
     team_name = Team.objects.get(id=pk)
+    print(team_name.tags)
     users_in_team = UsersInTeams.objects.filter(team__id=team_name.id).order_by('-capitan')
 
     context = {
@@ -97,6 +98,7 @@ def team_update(request, pk):
     users_in_team_del = UsersInTeams.objects.filter(team=updated_team)
     if request.method == "POST":
         form = TeamCreateForm(request.POST, request.FILES, instance=updated_team)
+        team_tags = request.POST.getlist('tags')
         if form.is_valid():
             obj = form.save(commit=False)
 
@@ -105,7 +107,7 @@ def team_update(request, pk):
 
             old_cap = UsersInTeams.objects.filter(team__id=updated_team.id).filter(capitan=True)
             new_cap = UsersInTeams.objects.filter(team__id=updated_team.id).get(user__username=team_capitan)
-            print(old_cap)
+
             for cap in old_cap:
                 if new_cap != cap.user:
                     cap.capitan = False
@@ -120,6 +122,9 @@ def team_update(request, pk):
             if users_in_team_del:
                 users_in_team_del.delete()
 
+            obj.tags.clear()
+
+            obj.tags.set(team_tags)
             obj.save()
             return redirect('my-teams')
         else:

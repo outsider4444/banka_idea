@@ -2,7 +2,7 @@
 {% load static %}
 {% block main %}
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <div class="container emp-profile" style="margin-top: 100px; border-radius: 25px">
+    <div class="container emp-profile" style="margin-top: 200px; border-radius: 25px">
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
@@ -210,7 +210,6 @@
                                                 {% if solution.url_to_upload != '' %}
                                                     Прикрепленная ссылка: <br>
                                                     <a href="{{ solution.url_to_upload }}">{{ solution.url_to_upload }}</a>
-
                                             <hr>
                                                 {% endif %}
                                             {% endif %}
