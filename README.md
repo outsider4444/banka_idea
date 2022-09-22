@@ -8,6 +8,7 @@
 
 Заполнение БД:
 * python manage.py loaddata fixture.json
+* python manage.py loaddata achievments.json
 
 Создание администратора
 * python manage.py createsuperuser
@@ -38,8 +39,6 @@
 - [ ] Поиск по тегам
 - [x] Создание команд
 - [ ] Расширенные возможности сокомандникам
-- [ ] Логотип
-- [ ] Красявый дизайн
 - [ ] Система жалоб
 - [ ] Страница "О нас"
 - [ ] Система новостей
