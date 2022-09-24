@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 {% block main %}
-    <div class="container emp-profile" style="margin-top: 100px; border-radius: 25px">
+    <div class="container emp-profile" style="border-radius: 25px">
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
@@ -22,21 +22,29 @@
                             {% if coop.capitan %}
                                 <div class="col-sm-2" style="float: right; margin-right: 50px">
                                     <a class="btn btn-primary"
-                                       href="{% url 'update-team' pk=team_name.id %}">
+                                       href="{% url 'update-team' slug=team_name.slug %}">
                                         Редактировать
                                     </a>
                                 </div>
                             {% endif %}
                         {% endif %}
                     {% endfor %}
-                    <h2 class="text-our-style-normal">{{ team_name.name }}</h2>
+                    <h2 class="text-our-style-normal">{{ team_name.name }}
+                        {% if not check_new_user %}
+                            <a class="btn btn-success btn-sm ml-2" href="{% url 'add-team' slug=team_name.slug %}">Присоединиться</a>
+                        {% else %}
+                            <a href="{% url 'leave-team' slug=team_name.slug %}" class="btn btn-danger btn-sm mt-2">
+                                Покинуть
+                            </a>
+                        {% endif %}
+                    </h2>
+
                     <p class="proile-rating">
                         {% for skill in team_name.tags.all %}
                             <span class="ml-2">{{ skill.name }}</span>
                         {% endfor %}
                     </p>
                     <h6>Идея: {{ team_name.idea.name }}</h6>
-
                     <label for="" class="text-our-style">Участники:</label>
                     <ul>
                         {% for teammate in users_in_team %}
@@ -46,110 +54,137 @@
                                 {% else %}
                                     <a href="{% url 'teammate-profile' pk=teammate.user.id %}">
                                 {% endif %}
-                                {{ teammate.user.username }}
-                                {% if teammate.capitan %}
-                                    (Капитан)
-                                {% endif %}
+                                {{ teammate.user.username }}{% if teammate.capitan %}(Капитан){% endif %}
                                 </a>
                             </li>
                         {% endfor %}
                     </ul>
-                    <div class="col-sm-2" style="float: right; margin-right: 50px;">
-                        <a href="{% url 'leave-team' pk=team_name.id %}" class="btn btn-danger mt-2">
-                            Покинуть
-                        </a>
-                    </div>
                 </div>
             </div>
-            <div style="border: 1px solid grey; background-color: white; border-radius: 25px" id="chat-messages">
-                {% for message in message_list %}
-                    <div style='background-color: white'>
-                    <span style="font-weight: bold">{{ message.user.username }}</span><span>: {{ message.content }}</span>
-                {% endfor %}
-
-            </div>
-            <div>
-                <form action="." method="post">
-                    <input type="text" name="content" placeholder="Напишите сообщение..." id="chat-message-input">
-                    <button type="submit" class="btn btn-primary" id="chat-message-submit">
-                        Отправить
-                    </button>
-                </form>
+            {% if check_new_user %}
+                <div class="row justify-content-center">
+                <div style="border: 1px solid grey; background-color: white; border-radius: 25px; width: 800px">
+                    <div id="chat-messages">
+                        {% for message in message_list %}
+                            <div style='background-color: white' class="mt-2">
+                                {% if message.user.avatar %}
+                                    <img src="{{ message.user.avatar.url }}" alt="" width="30px" height="30px">
+                                {% else %}
+                                    <img src="{% static 'base/Profile.png' %}" alt="" width="30px" height="30px">
+                                {% endif %}
+                                <span style="font-weight: bold">{{ message.user.username }}</span>
+                                <span>: {{ message.content }}</span>
+                                <span class="mr-2"
+                                      style="float: right; color: gray; font-size: 10pt">{{ message.date_added }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <form action="." method="post" class="d-flex mb-2 mt-4">
+                        <div class="input-group">
+                            <input type="text" name="content" placeholder="Напишите сообщение..."
+                                   id="chat-message-input" class="form-control mr-sm-2" required
+                                   style="border-radius: 25px;">
+                            <button type="submit" class="btn btn-medium" id="chat-message-submit"
+                                    style="background-color: #4723D9; color: white">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
             </div>
         </div>
     </div>
-{{ team_name.slug|json_script:"json-roomname" }}
-{{ request.user.username|json_script:"json-username" }}
+    {{ team_name.slug|json_script:"json-roomname" }}
+    {{ request.user.username|json_script:"json-username" }}
 
-<script>
-    const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
-    const userName = JSON.parse(document.getElementById('json-username').textContent);
-    const chatSocket = new WebSocket(
-        'ws://'
-        + window.location.host
-        + '/chat/'
-        + roomName
-        + '/'
-    );
+    <style>
+        #chat-messages {
+            height: 300px;
+            overflow-y: scroll;
+        }
+    </style>
+    <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
+    <script>
+        const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
+        const userName = JSON.parse(document.getElementById('json-username').textContent);
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/chat/'
+            + roomName
+            + '/'
+        );
 
-    if(chatSocket.CLOSED){
-        console.log("Уже закрыт")
-    }
-    chatSocket.onclose = function(e) {
-        console.log('onclose')
-    }
-
-    chatSocket.onmessage = function(e) {
-        const data = JSON.parse(e.data);
-
-        if (data.message) {
-            document.querySelector('#chat-messages').innerHTML += ('<b>' + data.username + '</b>: ' + data.message + '<br>');
-        } else {
-            alert('The message was empty!')
+        if (chatSocket.CLOSED) {
+            console.log("Уже закрыт")
+        }
+        chatSocket.onclose = function (e) {
+            console.log('onclose')
         }
 
+        chatSocket.onmessage = function (e) {
+            const data = JSON.parse(e.data);
+
+            // Время
+moment.locale('ru')
+            var day = moment().format('LL');
+            var time = moment().format('LT');
+
+            if (data.message) {
+                document.querySelector('#chat-messages').innerHTML += (
+                    '<div style="background-color: white" class="mt-2">' +
+                    '<img src="{{ request.user.avatar.url }}" alt="" width="30px" height="30px">' +
+                    '<span style="font-weight: bold; margin-left:5px">' + data.username + '</span>: ' + '<span>' + data.message + '</span>' +
+                    '<span class="mr-2" style="float: right; color: gray; font-size: 10pt">' + day + ' ' + time + '</span>' + '<br>' + '</div>');
+            } else {
+                alert('The message was empty!')
+            }
+
+            scrollToBottom();
+        };
+
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function (e) {
+            if (e.keyCode === 13) {
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function (e) {
+            e.preventDefault()
+
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value;
+
+            console.log({
+                'message': message,
+                'username': userName,
+                'room': roomName
+            })
+            if (message) {
+                chatSocket.send(JSON.stringify({
+                    'message': message,
+                    'username': userName,
+                    'room': roomName
+                }));
+            }
+
+            messageInputDom.value = '';
+
+            return false
+        };
+
+        /**
+         * A function for finding the messages element, and scroll to the bottom of it.
+         */
+        function scrollToBottom() {
+            let objDiv = document.getElementById("chat-messages");
+            objDiv.scrollTop = objDiv.scrollHeight;
+        }
+
+        // Add this below the function to trigger the scroll on load.
         scrollToBottom();
-    };
-
-    document.querySelector('#chat-message-input').focus();
-    document.querySelector('#chat-message-input').onkeyup = function(e) {
-        if (e.keyCode === 13) {
-            document.querySelector('#chat-message-submit').click();
-        }
-    };
-
-    document.querySelector('#chat-message-submit').onclick = function(e) {
-        e.preventDefault()
-
-        const messageInputDom = document.querySelector('#chat-message-input');
-        const message = messageInputDom.value;
-
-        console.log({
-            'message': message,
-            'username': userName,
-            'room': roomName
-        })
-
-        chatSocket.send(JSON.stringify({
-            'message': message,
-            'username': userName,
-            'room': roomName
-        }));
-
-        messageInputDom.value = '';
-
-        return false
-    };
-
-    /**
-    * A function for finding the messages element, and scroll to the bottom of it.
-    */
-    function scrollToBottom() {
-        let objDiv = document.getElementById("chat-messages");
-        objDiv.scrollTop = objDiv.scrollHeight;
-    }
-
-    // Add this below the function to trigger the scroll on load.
-    scrollToBottom();
     </script>
+
 {% endblock %}

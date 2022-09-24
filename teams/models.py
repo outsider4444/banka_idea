@@ -20,7 +20,7 @@ class Team(models.Model):
     idea = models.ForeignKey(Idea, on_delete=models.PROTECT, blank=True, null=True)
     tags = models.ManyToManyField(UserTags, blank=True)
     status = models.BooleanField(default=False, verbose_name="Укомплектована")
-    slug = models.CharField("Код доступа", max_length=50, blank=True)
+    slug = models.CharField("Код доступа", max_length=50, unique=True)
 
     class Meta:
         verbose_name = "Команда"
