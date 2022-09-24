@@ -43,6 +43,8 @@ INSTALLED_APPS = [
 
     'django_filters',
 
+    'channels',
+
     # Наше приложение
     'banka_idea',
     'achievements',
@@ -80,6 +82,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
+ASGI_APPLICATION = 'config.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default':{
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}
 
 
 # База данных и её настройки

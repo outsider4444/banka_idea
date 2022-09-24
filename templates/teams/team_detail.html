@@ -35,10 +35,7 @@
                             <span class="ml-2">{{ skill.name }}</span>
                         {% endfor %}
                     </p>
-
-                    <h6>
-                        Идея: {{ team_name.idea.name }}
-                    </h6>
+                    <h6>Идея: {{ team_name.idea.name }}</h6>
 
                     <label for="" class="text-our-style">Участники:</label>
                     <ul>
@@ -63,99 +60,96 @@
                         </a>
                     </div>
                 </div>
+            </div>
+            <div style="border: 1px solid grey; background-color: white; border-radius: 25px" id="chat-messages">
+                {% for message in message_list %}
+                    <div style='background-color: white'>
+                    <span style="font-weight: bold">{{ message.user.username }}</span><span>: {{ message.content }}</span>
+                {% endfor %}
 
             </div>
-
+            <div>
+                <form action="." method="post">
+                    <input type="text" name="content" placeholder="Напишите сообщение..." id="chat-message-input">
+                    <button type="submit" class="btn btn-primary" id="chat-message-submit">
+                        Отправить
+                    </button>
+                </form>
+            </div>
         </div>
-
     </div>
-    <style>
-        .emp-profile {
-            padding: 3%;
-            margin-top: 3%;
-            margin-bottom: 3%;
-            border-radius: 0.5rem;
-            background: #fff;
+{{ team_name.slug|json_script:"json-roomname" }}
+{{ request.user.username|json_script:"json-username" }}
+
+<script>
+    const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
+    const userName = JSON.parse(document.getElementById('json-username').textContent);
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/chat/'
+        + roomName
+        + '/'
+    );
+
+    if(chatSocket.CLOSED){
+        console.log("Уже закрыт")
+    }
+    chatSocket.onclose = function(e) {
+        console.log('onclose')
+    }
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+
+        if (data.message) {
+            document.querySelector('#chat-messages').innerHTML += ('<b>' + data.username + '</b>: ' + data.message + '<br>');
+        } else {
+            alert('The message was empty!')
         }
 
-        .profile-img {
-            text-align: center;
-        }
+        scrollToBottom();
+    };
 
-        .profile-img img {
-            width: 70%;
-            height: 100%;
+    document.querySelector('#chat-message-input').focus();
+    document.querySelector('#chat-message-input').onkeyup = function(e) {
+        if (e.keyCode === 13) {
+            document.querySelector('#chat-message-submit').click();
         }
+    };
 
-        .profile-head h5 {
-            color: #333;
-        }
+    document.querySelector('#chat-message-submit').onclick = function(e) {
+        e.preventDefault()
 
-        .profile-head h6 {
-            color: #0062cc;
-        }
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
 
-        .proile-rating {
-            font-size: 12px;
-            color: #818182;
-            margin-top: 5%;
-        }
+        console.log({
+            'message': message,
+            'username': userName,
+            'room': roomName
+        })
 
-        .proile-rating span {
-            color: #495057;
-            font-size: 15px;
-            font-weight: 600;
-        }
+        chatSocket.send(JSON.stringify({
+            'message': message,
+            'username': userName,
+            'room': roomName
+        }));
 
-        .profile-head .nav-tabs {
-            margin-bottom: 5%;
-        }
+        messageInputDom.value = '';
 
-        .profile-head .nav-tabs .nav-link {
-            font-weight: 600;
-            border: none;
-        }
+        return false
+    };
 
-        .profile-head .nav-tabs .nav-link.active {
-            border: none;
-            border-bottom: 2px solid #0062cc;
-        }
+    /**
+    * A function for finding the messages element, and scroll to the bottom of it.
+    */
+    function scrollToBottom() {
+        let objDiv = document.getElementById("chat-messages");
+        objDiv.scrollTop = objDiv.scrollHeight;
+    }
 
-        .profile-work {
-            padding: 14%;
-            margin-top: -15%;
-        }
-
-        .profile-work p {
-            font-size: 12px;
-            color: #818182;
-            font-weight: 600;
-            margin-top: 10%;
-        }
-
-        .profile-work a {
-            text-decoration: none;
-            color: #495057;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .profile-work ul {
-            list-style: none;
-        }
-
-        .profile-tab label {
-            font-weight: 600;
-        }
-
-        .profile-tab p {
-            font-weight: 600;
-            color: black;
-        }
-
-        .profile-tab a {
-            color: #0062cc;
-            font-weight: 600;
-        }
-    </style>
+    // Add this below the function to trigger the scroll on load.
+    scrollToBottom();
+    </script>
 {% endblock %}
