@@ -21,7 +21,7 @@
                         {% if user.username == coop.user.username %}
                             {% if coop.capitan %}
                                 <div class="col-sm-2" style="float: right; margin-right: 50px">
-                                    <a class="btn btn-primary"
+                                    <a class="btn btn-sm search-button-submit"
                                        href="{% url 'update-team' slug=team_name.slug %}">
                                         Редактировать
                                     </a>
@@ -31,9 +31,9 @@
                     {% endfor %}
                     <h2 class="text-our-style-normal">{{ team_name.name }}
                         {% if not check_new_user %}
-                            <a class="btn btn-success btn-sm ml-2" href="{% url 'add-team' slug=team_name.slug %}">Присоединиться</a>
+                            <a class="btn btn-sm ml-2 submit-button" href="{% url 'add-team' slug=team_name.slug %}">Присоединиться</a>
                         {% else %}
-                            <a href="{% url 'leave-team' slug=team_name.slug %}" class="btn btn-danger btn-sm mt-2">
+                            <a href="{% url 'leave-team' slug=team_name.slug %}" class="btn btn-sm ml-2 delete-button" style="font-size: 12pt">
                                 Покинуть
                             </a>
                         {% endif %}
@@ -127,7 +127,7 @@
             const data = JSON.parse(e.data);
 
             // Время
-moment.locale('ru')
+            moment.locale('ru')
             var day = moment().format('LL');
             var time = moment().format('LT');
 

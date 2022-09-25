@@ -1,70 +1,52 @@
 {% load static %}
-<header>
-    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light text-our-style">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="{% static 'base/Logo.png' %}" width="100" height="60" alt="">
+{% block header %}
+<header class="header" id="header" style="z-index: 1">
+    <div class="header_toggle"><i class='bx bx-menu' id="header-toggle"></i></div>
+    <div>
+        <form method="get" action="{% url 'search' %}" class="d-flex">
+            <div class="input-group">
+                <input class="form-control mr-sm-2  mt-2" type="search" name="search"
+                       placeholder="Введите фразу для поиска..." required
+                       aria-label="Search" style="width: 500px; border-radius: 25px">
+                <button class="btn btn-medium mt-2 search-button-submit" type="submit">Поиск</button>
+            </div>
+        </form>
+    </div>
+    <div class="header_img">
+        {% if user.is_authenticated %}
+            <img src="{{ user.avatar.url }}" alt="">
+        {% endif %}
+    </div>
+</header>
+<div class="l-navbar" id="nav-bar" style="z-index: 2">
+    <nav class="nav">
+        <div>
+            <a href="/" class="nav_logo"> <img src="{% static 'base/cookies.png' %}" style="color: #AFA5D9; margin-left: -7px " alt="">
+                <span class="nav_logo-name text-our-style-normal" style="font-size:24pt ">Банка идей</span>
             </a>
-            <a class="navbar-brand" href="{% url 'main' %}" style="font-size: 24pt; font-weight: bold">
-                Банка идей
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse " id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="font-size: 24pt;">
-{#                    <li class="nav-item ml-2">#}
-{#                        <a class="nav-link active" href="/admin">Админка</a>#}
-{#                    </li>#}
-                    <li class="nav-item ml-2">
-                        <a class="nav-link active" href="{% url 'get-idea-title' %}">Банка</a>
-                    </li>
-                    <li class="nav-item ml-2">
-                        <a class="nav-link active" href="{% url 'get-idea-list' %}">Список идей</a>
-                    </li>
-
-                    <li class="nav-item dropdown" >
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false" style="color: black">
-                            Команды
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{% url 'my-teams' %}">Мои команды</a></li>
-                            <li><a class="dropdown-item" href="{% url 'teams-list' %}">Список команд</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="{% url 'create-team' %}">Создать команду</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active"
-                           href="{% url 'user-profile' %}">Профиль</a>
-                    </li>
-{#                    <li class="nav-item ml-2">#}
-{#                        <a class="nav-link active" href="{% url 'about-page' %}">Справка</a>#}
-{#                    </li>#}
-                    <form method="get" action="{% url 'search' %}" class="d-flex ml-2" >
-                        <div class="input-group " style="margin-left: 250px">
-                            <input class="form-control mr-sm-2  mt-2" type="search" name="search"
-                                   placeholder="Введите..." required
-                                   aria-label="Search" style="font-size: 18pt; width: 500px; height: 50px; border-radius: 25px">
-                            <button class="btn btn-outline-success mt-2" type="submit"
-                                    style="font-size: 18pt; height: 50px; border-radius: 25px">Поиск
-                            </button>
-                        </div>
-                    </form>
-                </ul>
-                <div style="font-size: 24pt">
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'logout' %}">Выход</a>
-                    {% else %}
-                        <a href="{% url 'login' %}">Вход</a> | <a href="{% url 'register' %}"> Регистрация</a>
-                    {% endif %}
-                </div>
+            <div class="nav_list">
+                <a href="/" class="nav_link
+                {% if request.path == '/' %}
+                    active-header-button
+                {% endif %}">
+                    <i class='bx bx-grid-alt nav_icon'></i><span class="nav_name">Dashboard</span></a>
+                <a href="{% url 'user-profile' %}" class="nav_link
+                {% if 'users' in request.path %}
+                    active-header-button
+                {% endif %}"><i class='bx bx-user nav_icon'></i>
+                    <span class="nav_name">Профиль</span></a>
+                <a href="{% url 'get-idea-list' %}" class="nav_link"><i class='bx bx-message-square-detail nav_icon'></i><span class="nav_name">Идеи</span></a>
+            {% if 'teams' in request.path %}
+            {% endif %}
+                <a href="{% url 'my-teams' %}" class="nav_link {% if 'teams' in request.path %}active{% endif %}"><i class='bx bx-bookmark nav_icon'></i>
+                    <span class="nav_name">Команды</span> </a>
+                <a href="#" class="nav_link"><i class='bx bx-folder nav_icon'></i> <span
+                        class="nav_name">Files</span></a>
+                <a href="/admin" class="nav_link"><i class='bx bx-bar-chart-alt-2 nav_icon'></i> <span
+                        class="nav_name">Админка</span> </a>
             </div>
         </div>
+        <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">Выход</span> </a>
     </nav>
-</header>
+</div>
+{% endblock %}

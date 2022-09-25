@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% block main %}
-    <div style="margin-top: 100px">
+    <div>
         <div class="container">
             <div class="row">
                 <div class="d-flex justify-content-center">
@@ -16,11 +16,10 @@
                                     <h5 class="card-title">{{ obj.name }}</h5>
                                     <h6 class="card-subtitle mb-2 text-muted">{{ obj.user }}</h6>
                                     {% for tag in obj.tags.all %}
-                                        <a href="{% url 'tags-search' pk=tag.id %}"
-                                           class="btn btn-primary btn-sm ">{{ tag.name }}</a>
+                                        <a href="{% url 'tags-search' pk=tag.id %}" class="btn btn-medium btn-sm search-button-submit">{{ tag.name }}</a>
                                     {% endfor %}
                                     <p class="card-text">{{ obj.description|safe }}</p>
-                                    <a href="{% url 'idea-like' pk=obj.id %}" class="btn btn-success">Принять идею</a>
+                                    <a href="{% url 'idea-like' pk=obj.id %}" class="btn submit-button">Принять идею</a>
                                 </div>
                             </div>
                         </div>

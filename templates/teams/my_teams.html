@@ -35,11 +35,10 @@
                                         {% endif %}
                                     {% endif %}
                                 {% endfor %}
-                                <a href="{% url 'team-detail' slug=team.team.slug %}" class="btn btn-success mt-2">
+                                <a href="{% url 'team-detail' slug=team.team.slug %}" class="btn btn-sm search-button-submit mt-2">
                                     Просмотреть подробную информацию
                                 </a>
-                                <br>
-                                <a href="{% url 'leave-team' slug=team.team.slug %}" class="btn btn-danger mt-2">Покинуть
+                                <a href="{% url 'leave-team' slug=team.team.slug %}" class="btn btn-sm delete-button mt-2" style="float: right">Покинуть
                                     команду</a>
                             </div>
                         </div>

@@ -1,7 +1,9 @@
 from django.db.models import Q, Max
 from django.shortcuts import render, redirect
 
+from achievements.views import get_user_achievments_unlocked
 from banka_idea.admin import User
+from banka_idea.models import UserTags
 from .forms import TeamCreateForm
 from .models import Team, UsersInTeams, Message
 
@@ -153,12 +155,9 @@ def team_update(request, slug):
 
 # Профиль тиммейта
 def user_teammate_profile(request, pk):
-    user = User.objects.get(id=pk)
+    user_teammate = User.objects.get(id=pk)
+    user_achievments = get_user_achievments_unlocked(user_teammate)
     context = {
-        "user": user,
+        "user_teammate": user_teammate,
     }
     return render(request, "teams/user_teammate_profile.html", context)
-
-
-def team_delete(request):
-    pass
