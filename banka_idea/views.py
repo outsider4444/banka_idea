@@ -129,6 +129,7 @@ def get_list_idea_filter(request):
     check = []
     if request.user.is_authenticated:
         idea_list = Idea.objects.exclude(user=request.user).order_by('date')
+        idea_like_list = Idea.objects.exclude(useridealike__user=request.user).order_by('date')
     else:
         idea_list = Idea.objects.all().order_by('date')
 
@@ -143,11 +144,13 @@ def get_list_idea_filter(request):
             )
     if not idea_list:
         return redirect('main')
+    print(idea_like_list)
     context = {
         "idea_list": idea_list,
         "idea_tag_list": idea_tag_list,
+        "idea_like_list": idea_like_list,
     }
-    return render(request, "ideas/get_idea_list.html", context)
+    return render(request, "ideas/get_idea_list_filter.html", context)
 
 
 # Получение значений на странице с банкой
@@ -401,7 +404,6 @@ def tags_search(request, pk):
 
 
 def set_best_solution(request, pk):
-
     solution = Solution.objects.get(id=pk)
     ideas_in_solution = Solution.objects.filter(idea__user=request.user).filter(idea=solution.idea)
     for idea in ideas_in_solution:

@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = 'django-insecure-9fyy8==innodf+_pst=km@s(%&!l%j7n412vpbvd=gnix1216w
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Скачаные приложения, тут указываются всё что необходимо подключить к проекту
 
@@ -50,7 +48,6 @@ INSTALLED_APPS = [
     'achievements',
     'teams',
 ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -85,11 +82,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 ASGI_APPLICATION = 'config.asgi.application'
 
 CHANNEL_LAYERS = {
-    'default':{
+    'default': {
         'BACKEND': 'channels.layers.InMemoryChannelLayer'
     }
 }
-
 
 # База данных и её настройки
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -100,7 +96,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -120,7 +115,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -131,7 +125,6 @@ TIME_ZONE = 'Europe/Samara'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Статичные файлы (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -147,7 +140,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Модель пользователя по умолчанию
 AUTH_USER_MODEL = 'banka_idea.User'
-
 
 # Настройки логина и выхода
 LOGIN_REDIRECT_URL = "/"
@@ -177,20 +169,21 @@ CKEDITOR_CONFIGS = {
             {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
             # {'name': 'editing', 'items': ['Find', 'Replace', '-', 'SelectAll']},
             # {'name': 'forms',
-             # 'items': ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton',
-             #           'HiddenField']},
+            # 'items': ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton',
+            #           'HiddenField']},
             # '/',
             {'name': 'basicstyles',
              'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
             {'name': 'paragraph',
              'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-',
                        'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl',
-                       ]}, #'CreateDiv', 'Language'
+                       ]},  # 'CreateDiv', 'Language'
             '/',
-            {'name': 'links', 'items': ['Link', 'Unlink']}, # 'Anchor'
+            {'name': 'links', 'items': ['Link', 'Unlink']},  # 'Anchor'
             {'name': 'insert',
-             'items': [ 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'Language', '-', 'Blockquote',
-                        'Styles', 'Format', 'Font', 'FontSize', 'TextColor', 'BGColor']}, #, 'Image', 'Iframe', 'PageBreak'
+             'items': ['Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'Language', '-', 'Blockquote',
+                       'Styles', 'Format', 'Font', 'FontSize', 'TextColor', 'BGColor']},
+            # , 'Image', 'Iframe', 'PageBreak'
             {'name': 'about', 'items': ['Maximize']},
             '/',
             # {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
@@ -199,9 +192,9 @@ CKEDITOR_CONFIGS = {
             # {'name': 'about', 'items': ['About']},
             '/',  # put this to force next toolbar on new line
             # {'name': 'yourcustomtools', 'items': [
-                # put the name of your editor.ui.addButton here
-                # 'Preview',
-                # 'Maximize',
+            # put the name of your editor.ui.addButton here
+            # 'Preview',
+            # 'Maximize',
 
             # ]},
         ],
@@ -234,7 +227,8 @@ CKEDITOR_CONFIGS = {
 }
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'my_cache_table',
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        # 'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        # 'LOCATION': 'my_cache_table',
     }
 }

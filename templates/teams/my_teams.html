@@ -24,22 +24,22 @@
                                         {% endif %}
                                     {% endfor %}
                                 </ul>
-                                {% for coop in cooperators %}
-                                    {% if user == coop.user %}
-                                        {% if coop.capitan %}
-                                            {% if coop.team == team.team %}
-                                                <a href="{% url 'update-team' slug=team.team.slug %}"
-                                                   class="btn btn-primary mt-2">Редактировать</a>
-                                                <br>
-                                            {% endif %}
-                                        {% endif %}
-                                    {% endif %}
-                                {% endfor %}
+{#                                {% for coop in cooperators %}#}
+{#                                    {% if user == coop.user %}#}
+{#                                        {% if coop.capitan %}#}
+{#                                            {% if coop.team == team.team %}#}
+{#                                                <a href="{% url 'update-team' slug=team.team.slug %}"#}
+{#                                                   class="btn filter-button-submit mt-2">Редактировать</a>#}
+{#                                                <br>#}
+{#                                            {% endif %}#}
+{#                                        {% endif %}#}
+{#                                    {% endif %}#}
+{#                                {% endfor %}#}
                                 <a href="{% url 'team-detail' slug=team.team.slug %}" class="btn btn-sm search-button-submit mt-2">
-                                    Просмотреть подробную информацию
+                                    Подробнее
                                 </a>
-                                <a href="{% url 'leave-team' slug=team.team.slug %}" class="btn btn-sm delete-button mt-2" style="float: right">Покинуть
-                                    команду</a>
+                                <a href="{% url 'leave-team' slug=team.team.slug %}" class="btn btn-sm delete-button mt-2" style="float: right">
+                                    <i class="fa-solid fa-trash"></i></a>
                             </div>
                         </div>
                     </div>

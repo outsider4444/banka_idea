@@ -1,10 +1,10 @@
 {% extends 'layouts/base.html' %}
 {% block main %}
     <div style="float: left">
-        <a href="{% url 'get-idea-title' %}" class="btn btn-medium search-button-submit btn-sm"><i class="fa-solid fa-cookie-bite"></i> Взять случайную идею</a>
+        <a href="{% url 'get-idea-title' %}" class="btn btn-medium search-button-submit btn-sm">Взять случайную идею</a>
     </div>
     <div style="float: right; width: 300px;">
-        <a class="btn btn-medium btn-sm search-button-submit" href="{% url 'create-idea' %}">
+        <a class="btn btn-medium btn-sm search-button-submit" href="">
             <i class="fa-solid fa-plus"></i> Добавить свою идею
         </a>
         <a class="btn btn-medium btn-sm filter-button-submit mt-2" data-bs-toggle="collapse" href="#collapseExample"
@@ -46,10 +46,14 @@
                                 <a href="{% url 'tags-search' pk=tag.id %}"
                                    class="btn btn-medium btn-sm search-button-submit">{{ tag.name }}</a>
                             {% endfor %}
-                            <p class="card-text">{{ idea.description|safe }}</p>
-                            <a href="{% url 'idea-like' pk=idea.id %}" class="btn btn-medium submit-button">
-                                Принять идею
-                            </a>
+                        {% if idea in idea_like_list %}
+                                    <p class="card-text">{{ idea.description|safe }}</p>
+                                    <a href="{% url 'idea-like' pk=idea.id %}" class="btn btn-medium submit-button">
+                                        Принять идею
+                                    </a>
+                        {% else %}
+                                    <p class="card-text" style="color: red">Вы уже приняли данную идею</p>
+                        {% endif %}
                         </div>
                     </div>
                 </div>

@@ -9,15 +9,19 @@
             <div class="d-flex justify-content-center form_container">
                 <form action="" enctype="multipart/form-data" method="post">
                     {% csrf_token %}
-                    Название команды* {{ form.name }}
+                     <div class="row">
+                    <div class="col">
+                    Название команды {{ form.name }}
+                    </div>
+                    <div class="col">
+                    Закрытая группа {{ form.status }}
+                    </div>
+                </div>
+                    Уникальное имя {{ form.slug }}
                     Лого команды (опционально) {{ form.avatar }}
                     Описание* <br> {{ form.description }}<br>
                     Идея (опционально) {{ form.idea }}
-                    Необходимые навыки {{ form.tags }}
-                    Уникальное имя {{ form.slug }}
-                    <div hidden>
-                        {{ form.capitan }}
-                    </div>
+                    Необходимые навыки (опционально){{ form.tags }}
                     <button type="submit" class="btn btn-primary mt-2">Готово</button>
                 </form>
             </div>

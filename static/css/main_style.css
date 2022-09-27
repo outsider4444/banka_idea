@@ -180,7 +180,7 @@ a {
     color: black;
 }
 
-.profile-tab a {
+.profile-tab .tab-link {
     color: #0062cc;
     font-weight: 600;
 }

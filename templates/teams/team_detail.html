@@ -1,7 +1,23 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 {% block main %}
-    <div class="container emp-profile" style="border-radius: 25px">
+    <aside style="float: right;">
+        <label for="" class="text-our-style">Участники: </label>
+        <ul class="list-group" style="width: 200px;  border-radius: 25px">
+            {% for teammate in users_in_team %}
+                <li class="list-group-item">
+                    {% if user == teammate.user %}
+                        <a href="{% url 'user-profile' %}">
+                    {% else %}
+                        <a href="{% url 'teammate-profile' pk=teammate.user.id %}">
+                    {% endif %}
+                    {{ teammate.user.username }}{% if teammate.capitan %} (Капитан){% endif %}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </aside>
+    <div class="container emp-profile" style="border-radius: 25px; border: 1px solid grey">
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
@@ -33,36 +49,26 @@
                         {% if not check_new_user %}
                             <a class="btn btn-sm ml-2 submit-button" href="{% url 'add-team' slug=team_name.slug %}">Присоединиться</a>
                         {% else %}
-                            <a href="{% url 'leave-team' slug=team_name.slug %}" class="btn btn-sm ml-2 delete-button" style="font-size: 12pt">
+                            <a href="{% url 'leave-team' slug=team_name.slug %}" class="btn btn-sm ml-2 delete-button"
+                               style="font-size: 12pt">
                                 Покинуть
                             </a>
                         {% endif %}
                     </h2>
-
+                    {% if team_name.status %} <span style="font-size: 10pt">Закрытая команда</span>{% endif %}
                     <p class="proile-rating">
                         {% for skill in team_name.tags.all %}
                             <span class="ml-2">{{ skill.name }}</span>
                         {% endfor %}
                     </p>
                     <h6>Идея: {{ team_name.idea.name }}</h6>
-                    <label for="" class="text-our-style">Участники:</label>
-                    <ul>
-                        {% for teammate in users_in_team %}
-                            <li>
-                                {% if user == teammate.user %}
-                                    <a href="{% url 'user-profile' %}">
-                                {% else %}
-                                    <a href="{% url 'teammate-profile' pk=teammate.user.id %}">
-                                {% endif %}
-                                {{ teammate.user.username }}{% if teammate.capitan %}(Капитан){% endif %}
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
+                    <div style="width: 500px">
+                        {{ team_name.description|safe }}
+                    </div>
                 </div>
             </div>
             {% if check_new_user %}
-                <div class="row justify-content-center">
+                <div class="row justify-content-center mt-3">
                 <div style="border: 1px solid grey; background-color: white; border-radius: 25px; width: 800px">
                     <div id="chat-messages">
                         {% for message in message_list %}
@@ -80,12 +86,11 @@
                         {% endfor %}
                     </div>
                     <form action="." method="post" class="d-flex mb-2 mt-4">
-                        <div class="input-group">
-                            <input type="text" name="content" placeholder="Напишите сообщение..."
-                                   id="chat-message-input" class="form-control mr-sm-2" required
-                                   style="border-radius: 25px;">
-                            <button type="submit" class="btn btn-medium" id="chat-message-submit"
-                                    style="background-color: #4723D9; color: white">
+                        <input type="text" name="content" placeholder="Напишите сообщение..."
+                               id="chat-message-input" class="form-control" required
+                               style=" width:750px; height: 40px; border-radius: 25px 0 0 25px; border-right: none;">
+                        <div style="border-radius: 0 25px 25px 0; border-top: 1px #ced4da solid; border-bottom: 1px #ced4da solid;height: 40px;">
+                            <button type="submit" class="btn search-button-submit" id="chat-message-submit">
                                 <i class="fa-solid fa-paper-plane"></i>
                             </button>
                         </div>

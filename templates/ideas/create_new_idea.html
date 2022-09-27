@@ -9,38 +9,39 @@
             <div class="d-flex justify-content-center form_container">
                 <form method="POST" action="">
                     {% csrf_token %}
-                <p>
-                    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button"
-                       aria-expanded="false" aria-controls="collapseExample" style="margin-left: 10px">
-                        Показать/Скрыть теги
-                    </a>
-                </p>
-                <div class="collapse" id="collapseExample" style="border-radius: 25px; margin-left: 10px">
-                    <div class="card card-body" style="border-radius: 25px;">
-                        <div class="row">
-                            {% for tags in tags_idea %}
-                                <div class="col-md-10">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" name="{{ tags.name }}"
-                                               value="{{ tags.id }}">
-                                        {{ tags.name }}
+                    <p>
+                        <a class="btn btn-sm filter-button-submit" data-bs-toggle="collapse" href="#collapseExample"
+                           role="button"
+                           aria-expanded="false" aria-controls="collapseExample" style="margin-left: 10px">
+                            Показать/Скрыть теги
+                        </a>
+                    </p>
+                    <div class="collapse" id="collapseExample" style="border-radius: 25px; margin-left: 10px">
+                        <div class="card card-body" style="border-radius: 25px; width: 500px">
+                            <div class="row">
+                                {% for tags in tags_idea %}
+                                    <div class="col-md-10">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" name="{{ tags.name }}"
+                                                   value="{{ tags.id }}">
+                                            {{ tags.name }}
+                                        </div>
                                     </div>
-                                </div>
-                            {% endfor %}
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
-                </div>
                     <div class="mb-3 col-md-8">
-                        <label for="formGroupExampleInput" class="form-label">Название</label>
-                        <input type="text" name="name" class="form-control" id="formGroupExampleInput"
-                               placeholder="Пример названия">
+                        <label for="formGroupExampleInput" class="form-label">Название*</label>
+                        <input type="text" name="name" class="form-control" id="formGroupExampleInput" style="border-radius: 25px"
+                               placeholder="Введите название...">
                     </div>
                     <div class="mb-3 col-md-8">
-                        <label for="formGroupExampleInput2" class="form-label">Описание (не обязательно)</label>
+                        <label for="formGroupExampleInput2" class="form-label">Описание (опционально)</label>
                         <br>
                         {{ form.description }}
                     </div>
-                    <input type="submit" class="btn btn-primary col-md-2" style="margin-left: 10px" value="Готово">
+                    <input type="submit" class="btn submit-button" style="margin-left: 10px" value="Готово">
                 </form>
             </div>
         </div>
