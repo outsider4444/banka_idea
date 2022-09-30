@@ -1,27 +1,27 @@
 # Банка идей
 #### Версия 0.5a
 
-####Обновление данных: 
+#### Обновление данных: 
 > python manage.py makemigrations
 > 
 > python manage.py migrate 
 
-####Заполнение БД:
+#### Заполнение БД:
 > python manage.py loaddata fixture.json
 > 
 > python manage.py loaddata achievments.json
 
-####Создание администратора:
+#### Создание администратора:
 > python manage.py createsuperuser
 
 ####**Запуск:**
 > в pycharm автоматически по нажатию галочки пуск
 > В теминале python manage.py runserver
 
-####Зайти в админку: 
+#### Зайти в админку: 
 > [название сайта] /admin
 
-###Дорожная карта:
+### Дорожная карта:
 
 - [x] Авторизация
 - [x] Раздел пользователя
