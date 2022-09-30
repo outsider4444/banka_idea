@@ -6,7 +6,8 @@
             <div class="col-md-4">
                 <div class="profile-img">
                     {% if user_teammate.avatar %}
-                        <img class="base-avatar" src="{{ user_teammate.avatar.url }}" alt="" style="width: 200px; height: 200px">
+                        <img class="base-avatar" src="{{ user_teammate.avatar.url }}" alt=""
+                             style="width: 200px; height: 200px">
                         <br>
                     {% else %}
                         <img class="base-avatar" src="{% static 'base/base_avatar.png' %}" alt=""
@@ -16,10 +17,18 @@
             </div>
             <div class="col-md-8">
                 <div class="profile-head">
+
+                    <div class="col-sm-2" style="float: right; margin-right: 50px; ">
+                        <a class="btn btn-sm delete-button" style="border-radius: 25px"
+                           href="{% url 'report-form' pk=user_teammate.id %}" title="Оставить жалобу на пользователя">
+                            <span class="material-symbols-outlined">
+                                warning
+                            </span>
+                        </a>
+                    </div>
                     <h5>
                         {{ user_teammate.username }}
                     </h5>
-
                     <h6>
                         Рейтинг: {{ user_teammate.rating }}
                     </h6>

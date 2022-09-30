@@ -26,6 +26,7 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('', include("banka_idea.urls")),
     path('teams/', include("teams.urls")),
+    path('reports/', include("report.urls")),
 ]
 
 if settings.DEBUG:

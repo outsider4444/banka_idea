@@ -1,11 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
-from django.core import serializers
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.views import View
-from django.views.generic import ListView
 from django.core.cache import cache
 
 from achievements.views import add_base_achivement, add_achievments_to_user, get_user_achievments_unlocked, \
@@ -17,6 +15,9 @@ from banka_idea.models import Idea, IdeaTags, UserIdeaLike, User, Solution
 ### Пользователь
 
 # Регистрация
+from report.decorators import active_user
+
+
 class Register(View):
     template_name = "registration/register.html"
 
@@ -43,6 +44,7 @@ class Register(View):
 
 
 @login_required
+@active_user
 def user_profile(request):
     """Вывод страницы пользователя"""
     users_idea_liked_not_finish = UserIdeaLike.objects.filter(user=request.user).filter(checked_idea=False).order_by(
@@ -66,6 +68,7 @@ def user_profile(request):
 
 
 @login_required
+@active_user
 def change_user(request):
     """Изменение страницы пользователя"""
     user_form = UpdateUserForm(instance=request.user)
@@ -82,6 +85,7 @@ def change_user(request):
 
 
 ### Главное меню
+@active_user
 def main(request):
     context = {}
     return render(request, "main.html", context)
@@ -144,7 +148,6 @@ def get_list_idea_filter(request):
             )
     if not idea_list:
         return redirect('main')
-    print(idea_like_list)
     context = {
         "idea_list": idea_list,
         "idea_tag_list": idea_tag_list,
@@ -209,6 +212,7 @@ def delete_idea_random(request, pk):
     return render(request, "ideas/idea_cookie.html", context)
 
 
+@active_user
 def like_idea(request, pk):
     """Добавление идей в избранное"""
     user = request.user
@@ -219,13 +223,13 @@ def like_idea(request, pk):
     UserIdeaLike.objects.create(idea_id=pk, user=user, checked_idea=False)
     author.rating += 10
     author.save()
-    messages.success(request, 'Идея добавлена в избранное')
     context = {
 
     }
     return render(request, "main.html", context)
 
 
+@active_user
 def dislike_idea(request, pk):
     """Удаление идей из избранного"""
     user = User.objects.get(id=request.user.id)
@@ -243,6 +247,7 @@ def dislike_idea(request, pk):
 
 
 # Создание новой идеи
+@active_user
 def create_idea(request):
     idea_tag_list = IdeaTags.objects.all().order_by('name')
     form = IdeaForm()
@@ -282,6 +287,7 @@ def create_idea(request):
 
 
 # Изменение идеи пользователя
+@active_user
 def update_user_idea(request, pk):
     idea_tag_list = IdeaTags.objects.all().order_by('name')
     idea = Idea.objects.get(id=pk)
@@ -317,6 +323,7 @@ def update_user_idea(request, pk):
 
 # Удаление идеи пользователя
 @login_required
+@active_user
 def delete_user_idea(request, pk):
     idea = Idea.objects.get(id=pk)
     idea.delete()
@@ -324,6 +331,7 @@ def delete_user_idea(request, pk):
 
 
 # Добавление ответа к идее
+@active_user
 def add_solution_to_idea(request, pk):
     idea_to_solution = UserIdeaLike.objects.get(id=pk)
     form = SolutionForm(instance=idea_to_solution)
@@ -345,6 +353,7 @@ def add_solution_to_idea(request, pk):
 
 
 # Изменение ответа к идее
+@active_user
 def solution_update(request, pk):
     solution = Solution.objects.get(id=pk)
     form = SolutionForm(instance=solution)
@@ -363,6 +372,7 @@ def solution_update(request, pk):
 
 
 # Изменение ответа к идее
+@active_user
 def solution_delete(request, pk):
     solution = Solution.objects.get(id=pk)
     # Проверка на пользователя
@@ -372,6 +382,7 @@ def solution_delete(request, pk):
 
 
 # Поиск
+@active_user
 def search_results(request):
     query = request.GET.get('search')
     object_list = Idea.objects.filter(
@@ -391,6 +402,7 @@ def search_results(request):
     return render(request, 'ideas/search_results.html', context)
 
 
+@active_user
 def tags_search(request, pk):
     query = IdeaTags.objects.get(id=pk)
     object_list = Idea.objects.filter(tags__in=[query])
@@ -403,6 +415,7 @@ def tags_search(request, pk):
     return render(request, 'ideas/search_results.html', context)
 
 
+@active_user
 def set_best_solution(request, pk):
     solution = Solution.objects.get(id=pk)
     ideas_in_solution = Solution.objects.filter(idea__user=request.user).filter(idea=solution.idea)

@@ -29,6 +29,9 @@ class UserAdmin(UserAdmin):
         ('Теги', {
             'fields': ('tags',)
         }),
+        ('Активный пользователь', {
+            'fields': ('is_active',)
+        }),
     )
 
 
