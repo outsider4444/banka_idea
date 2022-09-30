@@ -14,7 +14,7 @@
 #### Создание администратора:
 > python manage.py createsuperuser
 
-####**Запуск:**
+#### **Запуск:**
 > в pycharm автоматически по нажатию галочки пуск
 > В теминале python manage.py runserver
 
