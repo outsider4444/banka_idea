@@ -34,12 +34,15 @@
                         {{ form.idea }}
                         {{ form.user }}
                     </div>
-                    <input type="submit" value="Подтвердить" class="btn btn-primary">
+                    <input type="submit" value="Подтвердить" class="btn mt-2 submit-button">
                 </form>
             </div>
         </div>
     </div>
-
+    <script>
+    id_image = document.getElementById('id_image');
+    id_image.className = 'form-control';
+    </script>
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>

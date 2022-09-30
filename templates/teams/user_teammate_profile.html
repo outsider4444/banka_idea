@@ -1,13 +1,13 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 {% block main %}
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <div class="container emp-profile" style="margin-top: 100px">
+    <div class="container emp-profile">
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
-                    {% if user.avatar %}
-                        <img class="base-avatar" src="{{ user.avatar.url }}" alt="" style="width: 200px; height: 200px">
+                    {% if user_teammate.avatar %}
+                        <img class="base-avatar" src="{{ user_teammate.avatar.url }}" alt=""
+                             style="width: 200px; height: 200px">
                         <br>
                     {% else %}
                         <img class="base-avatar" src="{% static 'base/base_avatar.png' %}" alt=""
@@ -17,15 +17,23 @@
             </div>
             <div class="col-md-8">
                 <div class="profile-head">
-                    <h5>
-                        {{ user.username }}
-                    </h5>
 
+                    <div class="col-sm-2" style="float: right; margin-right: 50px; ">
+                        <a class="btn btn-sm delete-button" style="border-radius: 25px"
+                           href="{% url 'report-form' pk=user_teammate.id %}" title="Оставить жалобу на пользователя">
+                            <span class="material-symbols-outlined">
+                                warning
+                            </span>
+                        </a>
+                    </div>
+                    <h5>
+                        {{ user_teammate.username }}
+                    </h5>
                     <h6>
-                        Рейтинг: {{ user.rating }}
+                        Рейтинг: {{ user_teammate.rating }}
                     </h6>
                     <p class="proile-rating">
-                        {% for skill in user.tags.all %}
+                        {% for skill in user_teammate.tags.all %}
                             <span class="ml-2">{{ skill.name }}</span>
                         {% endfor %}
                     </p>
@@ -45,7 +53,6 @@
                     </ul>
                 </div>
             </div>
-
         </div>
         <div class="row">
             <div class="col-md-4">
@@ -95,8 +102,8 @@
                                 <label>Email</label>
                             </div>
                             <div class="col-md-6">
-                                {% if user.email %}
-                                    <p>{{ user.email }}</p>
+                                {% if user_teammate.email %}
+                                    <p>{{ user_teammate.email }}</p>
                                 {% else %}
                                     <p style="color: red">Не указано</p>
                                 {% endif %}
@@ -107,8 +114,8 @@
                                 <label>Имя</label>
                             </div>
                             <div class="col-md-6">
-                                {% if user.first_name %}
-                                    <p>{{ user.first_name }}</p>
+                                {% if user_teammate.first_name %}
+                                    <p>{{ user_teammate.first_name }}</p>
                                 {% else %}
                                     <p style="color: red">Не указано</p>
                                 {% endif %}
@@ -119,8 +126,8 @@
                                 <label>Фамилия</label>
                             </div>
                             <div class="col-md-6">
-                                {% if user.last_name %}
-                                    <p>{{ user.last_name }}</p>
+                                {% if user_teammate.last_name %}
+                                    <p>{{ user_teammate.last_name }}</p>
                                 {% else %}
                                     <p style="color: red">Не указано</p>
                                 {% endif %}
@@ -131,7 +138,7 @@
                                 <label>Дата регистрации</label>
                             </div>
                             <div class="col-md-6">
-                                <p>{{ user.first_login }}</p>
+                                <p>{{ user_teammate.first_login }}</p>
                             </div>
                         </div>
                     </div>
@@ -265,99 +272,6 @@
             </div>
         </div>
     </div>
-    <style>
-        nav {
-            background-image: url("{% static 'base/NavBG.png' %}");
-        }
-
-        .emp-profile {
-            padding: 3%;
-            margin-top: 3%;
-            margin-bottom: 3%;
-            border-radius: 0.5rem;
-            background: #fff;
-        }
-
-        .profile-img {
-            text-align: center;
-        }
-
-        .profile-img img {
-            width: 70%;
-            height: 100%;
-        }
-
-        .profile-head h5 {
-            color: #333;
-        }
-
-        .profile-head h6 {
-            color: #0062cc;
-        }
-
-        .proile-rating {
-            font-size: 12px;
-            color: #818182;
-            margin-top: 5%;
-        }
-
-        .proile-rating span {
-            color: #495057;
-            font-size: 15px;
-            font-weight: 600;
-        }
-
-        .profile-head .nav-tabs {
-            margin-bottom: 5%;
-        }
-
-        .profile-head .nav-tabs .nav-link {
-            font-weight: 600;
-            border: none;
-        }
-
-        .profile-head .nav-tabs .nav-link.active {
-            border: none;
-            border-bottom: 2px solid #0062cc;
-        }
-
-        .profile-work {
-            padding: 14%;
-            margin-top: -15%;
-        }
-
-        .profile-work p {
-            font-size: 12px;
-            color: #818182;
-            font-weight: 600;
-            margin-top: 10%;
-        }
-
-        .profile-work a {
-            text-decoration: none;
-            color: #495057;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .profile-work ul {
-            list-style: none;
-        }
-
-        .profile-tab label {
-            font-weight: 600;
-        }
-
-        .profile-tab p {
-            font-weight: 600;
-            color: black;
-        }
-
-        .profile-tab a {
-            color: #0062cc;
-            font-weight: 600;
-        }
-    </style>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 {% endblock %}

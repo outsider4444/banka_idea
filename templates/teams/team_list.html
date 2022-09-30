@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% block main %}
-    <div style="margin-top: 100px">
+    {% include 'layouts/team_sidebar_create.html' %}
         <div class="container">
             <div class="row justify-content-center">
                 <div style="text-align: center">
@@ -37,7 +37,7 @@
                                     </ul>
                                 </div>
 
-                                <a href="{% url 'add-team' pk=team.id %}"
+                                <a href="{% url 'add-team' slug=team.slug %}"
                                    class="btn btn-success mt-2">Присоедениться</a>
                             </div>
                         </div>

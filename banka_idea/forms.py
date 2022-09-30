@@ -9,7 +9,7 @@ class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(
         label=("Email",),
         max_length=254,
-        widget=forms.EmailInput(attrs={"autocomplete": "email"})
+        widget=forms.EmailInput(attrs={"autocomplete": "email", 'style': 'border-radius:25px'})
     )
 
     class Meta(UserCreationForm.Meta):
@@ -19,13 +19,13 @@ class CustomUserCreationForm(UserCreationForm):
 
 class UpdateUserForm(forms.ModelForm):
     username = forms.CharField(max_length=100, required=True,
-                               widget=forms.TextInput(attrs={'class': 'form-control'}))
+                               widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'border-radius:25px'}))
     email = forms.EmailField(required=True,
-                             widget=forms.TextInput(attrs={'class': 'form-control'}))
-    first_name = forms.CharField(max_length=100,required=False,
-                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
-    last_name = forms.CharField(max_length=100,required=False,
-                                widget=forms.TextInput(attrs={'class': 'form-control'}))
+                             widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'border-radius:25px'}))
+    first_name = forms.CharField(max_length=100, required=False,
+                                 widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'border-radius:25px'}))
+    last_name = forms.CharField(max_length=100, required=False,
+                                widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'border-radius:25px'}))
 
     class Meta:
         model = User
@@ -34,7 +34,7 @@ class UpdateUserForm(forms.ModelForm):
 
 class IdeaForm(forms.ModelForm):
     name = forms.CharField(max_length=100, required=True,
-                               widget=forms.TextInput(attrs={'class': 'form-control'}))
+                           widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'border-radius:25px'}))
 
     class Meta:
         model = Idea
@@ -43,9 +43,10 @@ class IdeaForm(forms.ModelForm):
 
 class SolutionForm(forms.ModelForm):
     text = forms.CharField(max_length=100, required=True,
-                               widget=forms.TextInput(attrs={'class': 'form-control'}))
+                           widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'border-radius:25px'}))
     url_to_upload = forms.CharField(max_length=100, required=False,
-                               widget=forms.TextInput(attrs={'class': 'form-control'}))
+                                    widget=forms.TextInput(
+                                        attrs={'class': 'form-control', 'style': 'border-radius:25px'}))
 
     class Meta:
         model = Solution
