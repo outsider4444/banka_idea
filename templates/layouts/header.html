@@ -5,23 +5,33 @@
         <header class="header" id="header" style="z-index: 1">
             <div class="header_toggle"><i class='bx bx-menu' id="header-toggle"></i></div>
             <div>
-                <form method="get" action="{% url 'search' %}" class="d-flex" style="position: relative;">
+                <form method="get" action="{% url 'search' %}" class="d-flex"
+                      style="position: relative; margin-right: -150px">
                     <div class="input-group">
-                        <input class="form-control mr-sm-2  mt-2" type="search" name="search"
+                        <input class="form-control mr-sm-2 mt-2" type="search" name="search"
                                placeholder="Введите фразу для поиска..." required
                                aria-label="Search"
                                style="width: 450px; border-radius: 25px 0 0 25px; border-right: none">
                         <div class="mt-2"
                              style="border-radius: 0 25px 25px 0; border-top: 1px #ced4da solid; border-bottom: 1px #ced4da solid; margin-left: -10px; height: 40px; background-color: white">
-                            <button class="btn btn-medium search-button-submit" type="submit"><i
-                                    class="fa-sharp fa-solid fa-magnifying-glass"></i></button>
+                            <button class="btn btn-medium search-button-submit" type="submit">
+                                <i class="fa-sharp fa-solid fa-magnifying-glass"></i></button>
                         </div>
                     </div>
                 </form>
             </div>
+            <div class="btn btn-medium search-button-submit" style="float: right; margin-right: -605px;">
+                <i class="fa-solid fa-newspaper"></i>
+            </div>
+            <div style="float: right; margin-right: -605px;">
+                <a href="{% url 'my-notification' %}" class="btn btn-medium search-button-submit">
+                    <i class="fa-solid fa-bell"></i><span id="notif-bell"></span></a>
+            </div>
             <div class="header_img">
                 {% if user.is_authenticated %}
-                    <img src="{{ user.avatar.url }}" alt="">
+                    {% if user.avatar %}
+                        <img src="{{ user.avatar.url }}" alt="">
+                    {% endif %}
                 {% endif %}
             </div>
         </header>
@@ -34,35 +44,59 @@
                     </a>
                     <div class="nav_list">
                         <a href="/" class="nav_link{% if request.path == '/' %} active-header-button{% endif %}">
-                            <i class='bx bx-grid-alt nav_icon'></i><span class="nav_name">Dashboard</span></a>
+                            <i class='bx bx-grid-alt nav_icon'></i><span class="nav_name">Главная</span></a>
                         <a href="{% url 'user-profile' %}"
-                            {% if 'users' in request.path %}
-                                class="nav_link active-header-button "><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">person</span>
-                            {% else %} class="nav_link"><span class="material-symbols-outlined">person</span>
-                            {% endif %}
+                                {% if 'users' in request.path %}
+                           class="nav_link active-header-button ">
+                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">person</span>
+                                {% else %} class="nav_link"><span class="material-symbols-outlined">person</span>
+                                {% endif %}
                         <span class="nav_name">Профиль</span>
                         </a>
+
+                        <a href="{% url 'user-profile' %}"
+                                {#                                {% if 'users' in request.path %}#}
+                                {#                           class="nav_link active-header-button ">#}
+                                {#                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">chat</span>#}
+                           class="nav_link"><span class="material-symbols-outlined">chat</span>
+                            {#                                {% endif %}#}
+                            <span class="nav_name">Сообщения</span>
+                        </a>
+
                         <a href="{% url 'get-idea-list' %}"{% if 'ideas' in request.path %}
-                           class="nav_link active-header-button"> <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">tips_and_updates</span>
+                           class="nav_link active-header-button">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">tips_and_updates</span>
                         {% else %} class="nav_link"><span class="material-symbols-outlined">tips_and_updates</span>
                         {% endif %}
                         <span class="nav_name">Идеи</span>
                         </a>
-
                         <a href="{% url 'my-teams' %}"{% if 'teams' in request.path %}
-                           class="nav_link active-header-button"> <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">groups</span>
+                           class="nav_link active-header-button"><span class="material-symbols-outlined"
+                                                                       style="font-variation-settings: 'FILL' 1">groups</span>
                         {% else %} class="nav_link"> <span class="material-symbols-outlined">groups</span>
                         {% endif %}
                         <span class="nav_name">Команды</span>
                         </a>
-
                     </div>
                 </div>
-                <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">Выход</span>
+                <a href="#" class="nav_link" style="margin-top: 395px">
+                    <span class="material-symbols-outlined">monetization_on</span> <span
+                        class="nav_name">Пожертвовать</span>
                 </a>
+                {% if user.is_authenticated %}
+
+                    <a href="{% url 'logout' %}" class="nav_link">
+                        <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">Выход</span>
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav_link">
+                        <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">Войти</span>
+                    </a>
+                {% endif %}
             </nav>
         </div>
-        <style>
-        </style>
+        <script>
+
+        </script>
     {% endcache %}
 {% endblock %}

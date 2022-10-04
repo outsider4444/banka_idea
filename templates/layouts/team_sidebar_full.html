@@ -1,7 +1,7 @@
 {% load static %}
 <div style="float: right; width: 300px">
     <a class="btn btn-medium btn-sm search-button-submit" href="{% url 'create-team' %}"><i class="fa-solid fa-plus"></i> Создать новую команду</a>
-    <div class="border" style="margin-top: 100px; border-radius: 25px">
+    <div class="border" style="margin-top: 100px; border-radius: 25px; background-color: white">
         <span class="ml-3 mb-3 font-our-style-normal">Рекомендуемые команды</span>
         <div class="list-group mt-2">
             {% for team in team_list_to_add %}

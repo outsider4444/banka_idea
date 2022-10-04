@@ -29,7 +29,8 @@
       "first_name": "Люда",
       "last_name": "Петрушева",
       "email": "luka.vasilev49@hotmail.com",
-      "password": "qAh-pPp-k97-GjL"
+      "password1": "qAh-pPp-k97-GjL",
+      "password2": "qAh-pPp-k97-GjL"
     }
   },
   {
@@ -40,7 +41,8 @@
       "first_name": "Матевей",
       "last_name": "Архипов",
       "email": "matvei.arkhipova@yandex.ru",
-      "password": "qwerty"
+      "password1": "qwerty",
+      "password2": "qwerty"
     }
   },
   {
@@ -51,7 +53,8 @@
       "first_name": "Гавриил",
       "last_name": "Маюров",
       "email": "gavriil.mayurov@rambler.ru",
-      "password": "48033287d"
+      "password1": "48033287d",
+      "password2": "48033287d"
     }
   },
   {
@@ -62,7 +65,8 @@
       "first_name": "Валерия",
       "last_name": "Яндукина",
       "email": "valeriya50@yandex.ru",
-      "password": "2b2f25060"
+      "password1": "2b2f25060",
+      "password2": "2b2f25060"
     }
   },
   {
@@ -73,7 +77,8 @@
       "first_name": "Ася",
       "last_name": "Яковец",
       "email": "asya.yakovec@mail.ru",
-      "password": "e07b3d23c"
+      "password1": "e07b3d23c",
+      "password2": "e07b3d23c"
     }
   },
   {
@@ -84,7 +89,8 @@
       "first_name": "Руфина",
       "last_name": "Шепелева",
       "email": "ruferina@mail.ru",
-      "password": "e07b3d23c"
+      "password1": "e07b3d23c",
+      "password2": "e07b3d23c"
     }
   },
   {
@@ -95,7 +101,8 @@
       "first_name": "Ида",
       "last_name": "Баринова",
       "email": "ida.barinova@mail.ru",
-      "password": "99a1141f3"
+      "password1": "99a1141f3",
+      "password2": "99a1141f3"
     }
   },
   {
@@ -106,7 +113,8 @@
       "first_name": "Адель",
       "last_name": "Карандашова",
       "email": "adel44@hotmail.com",
-      "password": "677fdb6ac"
+      "password1": "677fdb6ac",
+      "password2": "677fdb6ac"
     }
   },
   {
@@ -234,76 +242,7 @@
       "tags": "7"
     }
   },
-  {
-    "model": "banka_idea.UserTags",
-    "pk": 1,
-    "fields": {
-      "name": "Python"
-    }
-  },
-  {
-    "model": "banka_idea.UserTags",
-    "pk": 2,
-    "fields": {
-      "name": "C#"
-    }
-  },
-  {
-    "model": "banka_idea.UserTags",
-    "pk": 3,
-    "fields": {
-      "name": "PHP"
-    }
-  },
-  {
-    "model": "banka_idea.UserTags",
-    "pk": 4,
-    "fields": {
-      "name": "Макет"
-    }
-  },
-  {
-    "model": "banka_idea.UserTags",
-    "pk": 5,
-    "fields": {
-      "name": "MVC"
-    }
-  },
-  {
-    "model": "banka_idea.UserTags",
-    "pk": 6,
-    "fields": {
-      "name": "Delphi"
-    }
-  },
-  {
-    "model": "banka_idea.UserTags",
-    "pk": 7,
-    "fields": {
-      "name": "HTML"
-    }
-  },
-  {
-    "model": "banka_idea.UserTags",
-    "pk": 8,
-    "fields": {
-      "name": "CSS"
-    }
-  },
-  {
-    "model": "banka_idea.UserTags",
-    "pk": 9,
-    "fields": {
-      "name": "Java"
-    }
-  },
-  {
-    "model": "banka_idea.UserTags",
-    "pk": 10,
-    "fields": {
-      "name": "Музыка"
-    }
-  },
+
   {
     "model": "teams.Team",
     "pk": 1,
@@ -311,7 +250,7 @@
       "name": "Drafters 2.0 reborn",
       "description": "Мы команда драфтеры, хотим создать хардкорную модификацию для The elder scroll's 5: Skyrim",
       "idea": "3",
-      "tags": "7"
+      "slug":"draftersreborn"
     }
   },
   {
@@ -321,7 +260,7 @@
       "name": "Воинствующие эстеты",
       "description": "Решили расширить идею и запилить свою группу, параллельно обучаясь игре на инструментах.",
       "idea": "4",
-      "tags": "7"
+      "slug":"estets"
     }
   },
   {
@@ -331,7 +270,7 @@
       "name": "Ловчие желаний",
       "description": "Нет друзей, но хотим собрать группу увлеченных друзей, для прохождения пешего маршрута в Карелии. Заинтересованным обращаться в личку: https://vk.com/id255416152",
       "idea": "2",
-      "tags": "7"
+      "slug":"dreamshunter"
     }
   },
   {

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'achievements',
     'teams',
     'report',
+    'notifications',
 ]
 
 MIDDLEWARE = [

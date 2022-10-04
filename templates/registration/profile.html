@@ -29,8 +29,8 @@
                         Рейтинг: {{ user.rating }}
                     </h6>
                     <p class="proile-rating">
-                        {% for skill in user.tags.all %}
-                            <span class="ml-2">{{ skill.name }}</span>
+                        {% for skill in user_tags %}
+                            <span class="ml-2">{{ skill.name }}; </span>
                         {% endfor %}
                     </p>
                     <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist" style="flex-direction: row">

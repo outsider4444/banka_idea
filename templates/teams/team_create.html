@@ -14,7 +14,10 @@
                             Название команды {{ form.name }}
                         </div>
                         <div class="col">
-                            Закрытая команда {{ form.status }}
+                            Закрытая команда <br>
+                            <div style="margin-left: 50px">
+                                {{ form.status }}
+                            </div>
                         </div>
                     </div>
                     Уникальное имя {{ form.slug }}
@@ -40,6 +43,10 @@
 
         id_tags = document.getElementById('id_tags');
         id_tags.className = 'form-control';
+
+
+        id_status = document.getElementById('id_status');
+        id_status.className = 'form-check-input';
 
     </script>
 

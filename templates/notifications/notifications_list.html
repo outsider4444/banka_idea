@@ -1,0 +1,6 @@
+{% extends 'layouts/base.html' %}
+{% block main %}
+    {% for notification in notification_list %}
+        {{ notification.text }}
+    {% endfor %}
+{% endblock %}

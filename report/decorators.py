@@ -9,5 +9,7 @@ def active_user(view_func):
                 return view_func(request, *args, **kwargs)
             else:
                 return HttpResponse('Вы не имеете доступа к данной странице')
+        else:
+            return view_func(request, *args, **kwargs)
 
     return wrapper_func

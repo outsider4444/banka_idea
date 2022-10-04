@@ -33,7 +33,7 @@
                         Рейтинг: {{ user_teammate.rating }}
                     </h6>
                     <p class="proile-rating">
-                        {% for skill in user_teammate.tags.all %}
+                        {% for skill in user_tags %}
                             <span class="ml-2">{{ skill.name }}</span>
                         {% endfor %}
                     </p>

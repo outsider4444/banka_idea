@@ -38,6 +38,8 @@ urlpatterns = [
     path('search/', views.search_results, name="search"),
 
     # auth
+    path('users/profile/change/add_tags/<int:pk>', views.delete_user_tag, name="user-change-tags-delete"),
+    path('users/profile/change/add_tags', views.add_uesr_tags, name="user-change-tags"),
     path('users/profile/change/', views.change_user, name="user-change"),
     path('users/profile/', views.user_profile, name="user-profile"),
     path('users/register/', Register.as_view(), name="register"),

@@ -29,7 +29,7 @@ class UpdateUserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'avatar', 'first_name', 'last_name', 'tags']
+        fields = ['username', 'email', 'avatar', 'first_name', 'last_name']
 
 
 class IdeaForm(forms.ModelForm):

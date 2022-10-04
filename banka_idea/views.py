@@ -9,15 +9,13 @@ from django.core.cache import cache
 from achievements.views import add_base_achivement, add_achievments_to_user, get_user_achievments_unlocked, \
     get_user_achievments_locked
 from banka_idea.forms import CustomUserCreationForm, IdeaForm, UpdateUserForm, SolutionForm
-from banka_idea.models import Idea, IdeaTags, UserIdeaLike, User, Solution
+from banka_idea.models import Idea, IdeaTags, UserIdeaLike, User, Solution, UserTags
 
+from report.decorators import active_user
 
 ### Пользователь
 
 # Регистрация
-from report.decorators import active_user
-
-
 class Register(View):
     template_name = "registration/register.html"
 
@@ -47,15 +45,19 @@ class Register(View):
 @active_user
 def user_profile(request):
     """Вывод страницы пользователя"""
-    users_idea_liked_not_finish = UserIdeaLike.objects.filter(user=request.user).filter(checked_idea=False).order_by(
+    user = request.user
+    users_idea_liked_not_finish = UserIdeaLike.objects.filter(user=user).filter(checked_idea=False).order_by(
         "date")
-    users_idea_liked_finish = UserIdeaLike.objects.filter(user=request.user).filter(checked_idea=True).order_by("date")
-    list_user_idea = Idea.objects.filter(user=request.user).order_by("date")
+    users_idea_liked_finish = UserIdeaLike.objects.filter(user=user).filter(checked_idea=True).order_by("date")
+    list_user_idea = Idea.objects.filter(user=user).order_by("date")
     # Получение решений для идей пользователя
-    solution_list = Solution.objects.filter(idea__user=request.user).order_by("date").order_by("-best_solution")
-    users_solution = Solution.objects.filter(user=request.user).order_by("date")
+    solution_list = Solution.objects.filter(idea__user=user).order_by("date").order_by("-best_solution")
+    users_solution = Solution.objects.filter(user=user).order_by("date")
     # Получение достижений пользователя
-    user_achievments = get_user_achievments_unlocked(request.user)
+    user_achievments = get_user_achievments_unlocked(user)
+    # Вывод всех тегов
+    user_tags = UserTags.objects.filter(user=user)
+
     context = {
         "users_idea_liked": users_idea_liked_not_finish,
         "users_idea_liked_finish": users_idea_liked_finish,
@@ -63,15 +65,20 @@ def user_profile(request):
         "solution_list": solution_list,
         "user_achievments": user_achievments,
         "users_solution": users_solution,
+        "user_tags":user_tags,
     }
     return render(request, "registration/profile.html", context)
 
 
+# todo Добавить новый вид скиллов
 @login_required
 @active_user
 def change_user(request):
     """Изменение страницы пользователя"""
+    user = request.user
     user_form = UpdateUserForm(instance=request.user)
+    # Вывод всех тегов
+    user_tags = UserTags.objects.filter(user=user)
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, request.FILES, instance=request.user)
         if user_form.is_valid():
@@ -80,8 +87,29 @@ def change_user(request):
             return redirect(to='user-profile')
     context = {
         "user_form": user_form,
+        "user_tags":user_tags,
     }
     return render(request, "registration/change_profile.html", context)
+
+
+def add_uesr_tags(request):
+    tags = UserTags.objects.filter(user=request.user)
+    if request.method == "POST":
+        new_user_tag = request.POST.get("new_tag")
+        print(new_user_tag)
+        UserTags.objects.create(user=request.user, name=new_user_tag)
+        return redirect('user-change-tags')
+    context = {
+        "tags":tags
+    }
+    return render(request, "registration/user_tags.html", context)
+
+
+def delete_user_tag(request, pk):
+    tag = UserTags.objects.get(id=pk)
+    tag.delete()
+    return redirect('user-change-tags')
+
 
 
 ### Главное меню

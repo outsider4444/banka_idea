@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from achievements.views import get_user_achievments_unlocked
 from banka_idea.admin import User
 from banka_idea.models import UserTags
+from notifications.models import Notifications
 from .forms import TeamCreateForm
 from .models import Team, UsersInTeams, Message
 
@@ -51,7 +52,13 @@ def my_teams_list(request):
 
 def add_to_team(request, slug):
     team_to_add = Team.objects.get(slug=slug)
+
+    users_in_team = UsersInTeams.objects.filter(team=team_to_add)
+    for user in users_in_team:
+        Notifications.objects.create(user=user.user, text=f"Пользователь {request.user} присоеденился к команде")
+
     UsersInTeams.objects.create(user=request.user, team_id=team_to_add.id, capitan=False)
+
     return redirect('my-teams')
 
 
@@ -157,7 +164,9 @@ def team_update(request, slug):
 def user_teammate_profile(request, pk):
     user_teammate = User.objects.get(id=pk)
     user_achievments = get_user_achievments_unlocked(user_teammate)
+    user_tags = UserTags.objects.filter(user=user_teammate)
     context = {
         "user_teammate": user_teammate,
+        "user_tags":user_tags,
     }
     return render(request, "teams/user_teammate_profile.html", context)

@@ -26,9 +26,6 @@ class UserAdmin(UserAdmin):
         ('Информация', {
             'fields': ('rating', 'first_login')
         }),
-        ('Теги', {
-            'fields': ('tags',)
-        }),
         ('Активный пользователь', {
             'fields': ('is_active',)
         }),

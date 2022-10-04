@@ -1,9 +1,13 @@
+import os
+
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from pathlib import Path
 
-class UserTags(models.Model):
+
+class Tags(models.Model):
     name = models.CharField(max_length=50)
 
     def __str__(self):
@@ -12,10 +16,17 @@ class UserTags(models.Model):
 
 # Модели для базы данных
 class User(AbstractUser):
-    avatar = models.ImageField("Аватар", upload_to=f'user/avatar', blank=True, null=True)
+    avatar = models.ImageField("Аватар", upload_to=f'user/avatar', default="user/base_avatar.png")
     rating = models.PositiveIntegerField("Рейтинг пользователя", default=0)
     first_login = models.DateTimeField(auto_now=True, blank=True, null=True)
-    tags = models.ManyToManyField(UserTags)
+
+
+class UserTags(models.Model):
+    name = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 class IdeaTags(models.Model):

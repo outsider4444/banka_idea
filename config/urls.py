@@ -27,6 +27,7 @@ urlpatterns = [
     path('', include("banka_idea.urls")),
     path('teams/', include("teams.urls")),
     path('reports/', include("report.urls")),
+    path('my_notifications/', include("notifications.urls")),
 ]
 
 if settings.DEBUG:

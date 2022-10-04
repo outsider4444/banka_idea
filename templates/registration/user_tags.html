@@ -1,0 +1,30 @@
+{% extends 'layouts/base.html' %}
+{% block main %}
+    <div class="container">
+        <div class="row justify-content-center mb-2">
+            <div class="d-flex justify-content-center">
+                <h1 id="form-title">Ваши навыки</h1>
+            </div>
+            <div class="row justify-content-center">
+                {% for tag in tags %}
+                    <div class="col-md-3 mt-2">
+                        <span style="font-size: 16pt">{{ tag.name }}</span>
+                    </div>
+                    <div class="col-md-1 mt-2">
+                        <a href="{% url 'user-change-tags-delete' pk=tag.id %}" class="btn btn-sm delete-button">
+                            <i class="fa-solid fa-trash "></i></a>
+                    </div>
+                {% endfor %}
+            </div>
+            <form action="" method="post" class="col-md-7 mt-4" style="margin-left: auto; margin-right: auto">
+                {% csrf_token %}
+                    <input type="text" class="form-control" name="new_tag"
+                           style="border-radius: 25px 0 0 25px; border-right: none;  width: 550px; float: left; height: 40px; z-index: 2"
+                           placeholder="Введите навык...">
+                    <div style="border-radius: 0 25px 25px 0; border-top: 1px #ced4da solid; border-bottom: 1px #ced4da solid; background-color: white; float: left; z-index: 1">
+                        <button class="btn submit-button"><i class="fa-solid fa-check"></i></button>
+                    </div>
+            </form>
+    </div>
+        </div>
+{% endblock %}
