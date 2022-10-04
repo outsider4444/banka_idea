@@ -20,7 +20,7 @@ class Team(models.Model):
     idea = models.ForeignKey(Idea, on_delete=models.PROTECT, blank=True, null=True)
     tags = models.ManyToManyField(UserTags, blank=True)
     status = models.BooleanField(default=False, verbose_name="Укомплектована")
-    slug = models.CharField("Код доступа", max_length=50, unique=True)
+    slug = models.SlugField("Код доступа", max_length=50, unique=True)
 
     class Meta:
         verbose_name = "Команда"
@@ -45,8 +45,8 @@ class UsersInTeams(models.Model):
 
 
 class Message(models.Model):
-    room = models.ForeignKey(Team, related_name="messages", on_delete=models.CASCADE)
-    user = models.ForeignKey(User, related_name="messages", on_delete=models.CASCADE)
+    room = models.ForeignKey(Team, related_name="message", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name="message", on_delete=models.CASCADE)
     content = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
 

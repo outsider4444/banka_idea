@@ -54,13 +54,13 @@
                         <span class="nav_name">Профиль</span>
                         </a>
 
-                        <a href="{% url 'user-profile' %}"
-                                {#                                {% if 'users' in request.path %}#}
-                                {#                           class="nav_link active-header-button ">#}
-                                {#                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">chat</span>#}
-                           class="nav_link"><span class="material-symbols-outlined">chat</span>
-                            {#                                {% endif %}#}
-                            <span class="nav_name">Сообщения</span>
+                        <a href="{% url 'chat-list' %}"{% if 'messages' in request.path %}
+                           class="nav_link active-header-button">
+                            <span class="material-symbols-outlined"
+                                  style="font-variation-settings: 'FILL' 1">chat</span>
+                        {% else %}class="nav_link"> <span class="material-symbols-outlined">chat</span>
+                        {% endif %}
+                        <span class="nav_name">Сообщения</span>
                         </a>
 
                         <a href="{% url 'get-idea-list' %}"{% if 'ideas' in request.path %}
@@ -96,7 +96,25 @@
             </nav>
         </div>
         <script>
+            fetch('{% url 'count-notification' %}')
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
 
+                    var span = document.getElementById('notif-bell');
+
+                    while (span.firstChild) {
+                        span.removeChild(span.firstChild);
+                    }
+                    if (data['msg'] > 0) {
+                        span.appendChild(document.createTextNode("" + data['msg']));
+                        span.style = 'margin-left: 5px';
+                    }
+                })
+                .catch(function (err) {
+                    console.log(err);
+                })
         </script>
     {% endcache %}
 {% endblock %}

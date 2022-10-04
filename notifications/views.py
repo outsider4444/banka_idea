@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 
 # Create your views here.
@@ -18,5 +19,9 @@ def get_notifications(request):
 
 
 def count_new_notifications(request):
-    notification_list = Notifications.objects.filter(user=request.user)
+    notification_list = Notifications.objects.filter(user=request.user).filter(status=False)
     new_notification = len(notification_list)
+    data = {
+        "msg": new_notification,
+    }
+    return JsonResponse(data)

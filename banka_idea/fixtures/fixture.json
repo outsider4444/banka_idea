@@ -18,7 +18,8 @@
       "first_name": "Сергей",
       "last_name": "Розинович",
       "email": "egor_volkova@yahoo.com",
-      "password": "qAh-pPp-k97-GjL"
+      "password1": "qAh-pPp-k97-GjL",
+      "password2": "qAh-pPp-k97-GjL"
     }
   },
   {

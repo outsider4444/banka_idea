@@ -28,6 +28,7 @@ urlpatterns = [
     path('teams/', include("teams.urls")),
     path('reports/', include("report.urls")),
     path('my_notifications/', include("notifications.urls")),
+    path('messages/', include("message.urls")),
 ]
 
 if settings.DEBUG:

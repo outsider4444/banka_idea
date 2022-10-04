@@ -1,0 +1,13 @@
+{% extends 'layouts/base.html' %}
+{% block main %}
+
+    {% for chat in chats %}
+        {% if request.user == chat.user2 %}
+            {{ chat.user1 }}
+        {% elif request.user == chat.user1 %}
+            {{ chat.user2 }}
+        {% endif %}
+        <a href="{% url 'chatting' slug=chat.slug %}">Переписка...</a>
+    {% endfor %}
+
+{% endblock %}

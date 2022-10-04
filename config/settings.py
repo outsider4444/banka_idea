@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'teams',
     'report',
     'notifications',
+    'message',
 ]
 
 MIDDLEWARE = [

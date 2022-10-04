@@ -69,35 +69,35 @@
             </div>
             {% if check_new_user %}
                 <div class="row justify-content-center mt-3">
-                <div style="border: 1px solid grey; background-color: white; border-radius: 25px; width: 800px">
-                    <div id="chat-messages">
-                        {% for message in message_list %}
-                            <div style='background-color: white' class="mt-2">
-                                {% if message.user.avatar %}
-                                    <img src="{{ message.user.avatar.url }}" alt="" width="30px" height="30px">
-                                {% else %}
-                                    <img src="{% static 'base/Profile.png' %}" alt="" width="30px" height="30px">
-                                {% endif %}
-                                <span style="font-weight: bold">{{ message.user.username }}</span>
-                                <span>: {{ message.content }}</span>
-                                <span class="mr-2"
-                                      style="float: right; color: gray; font-size: 10pt">{{ message.date_added }}</span>
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <form action="." method="post" class="d-flex mb-2 mt-4">
-                        <input type="text" name="content" placeholder="Напишите сообщение..."
-                               id="chat-message-input" class="form-control" required
-                               style=" width:750px; height: 40px; border-radius: 25px 0 0 25px; border-right: none;">
-                        <div style="border-radius: 0 25px 25px 0; border-top: 1px #ced4da solid; border-bottom: 1px #ced4da solid;height: 40px;">
-                            <button type="submit" class="btn search-button-submit" id="chat-message-submit">
-                                <i class="fa-solid fa-paper-plane"></i>
-                            </button>
+                    <div style="border: 1px solid grey; background-color: white; border-radius: 25px; width: 800px">
+                        <div id="chat-messages">
+                            {% for message in message_list %}
+                                <div style='background-color: white' class="mt-2">
+                                    {% if message.user.avatar %}
+                                        <img src="{{ message.user.avatar.url }}" alt="" width="30px" height="30px">
+                                    {% else %}
+                                        <img src="{% static 'base/Profile.png' %}" alt="" width="30px" height="30px">
+                                    {% endif %}
+                                    <span style="font-weight: bold">{{ message.user.username }}</span>
+                                    <span>: {{ message.content }}</span>
+                                    <span class="mr-2"
+                                          style="float: right; color: gray; font-size: 10pt">{{ message.date_added }}</span>
+                                </div>
+                            {% endfor %}
                         </div>
-                    </form>
+                        <form action="." method="post" class="d-flex mb-2 mt-4">
+                            <input type="text" name="content" placeholder="Напишите сообщение..."
+                                   id="chat-message-input" class="form-control" required
+                                   style=" width:750px; height: 40px; border-radius: 25px 0 0 25px; border-right: none;">
+                            <div style="border-radius: 0 25px 25px 0; border-top: 1px #ced4da solid; border-bottom: 1px #ced4da solid;height: 40px;">
+                                <button type="submit" class="btn search-button-submit" id="chat-message-submit">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             {% endif %}
-            </div>
         </div>
     </div>
     {{ team_name.slug|json_script:"json-roomname" }}

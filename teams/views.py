@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from achievements.views import get_user_achievments_unlocked
 from banka_idea.admin import User
 from banka_idea.models import UserTags
+from message.views import check_exist_chat
 from notifications.models import Notifications
 from .forms import TeamCreateForm
 from .models import Team, UsersInTeams, Message
@@ -165,8 +166,10 @@ def user_teammate_profile(request, pk):
     user_teammate = User.objects.get(id=pk)
     user_achievments = get_user_achievments_unlocked(user_teammate)
     user_tags = UserTags.objects.filter(user=user_teammate)
+    check_chat = check_exist_chat(request)
     context = {
         "user_teammate": user_teammate,
-        "user_tags":user_tags,
+        "user_tags": user_tags,
+        "check_chat": check_chat,
     }
     return render(request, "teams/user_teammate_profile.html", context)

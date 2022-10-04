@@ -17,9 +17,8 @@
             </div>
             <div class="col-md-8">
                 <div class="profile-head">
-
-                    <div class="col-sm-2" style="float: right; margin-right: 50px; ">
-                        <a class="btn btn-sm delete-button" style="border-radius: 25px"
+                    <div style="float: right;">
+                        <a class="btn btn-sm delete-button"
                            href="{% url 'report-form' pk=user_teammate.id %}" title="Оставить жалобу на пользователя">
                             <span class="material-symbols-outlined">
                                 warning
@@ -28,6 +27,9 @@
                     </div>
                     <h5>
                         {{ user_teammate.username }}
+                        {% if not check_chat %}
+                            <a class="btn search-button-submit btn-sm ml-2 mb-2" href="{% url 'start-chat' pk=user_teammate.id %}">Написать сообщение</a>
+                        {% endif %}
                     </h5>
                     <h6>
                         Рейтинг: {{ user_teammate.rating }}
@@ -37,7 +39,7 @@
                             <span class="ml-2">{{ skill.name }}</span>
                         {% endfor %}
                     </p>
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist" style="flex-direction: row">
                         <li class="nav-item">
                             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
                                aria-controls="home" aria-selected="true">Обо мне</a>
