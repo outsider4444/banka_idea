@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from notifications.models import Notifications
@@ -25,3 +25,9 @@ def count_new_notifications(request):
         "msg": new_notification,
     }
     return JsonResponse(data)
+
+
+def delete_notification(request, pk):
+    notif_to_delete = Notifications.objects.get(id=pk)
+    notif_to_delete.delete()
+    return redirect('my-notification')

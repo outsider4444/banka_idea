@@ -1,16 +1,42 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 {% block main %}
-    <div class="row justify-content-center mt-3">
+    <h2 class="text-our-style-normal">Ваши сообщения</h2>
+    <div style="border-radius: 25px; border:1px grey solid; float: left; padding: 5px; width: 500px">
+        <ul class="list-group ml-2">
+            {% for chat in chats %}
+                <a href="{% url 'chatting' slug=chat.slug %}" class="list-group-item mt-2"
+                   style="border-radius: 25px; border:1px solid grey; {% if chat.slug in request.path %} background-color: #007bff; color: white; border: none {% endif %}">
+                    <!-- todo Изменить стили -->
+                    {% if request.user == chat.user2 %}
+                        {{ chat.user1 }}
+                    {% elif request.user == chat.user1 %}
+                        {{ chat.user2 }}
+                    {% endif %}
+                </a>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="row justify-content-center" style="margin-top: -40px">
+        <div style=" width: 800px;">
+            <div>
+                <h3 class="text-our-style-normal">Чат с {% if request.user == chat.user2 %}
+                    <a href="{% url 'teammate-profile' pk=chat.user1.id %}">{{ chat.user1 }}</a>
+                {% elif request.user == chat.user1 %}
+                    <a href="{% url 'teammate-profile' pk=chat.user2.id %}">{{ chat.user2 }}</a>
+                {% endif %}</h3>
+            </div>
+        </div>
         <div style="border: 1px solid grey; background-color: white; border-radius: 25px; width: 800px">
             <div id="chat-messages">
                 {% for message in messages %}
                     <div style='background-color: white' class="mt-2">
-                        {#                        {% if message.user.avatar %}#}
-                        {#                            <img src="{{ message.user.avatar.url }}" alt="" width="30px" height="30px">#}
-                        {#                        {% else %}#}
-                        <img src="{% static 'base/Profile.png' %}" alt="" width="30px" height="30px">
-                        {#                        {% endif %}#}
+                        {% if message.user.avatar %}
+                            <img src="{{ message.user.avatar.url }}" alt="" width="30px" height="30px">
+                        {% else %}
+                            <img src="{% static 'base/Profile.png' %}" alt="" width="30px" height="30px">
+                        {% endif %}
                         <span style="font-weight: bold">{{ message.user.username }}</span>
                         <span>: {{ message.content }}</span>
                         <span class="mr-2"
@@ -31,9 +57,6 @@
         </div>
     </div>
 
-    {{ chat.slug|json_script:"json-roomname" }}
-    {{ request.user.username|json_script:"json-username" }}
-
     <style>
         #chat-messages {
             height: 300px;
@@ -42,6 +65,7 @@
     </style>
     <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
     <script>
+
         const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
         const userName = JSON.parse(document.getElementById('json-username').textContent);
         const chatSocket = new WebSocket(
@@ -123,3 +147,7 @@
         scrollToBottom();
     </script>
 {% endblock main %}
+{% block script %}
+    {{ chat.slug|json_script:"json-roomname" }}
+    {{ request.user.username|json_script:"json-username" }}
+{% endblock %}

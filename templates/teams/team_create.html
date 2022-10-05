@@ -20,11 +20,11 @@
                             </div>
                         </div>
                     </div>
-                    Уникальное имя {{ form.slug }}
-                    Лого команды (опционально) {{ form.avatar }}
-                    Описание* <br> {{ form.description }}<br>
-                    Идея (опционально) {{ form.idea }}
-                    Необходимые навыки (опционально){{ form.tags }}
+                    <div class="mt-2">Уникальное имя {{ form.slug }}</div>
+                    <div class="mt-2">Лого команды (опционально) {{ form.avatar }}</div>
+                    <div class="mt-2"> Описание (Обязательно) <br> {{ form.description }}</div>
+                    <div class="mt-2">Идея (опционально) {{ form.idea }}</div>
+                    <div class="mt-2">Необходимые навыки (опционально){{ form.tags }}</div>
                     <button type="submit" class="btn btn-primary mt-2">Готово</button>
                 </form>
             </div>
@@ -37,13 +37,13 @@
 
         id_idea = document.getElementById('id_idea');
         id_idea.className = 'form-control';
+        id_idea.setAttribute('border-radius', '25px');
 
         id_avatar = document.getElementById('id_avatar');
         id_avatar.className = 'form-control';
 
         id_tags = document.getElementById('id_tags');
         id_tags.className = 'form-control';
-
 
         id_status = document.getElementById('id_status');
         id_status.className = 'form-check-input';

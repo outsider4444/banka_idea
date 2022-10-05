@@ -56,7 +56,7 @@ def add_to_team(request, slug):
 
     users_in_team = UsersInTeams.objects.filter(team=team_to_add)
     for user in users_in_team:
-        Notifications.objects.create(user=user.user, text=f"Пользователь {request.user} присоеденился к команде")
+        Notifications.objects.create(user=user.user, text=f"Пользователь {request.user} присоеденился к команде {team_to_add.name}")
 
     UsersInTeams.objects.create(user=request.user, team_id=team_to_add.id, capitan=False)
 
@@ -166,7 +166,7 @@ def user_teammate_profile(request, pk):
     user_teammate = User.objects.get(id=pk)
     user_achievments = get_user_achievments_unlocked(user_teammate)
     user_tags = UserTags.objects.filter(user=user_teammate)
-    check_chat = check_exist_chat(request)
+    check_chat = check_exist_chat(request, user_teammate)
     context = {
         "user_teammate": user_teammate,
         "user_tags": user_tags,

@@ -1,6 +1,26 @@
 {% extends 'layouts/base.html' %}
 {% block main %}
-    {% for notification in notification_list %}
-        {{ notification.text }}
-    {% endfor %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div style="text-align: center">
+                <h1>Ваши уведомления</h1>
+            </div>
+
+            {% for notification in notification_list %}
+                <div class="col-7 mt-2" style="text-align: center; border-radius: 25px; border: 1px grey solid;">
+                    <a href="{% url 'delete-notification' pk=notification.id %}"
+                       class="btn btn-sm delete-button mt-2 mb-1"
+                       style="float: left;">
+                        <i class="fa-solid fa-trash"></i>
+                    </a><br>
+                    <div style="float: left;">
+                        {{ notification.text }}
+                    </div>
+                    <div class="mb-1" style="float: left; color: gray; font-size: 10pt">
+                        {{ notification.date }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

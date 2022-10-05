@@ -1,13 +1,19 @@
 {% extends 'layouts/base.html' %}
 {% block main %}
-
-    {% for chat in chats %}
-        {% if request.user == chat.user2 %}
-            {{ chat.user1 }}
-        {% elif request.user == chat.user1 %}
-            {{ chat.user2 }}
-        {% endif %}
-        <a href="{% url 'chatting' slug=chat.slug %}">Переписка...</a>
-    {% endfor %}
-
+<h2 class="text-our-style-normal">Ваши сообщения</h2>
+    <div style="border-radius: 25px; border:1px grey solid; float: left; padding: 5px; width: 500px">
+        <ul class="list-group ml-2">
+            {% for chat in chats %}
+                <a href="{% url 'chatting' slug=chat.slug %}" class="list-group-item mt-2"
+                   style="border-radius: 25px; border:1px solid grey;">
+                    <!-- todo Изменить стили -->
+                    {% if request.user == chat.user2 %}
+                        {{ chat.user1 }}
+                    {% elif request.user == chat.user1 %}
+                        {{ chat.user2 }}
+                    {% endif %}
+                </a>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

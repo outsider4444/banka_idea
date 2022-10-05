@@ -16,7 +16,7 @@ class Tags(models.Model):
 
 # Модели для базы данных
 class User(AbstractUser):
-    avatar = models.ImageField("Аватар", upload_to=f'user/avatar', default="user/base_avatar.png")
+    avatar = models.ImageField("Аватар", upload_to=f'user/avatar')
     rating = models.PositiveIntegerField("Рейтинг пользователя", default=0)
     first_login = models.DateTimeField(auto_now=True, blank=True, null=True)
 
