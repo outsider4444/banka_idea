@@ -73,11 +73,11 @@
                         <div id="chat-messages">
                             {% for message in message_list %}
                                 <div style='background-color: white' class="mt-2">
-{#                                    {% if message.user.avatar %}#}
-{#                                        <img src="{{ message.user.avatar.url }}" alt="" width="30px" height="30px">#}
-{#                                    {% else %}#}
-{#                                        <img src="{% static 'base/Profile.png' %}" alt="" width="30px" height="30px">#}
-{#                                    {% endif %}#}
+                                    {% if message.user.avatar %}
+                                        <img src="{{ message.user.avatar.url }}" alt="" width="30px" height="30px">
+                                    {% else %}
+                                        <img src="{% static 'base/Profile.png' %}" alt="" width="30px" height="30px">
+                                    {% endif %}
                                     <span style="font-weight: bold">{{ message.user.username }}</span>
                                     <span>: {{ message.content }}</span>
                                     <span class="mr-2"

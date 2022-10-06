@@ -29,7 +29,6 @@ urlpatterns = [
     path('reports/', include("report.urls")),
     path('my_notifications/', include("notifications.urls")),
     path('messages/', include("message.urls")),
-    path('news/', include("news.urls")),
 ]
 
 if settings.DEBUG:

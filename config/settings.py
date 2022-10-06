@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'report',
     'notifications',
     'message',
-    'news',
 ]
 
 MIDDLEWARE = [

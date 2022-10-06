@@ -9,7 +9,7 @@ from django.core.cache import cache
 from achievements.views import add_base_achivement, add_achievments_to_user, get_user_achievments_unlocked, \
     get_user_achievments_locked
 from banka_idea.forms import CustomUserCreationForm, IdeaForm, UpdateUserForm, SolutionForm
-from banka_idea.models import Idea, IdeaTags, UserIdeaLike, User, Solution, UserTags
+from banka_idea.models import Idea, IdeaTags, UserIdeaLike, User, Solution, UserTags, News
 
 from report.decorators import active_user
 
@@ -115,7 +115,10 @@ def delete_user_tag(request, pk):
 ### Главное меню
 @active_user
 def main(request):
-    context = {}
+    news = News.objects.all().order_by("-date")
+    context = {
+        "news":news,
+    }
     return render(request, "main.html", context)
 
 
