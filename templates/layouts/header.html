@@ -20,14 +20,13 @@
                     </div>
                 </form>
             </div>
-            <div class="btn btn-medium search-button-submit" style="float: right; margin-right: -605px;">
-                <i class="fa-solid fa-newspaper"></i>
+            <div style="float: right; margin-right: -605px;">
+                <a href="{% url 'news-list' %}" class="btn btn-medium search-button-submit" ><i class="fa-solid fa-newspaper"></i></a>
             </div>
             <div style="float: right; margin-right: -605px;">
                 <a href="{% url 'my-notification' %}" class="btn btn-medium search-button-submit notif-bell-icon">
                     <i class="fa-solid fa-bell"></i><span id="notif-bell"></span></a>
             </div>
-        <!-- todo Изменить на выпадающее меню -->
             <div class="header_img">
                 {% if user.is_authenticated %}
                     {% if user.avatar %}
@@ -44,8 +43,6 @@
                         <span class="nav_logo-name text-our-style-normal" style="font-size:24pt ">Банка идей</span>
                     </a>
                     <div class="nav_list">
-                        {#                        <a href="/" class="nav_link{% if request.path == '/' %} active-header-button{% endif %}">#}
-                        {#                            <i class='bx bx-grid-alt nav_icon'></i><span class="nav_name">Главная</span></a>#}
                         <a href="{% url 'user-profile' %}"
                                 {% if 'users' in request.path %}
                            class="nav_link active-header-button ">
@@ -80,10 +77,10 @@
                         </a>
                     </div>
                 </div>
-                {#                <a href="#" class="nav_link" style="margin-top: 395px">#}
-                {#                    <span class="material-symbols-outlined">monetization_on</span> <span#}
-                {#                        class="nav_name">Пожертвовать</span>#}
-                {#                </a>#}
+{#                <a href="#" class="nav_link" style="margin-top: 395px">#}
+{#                    <span class="material-symbols-outlined">monetization_on</span> <span#}
+{#                        class="nav_name">Пожертвовать</span>#}
+{#                </a>#}
                 {% if user.is_authenticated %}
 
                     <a href="{% url 'logout' %}" class="nav_link">
@@ -118,21 +115,21 @@
                 })
         </script>
         <style>
-            .notif-bell-icon:hover .fa-bell {
-                animation: 1.2s ease-in-out 0s normal none infinite running trambling-animation;
-            }
+        .notif-bell-icon:hover .fa-bell {
+            animation: 1.2s ease-in-out 0s normal none infinite running trambling-animation;
+        }
 
-            @keyframes trambling-animation {
-                0%, 50%, 100% {
-                    transform: rotate(0deg);
-                }
-                10%, 30% {
-                    transform: rotate(-10deg);
-                }
-                20%, 40% {
-                    transform: rotate(10deg);
-                }
+        @keyframes trambling-animation {
+            0%, 50%, 100% {
+                transform: rotate(0deg);
             }
+            10%, 30% {
+                transform: rotate(-10deg);
+            }
+            20%, 40% {
+                transform: rotate(10deg);
+            }
+        }
         </style>
     {% endcache %}
 {% endblock %}

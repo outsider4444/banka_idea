@@ -56,7 +56,11 @@
             </form>
         </div>
     </div>
-
+    <div hidden>
+        {{ chat.slug|json_script:"json-roomname" }}
+        {{ request.user.username|json_script:"json-username" }}
+        {{ request.user.avatar.url|json_script:"json-userimage" }}
+    </div>
     <style>
         #chat-messages {
             height: 300px;
@@ -68,6 +72,8 @@
 
         const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
         const userName = JSON.parse(document.getElementById('json-username').textContent);
+        const userImage = JSON.parse(document.getElementById('json-userimage').textContent);
+
         const chatSocket = new WebSocket(
             'ws://'
             + window.location.host
@@ -91,10 +97,11 @@
             var day = moment().format('LL');
             var time = moment().format('LT');
 
+
             if (data.message) {
                 document.querySelector('#chat-messages').innerHTML += (
                     '<div style="background-color: white" class="mt-2">' +
-                    '<img src="{{ request.user.avatar.url }}" alt="" width="30px" height="30px">' +
+                    '<img src="' + data.userImage + '" alt="" width="30px" height="30px">' +
                     '<span style="font-weight: bold; margin-left:5px">' + data.username + '</span>: ' + '<span>' + data.message + '</span>' +
                     '<span class="mr-2" style="float: right; color: gray; font-size: 10pt">' + day + ' ' + time + '</span>' + '<br>' + '</div>');
             } else {
@@ -120,13 +127,15 @@
             console.log({
                 'message': message,
                 'username': userName,
-                'room': roomName
+                'room': roomName,
+                'userImage':userImage
             })
             if (message) {
                 chatSocket.send(JSON.stringify({
                     'message': message,
                     'username': userName,
-                    'room': roomName
+                    'room': roomName,
+                    'userImage':userImage
                 }));
             }
 
@@ -147,7 +156,3 @@
         scrollToBottom();
     </script>
 {% endblock main %}
-{% block script %}
-    {{ chat.slug|json_script:"json-roomname" }}
-    {{ request.user.username|json_script:"json-username" }}
-{% endblock %}

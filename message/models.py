@@ -9,9 +9,12 @@ class Chat(models.Model):
     user2 = models.ForeignKey(User, related_name="second_messager", on_delete=models.CASCADE)
     slug = models.SlugField(unique=True)  # Сунуть имя собеседника + имя пользователя + message
 
+    def __str__(self):
+        return self.slug
+
     class Meta:
-        verbose_name = "Сообщение"
-        verbose_name_plural = "Сообщения"
+        verbose_name = "Чат"
+        verbose_name_plural = "Чаты"
 
 
 class Message(models.Model):
@@ -20,5 +23,10 @@ class Message(models.Model):
     content = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"{self.room} {self.user}"
+
     class Meta:
+        verbose_name = "Личное сообщение"
+        verbose_name_plural = "Личные сообщения"
         ordering = ('date_added',)

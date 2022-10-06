@@ -6,7 +6,7 @@ from notifications.models import Notifications
 
 
 def get_notifications(request):
-    notification_list = Notifications.objects.filter(user=request.user)
+    notification_list = Notifications.objects.filter(user=request.user).order_by('-date')
 
     for notification in notification_list:
         notification.status = True

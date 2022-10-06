@@ -454,3 +454,6 @@ def set_best_solution(request, pk):
     solution.save()
 
     return redirect("user-profile")
+
+
+

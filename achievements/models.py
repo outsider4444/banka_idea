@@ -15,7 +15,7 @@ class Achievment(models.Model):
 
     class Meta:
         verbose_name = "Достижение"
-        verbose_name_plural = "Достижения"
+        verbose_name_plural = "Список достижений"
 
 
 class UsersAchievments(models.Model):

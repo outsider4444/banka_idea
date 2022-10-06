@@ -32,6 +32,7 @@ class TeamConsumer(AsyncWebsocketConsumer):
         message = data['message']
         username = data['username']
         room = data['room']
+        userImage = data['userImage']
 
         await self.save_message(username, room, message)
 
@@ -41,7 +42,8 @@ class TeamConsumer(AsyncWebsocketConsumer):
             {
                 'type': 'chat_message',
                 'message': message,
-                'username': username
+                'username': username,
+                'userImage':userImage
             }
         )
 
@@ -49,11 +51,13 @@ class TeamConsumer(AsyncWebsocketConsumer):
     async def chat_message(self, event):
         message = event['message']
         username = event['username']
+        userImage = event['userImage']
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'message': message,
-            'username': username
+            'username': username,
+            'userImage': userImage
         }))
 
     @sync_to_async

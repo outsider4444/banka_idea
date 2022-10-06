@@ -9,3 +9,10 @@ class Notifications(models.Model):
     text = models.CharField(max_length=100)
     status = models.BooleanField(default=False)
     date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Уведомление для {self.user} {self.text}"
+
+    class Meta:
+        verbose_name = "Уведомление"
+        verbose_name_plural = "Уведомления"

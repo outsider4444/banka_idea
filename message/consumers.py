@@ -4,6 +4,7 @@ from banka_idea.models import User
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
 
+from notifications.models import Notifications
 from .models import Chat, Message
 
 
@@ -32,6 +33,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = data['message']
         username = data['username']
         room = data['room']
+        userImage = data['userImage']
 
         await self.save_message(username, room, message)
 
@@ -41,7 +43,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
             {
                 'type': 'chat_message',
                 'message': message,
-                'username': username
+                'username': username,
+                'userImage': userImage
             }
         )
 
@@ -49,11 +52,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def chat_message(self, event):
         message = event['message']
         username = event['username']
+        userImage = event['userImage']
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'message': message,
-            'username': username
+            'username': username,
+            'userImage': userImage
         }))
 
     @sync_to_async
@@ -61,4 +66,4 @@ class ChatConsumer(AsyncWebsocketConsumer):
         user = User.objects.get(username=username)
         room = Chat.objects.get(slug=room)
 
-        Message.objects.create(user=user, room=room, content=message)
+        Message.objects.create(user=user, room=room, content=message,)

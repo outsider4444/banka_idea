@@ -13,6 +13,10 @@ class Tags(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = "Тег"
+        verbose_name_plural = "Теги"
+
 
 # Модели для базы данных
 class User(AbstractUser):
@@ -27,6 +31,10 @@ class UserTags(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "Тег пользователя"
+        verbose_name_plural = "Теги пользователей"
 
 
 class IdeaTags(models.Model):
@@ -47,8 +55,6 @@ class Idea(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_ideas", blank=True, null=True,
                              verbose_name="Пользователь")
     tags = models.ManyToManyField(IdeaTags, related_name="ideas", blank=True, verbose_name="Теги")
-
-
 
     def __str__(self):
         return self.name
@@ -92,6 +98,4 @@ class Solution(models.Model):
     class Meta:
         verbose_name = "Решение"
         verbose_name_plural = 'Решения'
-
-
 
