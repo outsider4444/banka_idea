@@ -6,8 +6,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.core.cache import cache
 
-from achievements.views import add_base_achivement, add_achievments_to_user, get_user_achievments_unlocked, \
-    get_user_achievments_locked
+from achievements.views import add_base_achivement, add_achievments_to_user, get_user_achievments_unlocked
 from banka_idea.forms import CustomUserCreationForm, IdeaForm, UpdateUserForm, SolutionForm
 from banka_idea.models import Idea, IdeaTags, UserIdeaLike, User, Solution, UserTags, News
 
@@ -130,6 +129,8 @@ def about_page(request):
 # Странциа с банкой
 def get_idea_random_title(request):
     """Вывод страницы банки"""
+    cache.delete('idea_list')
+    cache.delete('new_idea')
     idea_list = Idea.objects.all()
     idea_tag_list = IdeaTags.objects.all().order_by('name')
     context = {
@@ -192,13 +193,14 @@ def filter_idea_random(request):
     """Фильтрация идей и вывод по 1"""
     check = []
     idea_list = Idea.objects.exclude(user=request.user)
-    cache.delete('idea_list')
-    cache.delete('new_idea')
 
     # Получение идей пользователя, которые он отметил
     users_checked_idea = UserIdeaLike.objects.filter(user=request.user)  # последний фильтр под вопросом
-    idea_tag_list = IdeaTags.objects.all()
+    # Фильтруем по отмеченным идеям
+    for checked_idea in users_checked_idea:
+        idea_list = idea_list.exclude(id=checked_idea.idea.id)
 
+    idea_tag_list = IdeaTags.objects.all()
     # Получаем теги из формы
     for tag in idea_tag_list:
         check.append(request.GET.get(tag.name))
@@ -208,10 +210,6 @@ def filter_idea_random(request):
             idea_list = idea_list.filter(
                 Q(tags__id=tag)
             )
-
-    # Фильтруем по отмеченным идеям
-    for checked_idea in users_checked_idea:
-        idea_list = idea_list.exclude(id=checked_idea.idea.id)
 
     # Получение случайной
     new_idea = idea_list.order_by('?').first()
@@ -229,12 +227,17 @@ def filter_idea_random(request):
 
 def delete_idea_random(request, pk):
     idea_list = cache.get('idea_list')
+
+    print(idea_list)
     ban_list = cache.set('new_idea', pk)
     ban_list_get = cache.get('new_idea')
-    if len(idea_list) > 1:
-        idea_list = idea_list.exclude(id=ban_list_get)
-        cache.set('idea_list', idea_list)
-        new_idea = idea_list.order_by('?').first()
+    if idea_list:
+        if len(idea_list) > 1:
+            idea_list = idea_list.exclude(id=ban_list_get)
+            cache.set('idea_list', idea_list)
+            new_idea = idea_list.order_by('?').first()
+        else:
+            return redirect('main')
     else:
         return redirect('main')
     context = {
@@ -254,10 +257,7 @@ def like_idea(request, pk):
     UserIdeaLike.objects.create(idea_id=pk, user=user, checked_idea=False)
     author.rating += 10
     author.save()
-    context = {
-
-    }
-    return render(request, "main.html", context)
+    return redirect('main')
 
 
 @active_user
@@ -438,10 +438,12 @@ def tags_search(request, pk):
     query = IdeaTags.objects.get(id=pk)
     object_list = Idea.objects.filter(tags__in=[query])
     users_ideas = Idea.objects.filter(useridealike__user=request.user).filter(tags__in=[query])
+    idea_tag_list = IdeaTags.objects.all()
     context = {
         "query": query,
         "object_list": object_list,
         "users_ideas": users_ideas,
+        "idea_tag_list":idea_tag_list,
     }
     return render(request, 'ideas/search_results.html', context)
 

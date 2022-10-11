@@ -53,10 +53,14 @@ def my_teams_list(request):
 
 def add_to_team(request, slug):
     team_to_add = Team.objects.get(slug=slug)
-
+    base_link = "http://127.0.0.1:8000/"
+    new_link_team = base_link + "teams/" + team_to_add.slug + "/detail/"
+    new_link_user = base_link + "teams/teammate/" + str(request.user.id) + "/"
+    print(new_link_team)
     users_in_team = UsersInTeams.objects.filter(team=team_to_add)
     for user in users_in_team:
-        Notifications.objects.create(user=user.user, text=f"Пользователь {request.user} присоеденился к команде {team_to_add.name}")
+        Notifications.objects.create(user=user.user, text=f"Пользователь <a href='{new_link_user}'> {request.user}</a> присоеденился к команде "
+                                                          f"<a href='{new_link_team}'>{team_to_add.name}</a>")
 
     UsersInTeams.objects.create(user=request.user, team_id=team_to_add.id, capitan=False)
 

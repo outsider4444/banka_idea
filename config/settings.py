@@ -85,6 +85,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 ASGI_APPLICATION = 'config.asgi.application'
 
 CHANNEL_LAYERS = {
+    # todo Настраивать Redis не имеется возможности
     'default': {
         'BACKEND': 'channels.layers.InMemoryChannelLayer'
     }
@@ -204,8 +205,7 @@ CKEDITOR_CONFIGS = {
 }
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-        # 'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        # 'LOCATION': 'my_cache_table',
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache_table',
     }
 }

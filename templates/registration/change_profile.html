@@ -12,7 +12,7 @@
                     Фамииля {{ user_form.last_name }}
                     Имя пользователя {{ user_form.username }}
                     Почта {{ user_form.email }}
-                    <div class="mt-2">Аватарка {{ user_form.avatar }}</div>
+                    <div class="mt-2"> {{ user_form.avatar }}</div>
                 <p class="mt-2">Мои навыки: <br>
                     {% for user_tag in user_tags %}
                         {{ user_tag.name }} <br>

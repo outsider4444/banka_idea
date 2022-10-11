@@ -1,5 +1,38 @@
 {% extends 'layouts/base.html' %}
 {% block main %}
+        <div style="float: left">
+        <a href="{% url 'get-idea-title' %}" class="btn btn-medium search-button-submit btn-sm"><i class="fa-solid fa-cookie-bite"></i> Взять случайную идею</a>
+    </div>
+    <div style="float: right; width: 300px;">
+        <a class="btn btn-medium btn-sm search-button-submit" href="{% url 'create-idea' %}">
+            <i class="fa-solid fa-plus"></i> Добавить свою идею
+        </a>
+        <a class="btn btn-medium btn-sm filter-button-submit mt-2" data-bs-toggle="collapse" href="#collapseExample"
+           role="button" aria-expanded="false" aria-controls="collapseExample">
+            Показать/Скрыть теги <i class="fa-solid fa-angle-down"></i>
+        </a>
+        <div class="collapse" id="collapseExample"
+             style="border-radius: 25px;">
+            <div class="card card-body" style="border-radius: 25px;">
+                <div class="row">
+                    <form action="{% url 'get-idea-list-filter' %}" method="get">
+                        {% for tags in idea_tag_list.all %}
+                            <div class="col-md-12">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="{{ tags.name }}"
+                                           value="{{ tags.id }}">
+                                    {{ tags.name }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-medium btn-sm mt-3 ml-2 search-button-submit">
+                            Фильтровать
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div>
         <div class="container">
             <div class="row">

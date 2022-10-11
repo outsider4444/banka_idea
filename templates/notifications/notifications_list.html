@@ -14,7 +14,7 @@
                         <i class="fa-solid fa-trash"></i>
                     </a><br>
                     <div class="col-8" style="float: left;">
-                        {{ notification.text }}
+                        {{ notification.text|safe }}
                     </div>
                     <div class="col-5 mb-1" style="float: left; color: gray; font-size: 10pt">
                         {{ notification.date }}
