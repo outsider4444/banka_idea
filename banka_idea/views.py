@@ -51,7 +51,7 @@ def user_profile(request):
     list_user_idea = Idea.objects.filter(user=user).order_by("date")
     # Получение решений для идей пользователя
     solution_list = Solution.objects.filter(idea__user=user).order_by("date").order_by("-best_solution")
-    users_solution = Solution.objects.filter(user=user).order_by("date")
+    users_solution = Solution.objects.filter(user=user).order_by("-date")
     # Получение достижений пользователя
     user_achievments = get_user_achievments_unlocked(user)
     # Вывод всех тегов
@@ -108,7 +108,6 @@ def delete_user_tag(request, pk):
     tag = UserTags.objects.get(id=pk)
     tag.delete()
     return redirect('user-change-tags')
-
 
 
 ### Главное меню
@@ -419,12 +418,13 @@ def search_results(request):
     object_list = Idea.objects.filter(
         Q(name__icontains=query) |
         Q(description__icontains=query)
-    )
+    ).exclude(user=request.user)
     users_ideas = Idea.objects. \
         filter(useridealike__user=request.user).filter(
         Q(name__icontains=query) |
         Q(description__icontains=query)
-    )
+    ).exclude(user=request.user)
+
     context = {
         "object_list": object_list,
         "users_ideas": users_ideas,

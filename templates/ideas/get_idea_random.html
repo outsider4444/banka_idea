@@ -3,7 +3,7 @@
 {% block title %}Получить идею{% endblock title %}
 {% block main %}
     <form action="{% url 'get-idea-filter-random' %}" method="get">
-        <aside style="float: right; width: 300px; margin-top: -20px">
+        <aside style="float: right; width: 300px; ">
             <a class="btn btn-medium btn-sm search-button-submit" href="{% url 'create-idea' %}">
                 <i class="fa-solid fa-plus"></i> Добавить свою идею
             </a>
@@ -29,12 +29,12 @@
             </div>
         </aside>
         <div class="container" style="width: 100%;">
-            <div class="row" style="margin-top: 100px">
+            <div class="row" style="position:relative; /* добавили */">
                 <h4 class="d-flex editContent justify-content-center text-our-style"
                     style="font-size: 64pt">
                     Потряси банку
                 </h4>
-                <div class="d-flex justify-content-center form_container">
+                <div class="d-flex justify-content-center form_container" style="margin-top: 150px">
                     <button class="btn btn-medium elem" type="submit" style="border: none; ">
                         <img src="{% static 'base/Banka0.png' %}" height="600px" alt="">
                     </button>

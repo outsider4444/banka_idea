@@ -283,7 +283,7 @@
                                             <p>
                                                 {% if solution.idea.name != '' %}
                                                     <a data-toggle="collapse" data-parent="#accordion"
-                                                       href="#like_{{ solution.id }}"
+                                                       href="#users_solution_{{ solution.id }}"
                                                        aria-expanded="true" aria-controls="collapseOne">
                                                         {{ solution.idea.name }}
                                                     </a>
@@ -292,7 +292,7 @@
                                                 {% endif %}
                                             </p>
                                         </div>
-                                        <div id="like_{{ solution.id }}" class="panel-collapse collapse in"
+                                        <div id="users_solution_{{ solution.id }}" class="panel-collapse collapse in"
                                              role="tabpanel"
                                              aria-labelledby="headingOne">
                                             {{ solution.description | safe }}
